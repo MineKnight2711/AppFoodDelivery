@@ -55,7 +55,7 @@ class AddEmployeesScreenState extends State<AddEmployees>
     _passwordController.dispose();
     _phonenumberController.dispose();
     _addressController.dispose();
-    super.dispose();
+    // super.dispose();
   }
 
   @override
