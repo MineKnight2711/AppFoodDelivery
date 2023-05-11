@@ -253,10 +253,10 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
     });
     if (_selectedIndex == 1) {
       if (u.user == null) {
-        slideinTransition(context, LoginScreen(), true);
+        slideinTransition(context, LoginScreen());
         pleaseLoginPopup(context);
       } else {
-        slideinTransition(context, CardScreenView(), true);
+        slideinTransition(context, CardScreenView());
       }
     }
   }

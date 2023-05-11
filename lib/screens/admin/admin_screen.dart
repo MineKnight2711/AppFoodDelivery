@@ -35,7 +35,7 @@ class _AdminScreenState extends State<AdminScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         onPressed: () {
-          slideinTransition(context, AppHomeScreen(), true);
+          slideinTransition(context, AppHomeScreen());
         },
         showLeading: true,
         title: "Quản lý",

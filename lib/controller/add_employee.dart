@@ -102,7 +102,7 @@ addNewEmployee(BuildContext context) async {
       CustomErrorMessage.showMessage('Lỗi : $e');
     });
     await secondaryApp.delete().then((value) {
-      slideinTransition(context, ManagementEmployees(), false);
+      slideinTransition(context, ManagementEmployees());
     });
   } on PlatformException catch (e) {
     CustomErrorMessage.showMessage('Lỗi : $e');

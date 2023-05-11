@@ -16,7 +16,7 @@ Future<String?> _getLocation() async {
 Widget customerAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
-      slideinTransition(context, SettingProfileScreen(), true);
+      slideinTransition(context, SettingProfileScreen());
     },
     child: userImage(),
   );
@@ -61,7 +61,7 @@ Widget userInfor(BuildContext context, UserModel userModel) {
                       ),
                     ),
                     onTap: () {
-                      slideinTransition(context, AddressPage(), true);
+                      slideinTransition(context, AddressPage());
                     },
                   );
                 }
@@ -76,7 +76,7 @@ Widget userInfor(BuildContext context, UserModel userModel) {
                     ),
                   ),
                   onTap: () {
-                    slideinTransition(context, AddressPage(), true);
+                    slideinTransition(context, AddressPage());
                   },
                 );
               },

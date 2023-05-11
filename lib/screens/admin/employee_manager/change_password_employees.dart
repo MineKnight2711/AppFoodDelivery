@@ -49,7 +49,7 @@ class ChangePasswordEmployeesScreenState
         appBar: CustomAppBar(
           showLeading: true,
           onPressed: () {
-            slideinTransition(context, AdminScreen(), true);
+            slideinTransition(context, AdminScreen());
           },
           title: 'Đổi mật khẩu',
         ),

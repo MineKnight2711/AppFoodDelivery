@@ -107,7 +107,7 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
                   await prefs
                       .setString("diachiHienTai", result.formattedAddress!)
                       .then((value) {
-                    slideinTransition(context, AppHomeScreen(), false);
+                    slideinTransition(context, AppHomeScreen());
                   });
                 });
               },

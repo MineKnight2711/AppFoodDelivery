@@ -81,7 +81,11 @@ class EditSpecificEmployeeController extends GetxController {
         } else {
           user?.Avatar = specificEmployee.value?.Avatar;
         }
-        user?.BirthDay = birthDay.value;
+        if (birthDay.value != null) {
+          user?.BirthDay = birthDay.value;
+        } else {
+          user?.BirthDay = specificEmployee.value?.BirthDay;
+        }
         user?.FirstName = specificEmployee.value?.FirstName ?? "";
         user?.LastName = specificEmployee.value?.LastName ?? "";
         user?.Address = specificEmployee.value?.Address ?? "";

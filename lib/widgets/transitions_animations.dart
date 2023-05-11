@@ -50,9 +50,8 @@ void rotateTransition(BuildContext context, Widget widget) async {
   });
 }
 
-void slideinTransition(
-    BuildContext context, Widget widget, bool allowBack) async {
-  Navigator.pushAndRemoveUntil<dynamic>(
+void slideinTransition(BuildContext context, Widget widget) async {
+  Navigator.pushReplacement(
     context,
     PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => widget,
@@ -70,7 +69,6 @@ void slideinTransition(
         );
       },
     ),
-    (route) => allowBack,
   );
 }
 
@@ -122,7 +120,7 @@ void refreshTransition(BuildContext context, Widget widget) async {
 }
 
 void fadeinTransition(BuildContext context, Widget widget) async {
-  Navigator.pushAndRemoveUntil<dynamic>(
+  Navigator.pushReplacement(
     context,
     PageRouteBuilder(
       transitionDuration: const Duration(milliseconds: 500),
@@ -134,7 +132,6 @@ void fadeinTransition(BuildContext context, Widget widget) async {
         );
       },
     ),
-    (route) => true,
   );
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

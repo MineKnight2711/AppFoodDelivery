@@ -21,7 +21,7 @@ class ChangeRoleEmployees extends StatelessWidget {
       appBar: CustomAppBar(
           onPressed: () {
             controller.specificEmployee.value = null;
-            slideinTransition(context, ManagementEmployees(), true);
+            Navigator.of(context).pop();
           },
           showLeading: true,
           title: 'Sửa chức vụ'),

@@ -28,3 +28,26 @@ class CustomSuccessMessage {
     );
   }
 }
+
+class CustomSnackBar {
+  static void showCustomSnackBar(
+      BuildContext context, String message, int duration) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.0,
+          ),
+        ),
+        duration: Duration(seconds: duration),
+        backgroundColor: Colors.blue,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+    );
+  }
+}

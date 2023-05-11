@@ -27,7 +27,7 @@ Widget adminAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
       Get.put(EmployeeController());
-      slideinTransition(context, AdminScreen(), true);
+      slideinTransition(context, AdminScreen());
     },
     child: userImage(),
   );
