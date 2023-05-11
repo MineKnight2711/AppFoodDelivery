@@ -127,7 +127,7 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
         ),
         leading: IconButton(
           onPressed: () {
-            slideinTransition(context, CardScreenView(), true);
+            slideinTransition(context, CardScreenView());
           },
           icon: const Icon(
             Icons.arrow_back,

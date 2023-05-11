@@ -110,7 +110,7 @@ class _CartItemQuantityState extends State<CartItemQuantity> {
       top: ScreenRotate(context) ? 35 : 15,
       left: 120,
       child: SizedBox(
-        height: 60,
+        height: MediaHeight(context, 7),
         width: ScreenRotate(context)
             ? MediaWidth(context, 2)
             : MediaWidth(context, 1),

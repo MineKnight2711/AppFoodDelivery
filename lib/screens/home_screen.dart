@@ -130,15 +130,16 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                             ),
                           ),
                           TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Xem tất cả",
-                                style: TextStyle(
-                                  color: Color(0xFFFF2F08),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ))
+                            onPressed: () {},
+                            child: Text(
+                              "Xem tất cả",
+                              style: TextStyle(
+                                color: Color(0xFFFF2F08),
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

@@ -42,7 +42,7 @@ class _CardScreenViewState extends State<CardScreenView> {
           onPressed: () {
             resetCartTotalStream();
 
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -436,20 +436,19 @@ class _CardScreenViewState extends State<CardScreenView> {
                 width: 185.29,
                 height: 50,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffFFB039),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(62), // <-- Radius
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffFFB039),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(62), // <-- Radius
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    // Navigator.push(
-                    // context,
-                    // MaterialPageRoute(builder: (context) => const CheckoutScreenView()),
-                    // );
-                  },
-                  child: const Text("Save"),
-                ),
+                    onPressed: () {
+                      // Navigator.push(
+                      // context,
+                      // MaterialPageRoute(builder: (context) => const CheckoutScreenView()),
+                      // );
+                    },
+                    child: Text('Thanh toán ${checkedItems.length}')),
               ),
             ],
           ),

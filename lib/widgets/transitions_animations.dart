@@ -51,7 +51,7 @@ void rotateTransition(BuildContext context, Widget widget) async {
 }
 
 void slideinTransition(BuildContext context, Widget widget) async {
-  Navigator.pushReplacement(
+  Navigator.pushAndRemoveUntil<dynamic>(
     context,
     PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => widget,
@@ -69,6 +69,7 @@ void slideinTransition(BuildContext context, Widget widget) async {
         );
       },
     ),
+    (route) => true,
   );
 }
 
