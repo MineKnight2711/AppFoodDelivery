@@ -1,4 +1,4 @@
 class APIKeys {
-  static String androidApiKey = "AIzaSyCzxWHOtRpeQ3wmM2cE-_S9mtCJDb17oUI";
+  static String androidApiKey = "AIzaSyCw1cqjgzByj2kxDDWAsa4_GKkwu09rPXI";
   static String iosApiKey = "YOUR IOS KEY HERE";
 }

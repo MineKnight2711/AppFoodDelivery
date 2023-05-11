@@ -1,21 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/google_map/keys.dart';
 import '../../api/google_map/src/models/pick_result.dart';
 import '../../api/google_map/src/place_picker.dart';
-import '../../screens/home_screen.dart';
 import '../message.dart';
-import '../transitions_animations.dart';
 
 class PlacePickerIconButton extends StatefulWidget {
   final GoogleMapsFlutterPlatform mapsImplementation =
       GoogleMapsFlutterPlatform.instance;
+  final void Function(PickResult) onPlacePicked;
+
+  PlacePickerIconButton({required this.onPlacePicked});
   @override
   _PlacePickerIconButtonState createState() => _PlacePickerIconButtonState();
 }
@@ -32,7 +33,10 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
   }
 
   void initRenderer() {
-    if (_mapsInitialized) return;
+    if (_mapsInitialized) {
+      print('Bản đồ đã được khởi tạo');
+      return;
+    }
     if (widget.mapsImplementation is GoogleMapsFlutterAndroid) {
       switch (_mapsRenderer) {
         case "legacy":
@@ -40,14 +44,25 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
               .initializeWithRenderer(AndroidMapRenderer.legacy);
           break;
         case "latest":
-          (widget.mapsImplementation as GoogleMapsFlutterAndroid)
-              .initializeWithRenderer(AndroidMapRenderer.latest);
+          try {
+            (widget.mapsImplementation as GoogleMapsFlutterAndroid)
+                .initializeWithRenderer(AndroidMapRenderer.latest);
+          } on PlatformException catch (e) {
+            if (e.code == "rendererAlreadyInitialized") {
+              print("Google Maps renderer already initialized");
+            }
+          }
           break;
       }
     }
     setState(() {
       _mapsInitialized = true;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<void> _onPressed() async {
@@ -90,27 +105,24 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
               onMapCreated: (GoogleMapController controller) {
                 print("Map created");
               },
-              onPlacePicked: (PickResult result) async {
-                print("Place picked: ${result.formattedAddress}");
-                setState(() {
-                  selectedPlace = result;
+              onPlacePicked: widget.onPlacePicked,
+              // (PickResult result) async {
+              //   setState(() {
+              //     selectedPlace = result;
 
-                  // Thêm địa chỉ mới vào đầu danh sách recentAddresses
-                  recentAddresses.insert(0, result.formattedAddress!);
-                  print(result.formattedAddress!);
-                  // Lưu danh sách địa chỉ vào Local Storage
-                  SharedPreferences.getInstance().then((prefs) {
-                    prefs.setStringList("recentAddresses", recentAddresses);
-                  });
-                });
-                await SharedPreferences.getInstance().then((prefs) async {
-                  await prefs
-                      .setString("diachiHienTai", result.formattedAddress!)
-                      .then((value) {
-                    slideinTransition(context, AppHomeScreen());
-                  });
-                });
-              },
+              //     // Thêm địa chỉ mới vào đầu danh sách recentAddresses
+              //     recentAddresses.insert(0, result.formattedAddress!);
+              //     print(result.formattedAddress!);
+              //     // Lưu danh sách địa chỉ vào Local Storage
+              //   });
+              //   await SharedPreferences.getInstance().then((prefs) async {
+              //     await prefs
+              //         .setString("diachiHienTai", result.formattedAddress!)
+              //         .then((value) {
+              //       Navigator.of(context).pop();
+              //     });
+              //   });
+              // },
               onMapTypeChanged: (MapType mapType) {
                 print("Map type changed to ${mapType.toString()}");
               },
@@ -129,7 +141,10 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.map_outlined),
+      icon: Icon(
+        Icons.map_outlined,
+        color: Colors.green,
+      ),
       onPressed: _onPressed,
     );
   }

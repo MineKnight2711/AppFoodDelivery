@@ -139,9 +139,8 @@ class _CartItemQuantityState extends State<CartItemQuantity> {
                   child: ClipOval(
                     child: Material(
                       color: Color.fromARGB(255, 11, 122, 41),
-                      // Button color
                       child: InkWell(
-                        splashColor: Colors.white, // Splash color
+                        splashColor: Colors.white,
                         onTap: () async {
                           if (widget.initialQuantity <= 1) {
                             setState(() {

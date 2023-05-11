@@ -108,7 +108,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ElevatedButton(
               child: Text('Xác nhận'),
               onPressed: () {
-                // TODO: Xử lý thanh toán với phương thức đã chọn
+                //  Xử lý thanh toán với phương thức đã chọn
               },
             ),
           ],

@@ -40,9 +40,7 @@ class CouponsListPage extends StatelessWidget {
                       'Description: $description\nAmount: ${isPercent ? '$amount%' : '\n$amount vnđ'}'),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
-                    onPressed: () {
-                      // TODO: Handle edit coupon action
-                    },
+                    onPressed: () {},
                   ),
                 ),
               );

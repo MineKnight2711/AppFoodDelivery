@@ -3,7 +3,6 @@ import 'package:app_food_2023/widgets/employee_manament/datetime_picker.dart';
 import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
 import 'package:app_food_2023/widgets/message.dart';
 import 'package:app_food_2023/widgets/select_image/image_select.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/edit_specific_employee.dart';
-import 'managent_screen.dart';
 
 class EditSpecificEmployees extends StatelessWidget {
   final DocumentSnapshot doc;

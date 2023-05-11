@@ -122,6 +122,7 @@ class _AddCouponPageState extends State<AddCouponPage> {
                         },
                         readOnly: true,
                         validator: (value) {
+                          // ignore: unnecessary_null_comparison
                           if (_expirationDate == null) {
                             return 'Please select an expiration date';
                           }
@@ -131,6 +132,7 @@ class _AddCouponPageState extends State<AddCouponPage> {
                           return null;
                         },
                         controller: TextEditingController(
+                          // ignore: unnecessary_null_comparison
                           text: _expirationDate == null
                               ? ''
                               : DateFormat.yMd().format(_expirationDate),

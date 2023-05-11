@@ -1,4 +1,3 @@
-import 'package:app_food_2023/controller/edit_employee.dart';
 import 'package:app_food_2023/screens/admin/category_manager/category_screen.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/edit_current_employees.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
@@ -13,7 +12,6 @@ import 'package:get/get.dart';
 import '../../controller/employee.dart';
 import '../../controller/logout.dart';
 
-import '../../model/UserModel.dart';
 import 'employee_manager/change_password_employees.dart';
 import 'food_manager/food_list.dart';
 
