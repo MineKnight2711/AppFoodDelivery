@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../model/UserModel.dart';
-import '../screens/admin/admin_screen.dart';
-import '../widgets/transitions_animations.dart';
 import 'employee.dart';
 
 File? current_image;

@@ -131,9 +131,7 @@ class EditSpecificEmployees extends StatelessWidget {
                             onSavePressed: () {
                               CustomSnackBar.showCustomSnackBar(
                                   context, 'Đang cập nhật...', 4);
-                              controller.updateEmployee(doc.id).then((value) {
-                                Navigator.of(context).pop();
-                              });
+                              controller.updateEmployee(doc.id);
                             },
                             onCancelPressed: () {},
                           ),
