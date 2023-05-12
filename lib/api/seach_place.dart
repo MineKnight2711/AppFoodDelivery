@@ -1,3 +1,6 @@
+import 'package:app_food_2023/screens/home_screen.dart';
+import 'package:app_food_2023/widgets/appbar.dart';
+import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -104,25 +107,12 @@ class _AddressPageState extends State<AddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'Nhập địa chỉ',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+      appBar: CustomAppBar(
+        showLeading: true,
+        title: "Địa chỉ",
+        onPressed: () {
+          fadeinTransition(context, AppHomeScreen());
+        },
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -199,6 +189,8 @@ class _AddressPageState extends State<AddressPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 8),
+                  HomeLocationDropdown(),
                   SizedBox(height: 8),
                   LocationDropdown(),
                   Row(

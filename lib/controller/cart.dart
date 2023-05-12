@@ -17,7 +17,9 @@ List<CartItem>? cartItems = [];
 Timer? timer;
 int totalQuantity = 0;
 bool? isChecked = false, showRemoveAll = false;
+
 double totalCart = 0.0;
+
 User? user;
 _getCurrentUser() async {
   await FirebaseAuth.instance.authStateChanges().listen((User? currentUser) {
@@ -154,7 +156,6 @@ void increaseQuantity(String? dishID) async {
     final cartItemSnapshot = querySnapshot.docs.first;
     int oldQuantity = cartItemSnapshot.get('Quantity');
     double total = cartItemSnapshot.get('Total');
-
     int newQuantity = oldQuantity + 1;
     double dishPrice = total / oldQuantity;
     double newTotal = dishPrice * newQuantity;
@@ -162,10 +163,10 @@ void increaseQuantity(String? dishID) async {
       CartItem cartItemToUpdate =
           checkedItems.firstWhere((item) => item.dishID == dishID);
       checkedItems.remove(cartItemToUpdate);
-      print('Before change ${checkedItems.length}');
       cartItemToUpdate.quantity = newQuantity;
       cartItemToUpdate.total = newTotal;
       checkedItems.add(cartItemToUpdate);
+      updateCartTotalStream();
     }
 
     await cartItemSnapshot.reference.update({

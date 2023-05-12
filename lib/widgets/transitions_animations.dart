@@ -134,12 +134,6 @@ void fadeinTransition(BuildContext context, Widget widget) async {
       },
     ),
   );
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text("Đang tải..."),
-      duration: Duration(seconds: 2),
-    ),
-  );
 }
       //Hiệu ứng zoom vào--------------
 

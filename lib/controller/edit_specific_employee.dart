@@ -73,7 +73,7 @@ class EditSpecificEmployeeController extends GetxController {
     }
   }
 
-  Future<void> updateEmployee() async {
+  Future<void> updateEmployee(String? userID) async {
     if (specificEmployee.value != null) {
       specificEmployee.update((user) {
         if (imageFile.value != null) {
@@ -94,9 +94,9 @@ class EditSpecificEmployeeController extends GetxController {
       // Update
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(docId.value)
+          .doc(userID)
           .update(specificEmployee.value!.toMap());
-      await uploadImageToFirebaseStorage(docId.value).then((value) {
+      await uploadImageToFirebaseStorage(userID).then((value) {
         CustomSuccessMessage.showMessage('Cập nhật thành công!');
       });
     }
