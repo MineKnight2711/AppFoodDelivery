@@ -135,7 +135,7 @@ void UpdateEmployee(BuildContext context) async {
       .update(loggedInEmployee!.toMap())
       .then((value) {
     Get.put(EmployeeController());
-    refreshTransition(context, AdminScreen());
+    Navigator.of(context).pop();
   }).catchError((error) {
     print("Thất bại vì lỗi $error");
   });

@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/seach_place.dart';
 import '../../controller/user.dart';
 import '../../model/UserModel.dart';
-import '../../screens/customer/setting_profile.dart';
+
+import '../../screens/customer/setting_profile/customer_settings.dart';
 import '../transitions_animations.dart';
 
 Future<String?> _getLocation() async {
@@ -16,7 +17,7 @@ Future<String?> _getLocation() async {
 Widget customerAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
-      slideinTransition(context, SettingProfileScreen());
+      slideinTransition(context, CustomerSetting());
     },
     child: userImage(),
   );

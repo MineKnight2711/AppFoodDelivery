@@ -1,3 +1,4 @@
+import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/screens/loading_screen/login_loading.dart';
 import 'package:app_food_2023/screens/login_register/register_screen.dart';
 import 'package:app_food_2023/util/upload_default_image.dart';
@@ -253,6 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
           await FirebaseAuth.instance.userChanges();
           Fluttertoast.showToast(msg: "Đăng nhập thành công");
           refreshTransition(context, LoginLoadingScreen());
+          await getCurrentUser();
+          await convertToUserModel();
         });
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString('email', email);
@@ -356,13 +359,14 @@ class _LoginScreenState extends State<LoginScreen> {
         preferences.setString('email', userCredential.user!.email.toString());
         Fluttertoast.showToast(msg: "Đăng nhập thành công ");
         slideupTransition(context, AppHomeScreen());
+        await getCurrentUser();
+        await convertToUserModel();
       } else {
         preferences.setString('email', userCredential.user!.email.toString());
         Fluttertoast.showToast(msg: "Đăng nhập thành công ");
-        Navigator.pushAndRemoveUntil(
-            (context),
-            MaterialPageRoute(builder: (context) => AppHomeScreen()),
-            (route) => false);
+        zoominTransition(context, AppHomeScreen());
+        await getCurrentUser();
+        await convertToUserModel();
       }
     });
   }

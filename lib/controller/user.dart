@@ -109,6 +109,8 @@ Widget userAvatar(BuildContext context) {
             return customerAvatar(context);
           } else if (userSnapShot.Role == "Admin") {
             return adminAvatar(context);
+          } else if (userSnapShot.Role == "Delivery") {
+            return deliveryAvatar(context);
           }
         }
         return notLoginAvatar(context);

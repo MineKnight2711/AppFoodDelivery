@@ -19,7 +19,7 @@ Widget ratingCard(Function()? onTap, QueryDocumentSnapshot doc) {
   }
 
   bool checkImage() {
-    if (getRatingUser.Images == null) {
+    if (getRatingUser.Avatar == null) {
       return true;
     } else {
       return false;
@@ -43,7 +43,7 @@ Widget ratingCard(Function()? onTap, QueryDocumentSnapshot doc) {
                             : CircleAvatar(
                                 radius: 20,
                                 backgroundImage: NetworkImage(
-                                    getRatingUser.Images.toString()),
+                                    getRatingUser.Avatar.toString()),
                               ),
                       ),
                       SizedBox(
@@ -52,7 +52,7 @@ Widget ratingCard(Function()? onTap, QueryDocumentSnapshot doc) {
                       Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Text(
-                            "${getRatingUser.firstName} ${getRatingUser.secondName}",
+                            "${getRatingUser.LastName} ${getRatingUser.FirstName}",
                             style: GoogleFonts.roboto(fontSize: 16)),
                       ),
                     ],

@@ -1,4 +1,5 @@
 import 'package:app_food_2023/appstyle/error_messages/error_style.dart';
+import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 
 import 'package:app_food_2023/widgets/show_rating.dart';
 
@@ -142,7 +143,7 @@ class _FoodViewDetailsState extends State<FoodViewDetails> {
                 ),
                 Container(
                   height: 50,
-                  width: 120,
+                  width: MediaWidth(context, 3),
                   child: Column(children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -442,7 +443,7 @@ class _FoodViewDetailsState extends State<FoodViewDetails> {
 
                       addToCart(context, dish, sl);
                     },
-                    child: const Text("Add to cart"),
+                    child: const Text("Thêm vào giỏ"),
                   ),
                 ),
               ],
