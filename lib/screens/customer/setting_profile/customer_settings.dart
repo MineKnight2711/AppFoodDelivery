@@ -1,9 +1,13 @@
+import 'package:app_food_2023/controller/edit_customer.dart';
 import 'package:app_food_2023/controller/user.dart';
+import 'package:app_food_2023/screens/customer/customer_profile.dart';
 import 'package:app_food_2023/screens/customer/setting_profile/babstrap_settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../controller/logout.dart';
+import '../../../widgets/transitions_animations.dart';
 
 class CustomerSetting extends StatelessWidget {
   const CustomerSetting({Key? key}) : super(key: key);
@@ -76,7 +80,7 @@ class CustomerSetting extends StatelessWidget {
           children: [
             // User card
             BigUserCard(
-              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: Colors.white,
               userName: "${loggedInUser?.LastName} ${loggedInUser?.FirstName}",
               email: "${loggedInUser?.Email}",
               userProfilePic: loggedInUser != null
@@ -92,7 +96,8 @@ class CustomerSetting extends StatelessWidget {
                 title: "Cập nhật thông tin",
                 subtitle: "Nhấn vào để chỉnh sửa thông tin",
                 onTap: () {
-                  print("OK");
+                  Get.put(EditCustomerController());
+                  slideinTransition(context, ProfileScreen());
                 },
               ),
             ),
