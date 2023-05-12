@@ -14,6 +14,7 @@ import '../../controller/logout.dart';
 
 import 'employee_manager/change_password_employees.dart';
 import 'food_manager/food_list.dart';
+import 'order_manager/list_orders.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
@@ -174,7 +175,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     leading: Icon(Icons.receipt_long),
                     title: Text('Quản lý đơn hàng'),
                     onTap: () {
-                      // Xử lý đi đạt
+                      slideinTransition(context, ListOrderPage());
                     },
                   ),
                   ListTile(

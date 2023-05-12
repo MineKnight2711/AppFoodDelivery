@@ -11,7 +11,6 @@ import '../../../controller/edit_employee.dart';
 import '../../../controller/employee.dart';
 import '../../../widgets/employee_manament/datetime_picker.dart';
 import '../../../widgets/employee_manament/gender_chose.dart';
-import '../admin_screen.dart';
 
 class EditEmployees extends StatefulWidget {
   @override

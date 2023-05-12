@@ -97,13 +97,6 @@ void slideupTransition(BuildContext context, Widget widget) async {
 }
 
 void refreshTransition(BuildContext context, Widget widget) async {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text("Đang tải..."),
-      duration: Duration(seconds: 2),
-    ),
-  );
-
   Navigator.pushAndRemoveUntil<dynamic>(
     context,
     PageRouteBuilder(

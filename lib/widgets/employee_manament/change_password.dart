@@ -50,13 +50,13 @@ class AvatarContainer extends StatelessWidget {
 }
 
 class PasswordTextField extends StatefulWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final Function(String) onChanged;
   final String? helperText;
   final String? hintText;
 
   PasswordTextField({
-    required this.controller,
+    this.controller,
     required this.onChanged,
     required this.helperText,
     required this.hintText,

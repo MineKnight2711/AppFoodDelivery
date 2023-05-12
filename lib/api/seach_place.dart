@@ -3,8 +3,6 @@ import 'package:app_food_2023/widgets/appbar.dart';
 import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:app_food_2023/api/google_map/google_maps_place_picker.dart';
 
 // ignore: implementation_imports, unused_import
@@ -15,7 +13,7 @@ import 'package:app_food_2023/api/google_map/src/google_map_place_picker.dart'; 
 // Only to control hybrid composition and the renderer in Android
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../widgets/map/list_location_widget.dart';
+import '../widgets/map/my_location_widget.dart';
 import '../widgets/map/map_widgets.dart';
 
 class AddressPage extends StatefulWidget {

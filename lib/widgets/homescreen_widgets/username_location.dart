@@ -1,4 +1,6 @@
+import 'package:app_food_2023/controller/edit_customer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api/seach_place.dart';
@@ -17,6 +19,7 @@ Future<String?> _getLocation() async {
 Widget customerAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
+      Get.put(EditCustomerController);
       slideinTransition(context, CustomerSetting());
     },
     child: userImage(),

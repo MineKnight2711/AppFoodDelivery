@@ -67,7 +67,7 @@ class BigUserCard extends StatelessWidget {
                     SizedBox(
                       height: mediaQueryHeight / 15,
                       child: CircleAvatar(
-                        radius: mediaQueryHeight / 21,
+                        radius: mediaQueryHeight / 30,
                         backgroundImage: userProfilePic,
                       ),
                     ),
