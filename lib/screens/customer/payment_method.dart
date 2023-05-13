@@ -166,3 +166,61 @@ class PaymentOption extends StatelessWidget {
     );
   }
 }
+
+class PaymentDialog extends StatefulWidget {
+  @override
+  _PaymentDialogState createState() => _PaymentDialogState();
+}
+
+class _PaymentDialogState extends State<PaymentDialog> {
+  String _selectedMethod = '';
+
+  void _handlePaymentMethod(String method) {
+    setState(() {
+      _selectedMethod = method;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Chọn hình thức thanh toán:',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16.0),
+            PaymentOption(
+              icon: Icons.money,
+              title: 'Tiền mặt',
+              isSelected: _selectedMethod == 'Tiền mặt',
+              onTap: () => _handlePaymentMethod('Tiền mặt'),
+            ),
+            SizedBox(height: 3.0),
+            PaymentOption(
+              icon: Icons.wallet_giftcard,
+              title: 'Ví Momo',
+              isSelected: _selectedMethod == 'Ví Momo',
+              onTap: () => _handlePaymentMethod('Ví Momo'),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              child: Text('Xác nhận'),
+              onPressed: () {
+                Navigator.pop(context, _selectedMethod);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,9 +1,14 @@
 import 'package:app_food_2023/model/cart_model.dart';
+import 'package:app_food_2023/model/order_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/dishes_model.dart';
+import '../model/order_details_model.dart';
+import '../screens/customer/payment_method.dart';
+import '../widgets/message.dart';
 import 'cart.dart';
 
 class CheckOutController extends GetxController {
@@ -21,6 +26,9 @@ class CheckOutController extends GetxController {
   Rx<double?> initialTotal = Rx<double?>(0.0);
   Rx<double?> vouchervalue = Rx<double?>(0.0);
   Rx<double?> finalTotal = Rx<double?>(0.0);
+
+  Rx<String?> voucherID = Rx<String?>('');
+  Rx<String?> selectedPaymentMethod = Rx<String?>('Tiền mặt');
 
   @override
   void onInit() {
@@ -63,8 +71,9 @@ class CheckOutController extends GetxController {
     dishes.value = null;
   }
 
-  Future<void> passVocherValue(double? value) async {
+  Future<void> passVocherValue(double? value, String? voucherId) async {
     vouchervalue.value = value ?? 0.0;
+    voucherID.value = voucherId;
     await caculteFinalTotal();
   }
 
@@ -95,7 +104,72 @@ class CheckOutController extends GetxController {
       finalTotal.value = total - voucher;
     }
   }
-  // Future<void> _getCheckedItem() async {
-  //   getaddress.value = location;
-  // }
+
+  Future<void> showPaymentDialog(BuildContext context) async {
+    final selectedMethod = await showDialog(
+      context: context,
+      builder: (context) => PaymentDialog(),
+    );
+
+    selectedPaymentMethod.value = selectedMethod;
+  }
+
+  Future<void> deleteOrderedDishes() async {
+    if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
+      List<String?> checkedDishIDs =
+          getAllCheckedItems.value!.map((item) => item.dishID).toList();
+      final refCarts = FirebaseFirestore.instance.collection('cart');
+      final cartSnapshot = await refCarts
+          .where('DishID', whereIn: checkedDishIDs)
+          .where('UserID', isEqualTo: user?.uid)
+          .get();
+      if (cartSnapshot.docs.isNotEmpty) {
+        for (final doc in cartSnapshot.docs) {
+          await doc.reference.delete();
+        }
+      }
+    }
+  }
+
+  Future<void> saveOrderDetails(String? orderId) async {
+    if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
+      final orderDetailsRef =
+          await FirebaseFirestore.instance.collection('order_details');
+      for (var item in getAllCheckedItems.value!) {
+        OrderDetailsModel orderDetails = OrderDetailsModel();
+        orderDetails.DishID = item.dishID;
+        orderDetails.OrderID = orderId;
+        orderDetails.Amount = item.quantity;
+        orderDetails.Price = item.total / item.quantity;
+        await orderDetailsRef.add(orderDetails.toMap());
+      }
+    }
+  }
+
+  Future<void> saveOrder(BuildContext context) async {
+    if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
+      CustomSnackBar.showCustomSnackBar(context, "Đang thực hiện...", 3);
+      final orderRef = await FirebaseFirestore.instance.collection('orders');
+      OrderModel order = OrderModel();
+      order.UserID = user?.uid;
+      order.VoucherID = voucherID.value;
+      order.DeliveryAddress = getaddress.value;
+      order.OrderDate = DateTime.now();
+
+      order.PaymentMethod = selectedPaymentMethod.value;
+
+      order.PaymentStatus = false;
+      order.Total = finalTotal.value;
+      order.Amount = getAllCheckedItems.value!.length;
+      order.OrderStatus = "Chưa xác nhận";
+      final afterAdding = await orderRef.add(order.toMap());
+
+      await saveOrderDetails(afterAdding.id).then((value) {
+        CustomSnackBar.showCustomSnackBar(context, "Đã đặt hàng ☑", 1);
+      }).whenComplete(() async {
+        await deleteOrderedDishes();
+      });
+      ;
+    }
+  }
 }

@@ -45,7 +45,6 @@ Widget showUserInfor(BuildContext context) {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserModel userSnapShot = snapshot.data!;
-
           if (userSnapShot.Role == "Customer") {
             return userInfor(context, userSnapShot);
           } else if (userSnapShot.Role == "Delivery") {

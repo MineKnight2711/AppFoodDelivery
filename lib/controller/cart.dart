@@ -36,18 +36,6 @@ String formatCurrency(double? value) {
 
 Set<CartItem> checkedItems = {};
 
-void toggleChecked(CartItem item) {
-  if (checkedItems
-      .where((element) => element.dishID == item.dishID)
-      .isNotEmpty) {
-    checkedItems.removeWhere((element) => element.dishID == item.dishID);
-  } else {
-    checkedItems.add(item);
-  }
-  updateCartTotalStream();
-  print(checkedItems.length);
-}
-
 Future<bool> compareCart() async {
   print(checkedItems.length);
 
@@ -177,8 +165,7 @@ void increaseQuantity(String? dishID) async {
   }
 }
 
-void decreaseQuantity(String? dishID) async {
-  print(cartItems!.length);
+decreaseQuantity(String? dishID) async {
   final refCart = await FirebaseFirestore.instance
       .collection('cart')
       .where('UserID', isEqualTo: user?.uid)
@@ -197,6 +184,9 @@ void decreaseQuantity(String? dishID) async {
       await cartItemSnapshot.reference.delete();
       checkedItems.removeWhere((element) => element.dishID == dishID);
       cartItems!.removeWhere((element) => element.dishID == dishID);
+
+      await compareCart();
+      await getCurrentCheckedItems();
       updateCartTotalStream();
       removeFromCartSucceed();
     } else {
@@ -212,8 +202,6 @@ void decreaseQuantity(String? dishID) async {
       checkedItems.add(cartItemToUpdate);
       updateCartTotalStream();
     }
-    await compareCart();
-    await getCurrentCheckedItems();
   }
 }
 
@@ -241,13 +229,24 @@ removeFromCart(String dishID) async {
   }
 }
 
-void checkedAll() async {
-  final refCart = FirebaseFirestore.instance.collection('cart');
-  final cartSnapshot =
-      await refCart.where('UserID', isEqualTo: user?.uid).get();
+void toggleChecked(CartItem item) {
+  if (checkedItems
+      .where((element) => element.dishID == item.dishID)
+      .isNotEmpty) {
+    checkedItems.removeWhere((element) => element.dishID == item.dishID);
+  } else {
+    checkedItems.add(item);
+  }
+  updateCartTotalStream();
+  print(checkedItems.length);
+}
+
+void checkedAll() {
   if (isChecked == true) {
-    for (final doc in cartSnapshot.docs) {
-      checkedItems.add(CartItem.fromMap(doc.data()));
+    if (cartItems != null) {
+      for (var item in cartItems!) {
+        checkedItems.add(item);
+      }
     }
   } else {
     checkedItems.clear();

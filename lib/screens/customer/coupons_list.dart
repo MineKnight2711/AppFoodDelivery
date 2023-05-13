@@ -102,7 +102,7 @@ class CouponsListCustomer extends StatelessWidget {
                         onTap: () async {
                           // Chuyển sang màn hình view khác và truyền giá trị amount
 
-                          await controller.passVocherValue(amount);
+                          await controller.passVocherValue(amount, coupon.id);
                           Navigator.pop(context);
                         },
                       ),

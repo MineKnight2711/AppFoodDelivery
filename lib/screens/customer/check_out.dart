@@ -2,24 +2,19 @@ import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/controller/check_out.dart';
 import 'package:app_food_2023/screens/customer/cart_view.dart';
 import 'package:app_food_2023/screens/customer/coupons_list.dart';
+import 'package:app_food_2023/screens/home_screen.dart';
+import 'package:app_food_2023/widgets/message.dart';
 import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
-// ignore: implementation_imports, unused_import
-import 'package:app_food_2023/api/google_map/src/google_map_place_picker.dart'; // do not import this yourself
-
-// Your api key storage.
-
-// Only to control hybrid composition and the renderer in Android
 import '../../api/seach_place.dart';
 import '../../controller/cart.dart';
-import '../../model/cart_model.dart';
+
 import '../../widgets/check_out/check_out_list_dish.dart';
-import '../home_screen.dart';
-import 'payment_method.dart';
+import '../../widgets/check_out/order_sucess.dart';
 
 class CheckoutScreenView extends StatelessWidget {
   final controller = Get.find<CheckOutController>();
@@ -315,24 +310,13 @@ class CheckoutScreenView extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
-                    Icons.attach_money_outlined,
-                    size: 19,
-                    color: const Color(0xff516971),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
                   GestureDetector(
                     onTap: () {
                       // Thực hiện hành động khi người dùng nhấn vào chữ "Collect Coupon"
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PaymentScreen()),
-                      );
+                      controller.showPaymentDialog(context);
                     },
-                    child: Text("Tiền mặt",
+                    child: Text(
+                        "${controller.selectedPaymentMethod.value ?? "Phương thức thanh toán"}",
                         style: TextStyle(
                           fontSize: 14.5,
                           fontWeight: FontWeight.bold,
@@ -340,14 +324,8 @@ class CheckoutScreenView extends StatelessWidget {
                         )),
                   ),
                   SizedBox(
-                    width: 40,
+                    width: 10,
                   ),
-                  // Text("^",
-                  //     style: GoogleFonts.poppins(
-                  //       fontSize: 14,
-                  //       fontWeight: FontWeight.bold,
-                  //       color: Color.fromARGB(255, 123, 133, 136),
-                  //     )),
                   Icon(
                     CupertinoIcons.arrowtriangle_up_circle,
                     size: 18,
@@ -356,13 +334,14 @@ class CheckoutScreenView extends StatelessWidget {
                   SizedBox(
                     width: 10.5,
                   ),
+                  Spacer(),
                   Text("|",
                       style: TextStyle(
                         fontSize: 20,
                         color: Color.fromARGB(255, 123, 133, 136),
                       )),
                   SizedBox(
-                    width: 39,
+                    width: 7,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -417,102 +396,31 @@ class CheckoutScreenView extends StatelessWidget {
                             const Duration(seconds: 3),
                             () async {
                               controller.isLoading.value = false;
-
-                              await showDialog<void>(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    actions: <Widget>[
-                                      Container(
-                                        height: 430.0,
-                                        width: 335,
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                              16.0,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 108.0,
-                                              width: 108,
-                                              margin: const EdgeInsets.only(
-                                                  top: 61.0,
-                                                  left: 90,
-                                                  right: 90,
-                                                  bottom: 45),
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                    16.0,
-                                                  ),
-                                                ),
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                    "assets/images/icon-succes-transaction.png",
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                                "Đơn hàng của bạn đã đặt thành công",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                            const SizedBox(
-                                              height: 25.0,
-                                            ),
-                                            Text(
-                                                "Chúng tôi sẽ sớm liên hệ với bạn, và giao cho shipper để có thể gửi hàng ngay đến nơi nhận sớm nhất",
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 12,
-                                                    color:
-                                                        const Color(0xff516971),
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                            const SizedBox(
-                                              height: 35.0,
-                                            ),
-                                            SizedBox(
-                                              width: 280,
-                                              height: 50,
-                                              child: ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xffFFB039),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50), // <-- Radius
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const AppHomeScreen()),
-                                                    );
-                                                  },
-                                                  child: const Text("oke")),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                              await controller
+                                  .saveOrder(context)
+                                  .whenComplete(() {
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return OrderSuccesDialog(
+                                      imagePath:
+                                          'assets/images/icon-succes-transaction.png',
+                                      buttonText: 'OK',
+                                      message:
+                                          'Đơn hàng đã được đặt thành công!',
+                                      onButtonPressed: () {
+                                        slideinTransitionNoBack(
+                                            context, AppHomeScreen());
+                                        Get.delete<CheckOutController>();
+                                      },
+                                    );
+                                  },
+                                );
+                              }).catchError((e) {
+                                CustomErrorMessage.showMessage(
+                                    'Có lỗi xảy ra: \n' + "$e");
+                              });
                             },
                           );
                         },

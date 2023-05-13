@@ -1,3 +1,5 @@
+import 'package:app_food_2023/controller/cart.dart';
+import 'package:app_food_2023/controller/check_out.dart';
 import 'package:app_food_2023/controller/edit_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,6 +67,7 @@ Widget userInfor(BuildContext context, UserModel userModel) {
                       ),
                     ),
                     onTap: () {
+                      Get.put(CheckOutController(checkedItems));
                       slideinTransition(context, AddressPage());
                     },
                   );
