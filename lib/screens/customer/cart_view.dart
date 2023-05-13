@@ -1,5 +1,6 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/model/dishes_model.dart';
+import 'package:app_food_2023/screens/home_screen.dart';
 import 'package:app_food_2023/widgets/message.dart';
 import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,7 +48,7 @@ class _CardScreenViewState extends State<CardScreenView> {
           onPressed: () {
             resetCartTotalStream();
 
-            Navigator.of(context).pop();
+            slideinTransitionNoBack(context, AppHomeScreen());
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -453,10 +454,16 @@ class _CardScreenViewState extends State<CardScreenView> {
                             'Vui lòng chọn ít nhất 1 sản phẩm!');
                         return;
                       }
+
                       Get.put(CheckOutController(checkedItems));
+
                       slideupTransition(context, CheckoutScreenView());
                     },
-                    child: Text('Thanh toán ${checkedItems.length} ')),
+                    child: Text(
+                      'Đặt mua ${checkedItems.length} ',
+                      style:
+                          GoogleFonts.roboto(fontSize: 16, color: Colors.black),
+                    )),
               ),
             ],
           ),

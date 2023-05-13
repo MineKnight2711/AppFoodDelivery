@@ -19,7 +19,7 @@ Future<String?> _getLocation() async {
 Widget customerAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
-      Get.put(EditCustomerController);
+      Get.put(EditCustomerController());
       slideinTransition(context, CustomerSetting());
     },
     child: userImage(),

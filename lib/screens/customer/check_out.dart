@@ -16,53 +16,18 @@ import 'package:app_food_2023/api/google_map/src/google_map_place_picker.dart'; 
 // Only to control hybrid composition and the renderer in Android
 import '../../api/seach_place.dart';
 import '../../controller/cart.dart';
+import '../../model/cart_model.dart';
+import '../../widgets/check_out/check_out_list_dish.dart';
 import '../home_screen.dart';
 import 'payment_method.dart';
 
-class CheckoutScreenView extends StatefulWidget {
-  // CheckoutScreenView({Key? key}) : super(key: key);
-  final double? amount;
-
+class CheckoutScreenView extends StatelessWidget {
   final controller = Get.find<CheckOutController>();
-
-  CheckoutScreenView({Key? key, this.amount}) : super(key: key);
-
-  @override
-  State<CheckoutScreenView> createState() => _CheckoutScreenViewState();
-}
-
-class _CheckoutScreenViewState extends State<CheckoutScreenView> {
-  List dataCheckout = [
-    {
-      "photo":
-          "https://i.ibb.co/dG68KJM/photo-1513104890138-7c749659a591-crop-entropy-cs-tinysrgb-fit-max-fm-jpg-ixid-Mnwy-ODA4-ODh8-MHwxf-H.jpg",
-      "product_name": "Frenzy Pizza",
-      "price": 25,
-      "category": "Food",
-      "description":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    },
-    {
-      "photo":
-          "https://i.ibb.co/mHtmhmP/photo-1521305916504-4a1121188589-crop-entropy-cs-tinysrgb-fit-max-fm-jpg-ixid-Mnwy-ODA4-ODh8-MHwxf-H.jpg",
-      "product_name": "Beef Burger",
-      "price": 22,
-      "category": "Food",
-      "description":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    },
-  ];
-
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    widget.controller.getLocation();
+    controller.loadDishes();
+    controller.getLocation();
     return Obx(() {
       return Scaffold(
         backgroundColor: const Color(0xffE9F1F5),
@@ -80,7 +45,7 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
           ),
           leading: IconButton(
             onPressed: () {
-              slideinTransition(context, CardScreenView());
+              slideinTransitionNoBack(context, CardScreenView());
             },
             icon: const Icon(
               Icons.arrow_back,
@@ -163,11 +128,13 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: Text(
-                                    '${widget.controller.getaddress.value}',
-                                    style: GoogleFonts.roboto(
-                                        fontSize:
-                                            MediaAspectRatio(context, 0.03)),
+                                  child: Obx(
+                                    () => Text(
+                                      '${controller.getaddress.value}',
+                                      style: GoogleFonts.roboto(
+                                          fontSize:
+                                              MediaAspectRatio(context, 0.03)),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -232,48 +199,7 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                             ),
                           ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // children: List.generate(
-                          //   dataCheckout.length,
-                          //   (index) {
-                          //     var item = dataCheckout[index];
-                          //     return ListTile(
-                          //       leading: Container(
-                          //         height: 60.0,
-                          //         width: 60.0,
-                          //         decoration: BoxDecoration(
-                          //           image: DecorationImage(
-                          //             image: NetworkImage(
-                          //               "${item['photo']}",
-                          //             ),
-                          //             fit: BoxFit.cover,
-                          //           ),
-                          //           borderRadius: const BorderRadius.all(
-                          //             Radius.circular(
-                          //               16.0,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       title: Text("${item['product_name']}",
-                          //           style: GoogleFonts.poppins(
-                          //               fontSize: 12,
-                          //               fontWeight: FontWeight.w500)),
-                          //       subtitle: Text("\$${item['price']}",
-                          //           style: GoogleFonts.poppins(
-                          //               fontSize: 12,
-                          //               color: const Color(0xff02A88A),
-                          //               fontWeight: FontWeight.normal)),
-                          //       trailing: Text("Quantity 1",
-                          //           style: GoogleFonts.poppins(
-                          //               fontSize: 11,
-                          //               color: const Color(0xffBABEBF),
-                          //               fontWeight: FontWeight.normal)),
-                          //     );
-                          //   },
-                          // )
-                        ),
+                        child: CheckedItemsWidget(),
                       ),
                     ],
                   ),
@@ -314,8 +240,22 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
-                              children: [],
+                              children: [
+                                Text("Tổng:",
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff516971),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal)),
+                                const Spacer(),
+                                Text(
+                                    "${formatCurrency(controller.initialTotal.value)}",
+                                    style: GoogleFonts.poppins(
+                                        color: Color.fromARGB(255, 0, 7, 10),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal)),
+                              ],
                             ),
+                            const Divider(),
                             Row(
                               children: [
                                 Text("Mã giảm giá: ",
@@ -324,7 +264,8 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.normal)),
                                 const Spacer(),
-                                Text("-${widget.amount}đ",
+                                Text(
+                                    "- ${formatCurrency(controller.vouchervalue.value ?? 0.0)}",
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff516971),
                                         fontSize: 12,
@@ -334,29 +275,14 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                             const Divider(),
                             Row(
                               children: [
-                                Text("Tạm tính",
+                                Text("Tạm tính:",
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff516971),
                                         fontSize: 12,
                                         fontWeight: FontWeight.normal)),
                                 const Spacer(),
-                                Text("\789.000đ",
-                                    style: GoogleFonts.poppins(
-                                        color: const Color(0xff516971),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal)),
-                              ],
-                            ),
-                            const Divider(),
-                            Row(
-                              children: [
-                                Text("814.000đ",
-                                    style: GoogleFonts.poppins(
-                                        color: const Color(0xff516971),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal)),
-                                const Spacer(),
-                                Text("\800.000đ",
+                                Text(
+                                    "${formatCurrency(controller.finalTotal.value)}",
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff516971),
                                         fontSize: 12,
@@ -441,11 +367,7 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                   GestureDetector(
                     onTap: () {
                       // Thực hiện hành động khi người dùng nhấn vào chữ "Collect Coupon"
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CouponsListCustomer()),
-                      );
+                      slideinTransition(context, CouponsListCustomer());
                     },
                     child: Text(
                       "THÊM VOUCHER",
@@ -465,13 +387,13 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                 children: [
                   Column(
                     children: [
-                      Text("814.000đ",
+                      Text("${formatCurrency(controller.initialTotal.value)}",
                           style: GoogleFonts.poppins(
                               decoration: TextDecoration.lineThrough,
                               color: const Color(0xff516971),
                               fontSize: 14,
                               fontWeight: FontWeight.w600)),
-                      Text("\800.000đ",
+                      Text("${formatCurrency(controller.finalTotal.value)}",
                           style: GoogleFonts.poppins(
                               color: const Color(0xff02A88A),
                               fontSize: 15,
@@ -490,15 +412,12 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                           // ),
                         ),
                         onPressed: () async {
-                          isLoading = true;
-                          print(isLoading);
-                          setState(() {});
+                          controller.isLoading.value = true;
                           Future.delayed(
                             const Duration(seconds: 3),
                             () async {
-                              isLoading = false;
-                              setState(() {});
-                              print(isLoading);
+                              controller.isLoading.value = false;
+
                               await showDialog<void>(
                                 context: context,
                                 barrierDismissible: true,
@@ -597,7 +516,7 @@ class _CheckoutScreenViewState extends State<CheckoutScreenView> {
                             },
                           );
                         },
-                        child: (isLoading != false)
+                        child: (controller.isLoading.value != false)
                             ? const CircularProgressIndicator()
                             : const Text("Thanh Toán")),
                   ),

@@ -1,5 +1,8 @@
+import 'package:app_food_2023/controller/check_out.dart';
+import 'package:app_food_2023/widgets/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +21,7 @@ class _LocationDropdownState extends State<LocationDropdown> {
   TextEditingController _editingController = TextEditingController();
   String? _inputValue = "";
   final _focusNode = FocusNode();
+  final controller = Get.find<CheckOutController>();
   @override
   void initState() {
     super.initState();
@@ -45,9 +49,12 @@ class _LocationDropdownState extends State<LocationDropdown> {
 
   Future<void> _saveInputValue() async {
     final prefs = await SharedPreferences.getInstance();
-    print(_inputValue);
+
     await prefs.setString('custom_location', _inputValue ?? '');
     await prefs.setString('diachiHienTai', _inputValue ?? '');
+
+    await controller.getLocation();
+    CustomSnackBar.showCustomSnackBar(context, 'Đã chọn ${_inputValue}', 2);
   }
 
   @override
@@ -116,6 +123,7 @@ class _LocationDropdownState extends State<LocationDropdown> {
                   setState(() {
                     _inputValue = _editingController.text;
                   });
+
                   _saveInputValue();
                   _toggleExpanded();
                 },
@@ -139,6 +147,7 @@ class HomeLocationDropdown extends StatefulWidget {
 class _HomeLocationDropdownState extends State<HomeLocationDropdown> {
   bool _isExpanded = false;
   String? _inputValue = '';
+  final controller = Get.find<CheckOutController>();
   @override
   void initState() {
     super.initState();
@@ -151,9 +160,9 @@ class _HomeLocationDropdownState extends State<HomeLocationDropdown> {
           .collection('users')
           .doc(user!.uid)
           .get();
-      setState(() {
-        _inputValue = prefs.data()?["Address"];
-      });
+
+      _inputValue = prefs.data()?["Address"];
+
       return prefs.data()?["Address"];
     }
     return '';
@@ -168,6 +177,8 @@ class _HomeLocationDropdownState extends State<HomeLocationDropdown> {
   Future<void> _choseLocation() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('diachiHienTai', _inputValue ?? '');
+    await controller.getLocation();
+    CustomSnackBar.showCustomSnackBar(context, 'Đã chọn ${_inputValue}', 2);
   }
 
   @override
@@ -222,7 +233,7 @@ class _HomeLocationDropdownState extends State<HomeLocationDropdown> {
                       Expanded(
                           child: Text(
                         '${snapshot.data}',
-                        style: GoogleFonts.nunito(fontSize: 13),
+                        style: GoogleFonts.roboto(fontSize: 15.5),
                       )),
                       Container(
                         width: 1.5,
@@ -233,6 +244,7 @@ class _HomeLocationDropdownState extends State<HomeLocationDropdown> {
                         onPressed: () {
                           _choseLocation();
                           _toggleExpanded();
+
                           Navigator.of(context).pop;
                         },
                         child: Text('Lưu'),

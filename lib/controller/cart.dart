@@ -27,10 +27,10 @@ _getCurrentUser() async {
   });
 }
 
-String formatCurrency(double value) {
+String formatCurrency(double? value) {
   final currentcy = new NumberFormat('#,##0', 'ID');
   String result =
-      currentcy.format(double.parse(value.toStringAsFixed(0))) + " đ";
+      currentcy.format(double.parse((value ?? 0.0).toStringAsFixed(0))) + " đ";
   return result;
 }
 

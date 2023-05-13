@@ -1,14 +1,8 @@
-import 'package:app_food_2023/screens/home_screen.dart';
 import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:app_food_2023/api/google_map/google_maps_place_picker.dart';
-
-// ignore: implementation_imports, unused_import
-import 'package:app_food_2023/api/google_map/src/google_map_place_picker.dart'; // do not import this yourself
-
-// Your api key storage.
 
 // Only to control hybrid composition and the renderer in Android
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,17 +24,6 @@ class _AddressPageState extends State<AddressPage> {
   late String searchAddress;
   List<String> myLocation = ['', '', ''];
   List<String> recentAddresses = [""];
-  List<String> myAddresses = [
-    'Nhà',
-    'Công Ty',
-    'Thêm địa chỉ...',
-  ];
-
-  List<IconData> myAddressIcons = [
-    Icons.home_outlined,
-    Icons.work_outline,
-    Icons.add_outlined,
-  ];
 
   @override
   void initState() {
@@ -64,44 +47,6 @@ class _AddressPageState extends State<AddressPage> {
     }
   }
 
-  // Future<Map<String, dynamic>?> getLocation(String? address) async {
-  //   final apiKey =
-  //       'AIzaSyBTnEOKQ0rLBrxd87TTtwDZcNOrzRtN-UQ'; // Replace with your Google Maps API key
-  //   final apiUrl =
-  //       'https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=$apiKey';
-
-  //   final response = await http.get(Uri.parse(apiUrl));
-
-  //   if (response.statusCode == 200) {
-  //     final result = json.decode(response.body);
-  //     if (result['status'] == 'OK') {
-  //       final location = result['results'][0]['geometry']['location'];
-  //       CustomSuccessMessage.showMessage('$location');
-  //       return location;
-  //     }
-  //   }
-  //   return Future.value(null);
-  // }
-
-  // Future<double?> getLatitudeFromAddress(String address) async {
-  //   try {
-  //     List<Location> locations = await locationFromAddress(address);
-  //     CustomSuccessMessage.showMessage(
-  //         locations.first.latitude.toStringAsFixed(2) +
-  //             "/" +
-  //             locations.first.longitude.toStringAsFixed(2));
-
-  //     if (locations.isNotEmpty) {
-  //       return locations.first.latitude;
-  //     } else {
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     print('Error getting latitude: $e');
-  //     return null;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +54,7 @@ class _AddressPageState extends State<AddressPage> {
         showLeading: true,
         title: "Địa chỉ",
         onPressed: () {
-          fadeinTransition(context, AppHomeScreen());
+          Navigator.pop(context);
         },
       ),
       body: SingleChildScrollView(
@@ -266,8 +211,4 @@ class _AddressPageState extends State<AddressPage> {
       ),
     );
   }
-
-  // void searchAddressOnMap() {
-  //
-  // }
 }
