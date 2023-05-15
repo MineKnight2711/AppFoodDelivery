@@ -1,6 +1,9 @@
+import 'package:app_food_2023/controller/cart.dart';
+import 'package:app_food_2023/controller/check_out.dart';
 import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import '../home_screen.dart';
 
 class LoadingHomeScreen extends StatefulWidget {
@@ -16,7 +19,7 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
   @override
   void initState() {
     super.initState();
-
+    Get.put(CheckOutController(checkedItems));
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),

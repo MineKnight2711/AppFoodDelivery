@@ -1,14 +1,17 @@
+import 'package:app_food_2023/controller/check_out.dart';
 import 'package:app_food_2023/widgets/appbar.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:app_food_2023/api/google_map/google_maps_place_picker.dart';
+import 'package:get/get.dart';
 
 // Only to control hybrid composition and the renderer in Android
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/map/my_location_widget.dart';
 import '../widgets/map/map_widgets.dart';
+import '../widgets/message.dart';
 
 class AddressPage extends StatefulWidget {
   AddressPage({Key? key}) : super(key: key);
@@ -20,10 +23,11 @@ class AddressPage extends StatefulWidget {
 class _AddressPageState extends State<AddressPage> {
   PickResult? selectedPlace;
   TextEditingController _testlocation = new TextEditingController();
+  final controller = Get.find<CheckOutController>();
 
   late String searchAddress;
   List<String> myLocation = ['', '', ''];
-  List<String> recentAddresses = [""];
+  List<String> recentAddresses = [];
 
   @override
   void initState() {
@@ -84,30 +88,33 @@ class _AddressPageState extends State<AddressPage> {
                       },
                     ),
                   ),
-                  PlacePickerIconButton(
-                    onPlacePicked: (PickResult result) async {
-                      setState(() {
-                        selectedPlace = result;
+                  Builder(builder: (context) {
+                    return PlacePickerIconButton(
+                      onPlacePicked: (PickResult result) async {
+                        setState(() {
+                          selectedPlace = result;
 
-                        // Thêm địa chỉ mới vào đầu danh sách recentAddresses
-                        recentAddresses.insert(0, result.formattedAddress!);
-                        print(result.formattedAddress!);
-                        // Lưu danh sách địa chỉ vào Local Storage
-                        SharedPreferences.getInstance().then((prefs) {
-                          prefs.setStringList(
-                              "recentAddresses", recentAddresses);
+                          // Thêm địa chỉ mới vào đầu danh sách recentAddresses
+                          recentAddresses.insert(0, result.formattedAddress!);
+                          print(result.formattedAddress!);
+                          // Lưu danh sách địa chỉ vào Local Storage
+                          SharedPreferences.getInstance().then((prefs) {
+                            prefs.setStringList(
+                                "recentAddresses", recentAddresses);
+                          });
                         });
-                      });
-                      await SharedPreferences.getInstance().then((prefs) async {
-                        await prefs
-                            .setString(
-                                "diachiHienTai", result.formattedAddress!)
-                            .then((value) {
-                          Navigator.of(context).pop();
+                        await SharedPreferences.getInstance()
+                            .then((prefs) async {
+                          await prefs
+                              .setString(
+                                  "diachiHienTai", result.formattedAddress!)
+                              .then((value) {
+                            Navigator.of(context).pop();
+                          });
                         });
-                      });
-                    },
-                  ),
+                      },
+                    );
+                  }),
                 ],
               ),
             ),
@@ -180,12 +187,15 @@ class _AddressPageState extends State<AddressPage> {
                     itemCount: recentAddresses.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        onTap: () {
+                        onTap: () async {
                           print(recentAddresses[index]);
-                          SharedPreferences.getInstance().then((prefs) {
+                          await SharedPreferences.getInstance().then((prefs) {
                             prefs.setString(
                                 "diachiHienTai", recentAddresses[index]);
                           });
+                          await controller.getLocation();
+                          CustomSnackBar.showCustomSnackBar(
+                              context, 'Đã chọn ${recentAddresses[index]}', 2);
                         },
                         leading: Icon(Icons.history),
                         title: Row(

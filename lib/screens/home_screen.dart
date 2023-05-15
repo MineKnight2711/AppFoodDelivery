@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
+import 'package:app_food_2023/controller/check_out.dart';
 import 'package:app_food_2023/screens/customer/cart_view.dart';
 import 'package:app_food_2023/screens/customer/food_details.dart';
 import 'package:app_food_2023/screens/customer/viewdish_by_category.dart';
@@ -12,6 +13,7 @@ import 'package:app_food_2023/widgets/food_view_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/cart.dart';
@@ -31,6 +33,8 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
   String? name;
   final ScrollController _scrollController = ScrollController();
   List<String> recentAddresses = [];
+  final controller = Get.find<CheckOutController>();
+
   Stream<QuerySnapshot> getCategorySnapshots() async* {
     yield* FirebaseFirestore.instance.collection('categories').snapshots();
   }
@@ -61,6 +65,7 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    controller.getLocation();
     return WillPopScope(
       onWillPop: () => onBackPressed(context),
       child: Scaffold(
@@ -213,17 +218,19 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                                           ? MediaAspectRatio(context, 0.321)
                                           : MediaAspectRatio(context, 3.5),
                                   children: snapshot.data!.docs
-                                      .map((dish) => Padding(
-                                            padding: EdgeInsets.all(
-                                                (orientation ==
-                                                        Orientation.portrait)
-                                                    ? 0
-                                                    : 8),
-                                            child: foodViewCard(context, () {
-                                              slideupTransition(context,
-                                                  FoodViewDetails(dish));
-                                            }, dish),
-                                          ))
+                                      .map(
+                                        (dish) => Padding(
+                                          padding: EdgeInsets.all(
+                                              (orientation ==
+                                                      Orientation.portrait)
+                                                  ? 0
+                                                  : 8),
+                                          child: foodViewCard(context, () {
+                                            slideupTransition(
+                                                context, FoodViewDetails(dish));
+                                          }, dish),
+                                        ),
+                                      )
                                       .toList(),
                                 ),
                               ),
@@ -288,10 +295,6 @@ class MyBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.discount_rounded),
           label: 'Voucher của tôi',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Cài đặt',
         ),
       ],
       currentIndex: selectedIndex,

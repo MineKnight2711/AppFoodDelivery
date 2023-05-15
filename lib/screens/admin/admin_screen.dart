@@ -1,3 +1,4 @@
+import 'package:app_food_2023/controller/order_details.dart';
 import 'package:app_food_2023/screens/admin/category_manager/category_screen.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/edit_current_employees.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 import '../../controller/employee.dart';
 import '../../controller/logout.dart';
 
+import '../../controller/order.dart';
 import 'employee_manager/change_password_employees.dart';
 import 'food_manager/food_list.dart';
 import 'order_manager/list_orders.dart';
@@ -175,6 +177,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     leading: Icon(Icons.receipt_long),
                     title: Text('Quản lý đơn hàng'),
                     onTap: () {
+                      Get.put(OrderController());
                       slideinTransition(context, ListOrderPage());
                     },
                   ),

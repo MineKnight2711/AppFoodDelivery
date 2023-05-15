@@ -155,7 +155,7 @@ class CheckOutController extends GetxController {
       order.VoucherID = voucherID.value;
       order.DeliveryAddress = getaddress.value;
       order.OrderDate = DateTime.now();
-
+      order.DeliverID = "";
       order.PaymentMethod = selectedPaymentMethod.value;
 
       order.PaymentStatus = false;
@@ -169,7 +169,6 @@ class CheckOutController extends GetxController {
       }).whenComplete(() async {
         await deleteOrderedDishes();
       });
-      ;
     }
   }
 }

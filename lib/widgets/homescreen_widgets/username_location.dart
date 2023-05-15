@@ -12,12 +12,6 @@ import '../../model/UserModel.dart';
 import '../../screens/customer/setting_profile/customer_settings.dart';
 import '../transitions_animations.dart';
 
-Future<String?> _getLocation() async {
-  final prefs = await SharedPreferences.getInstance();
-  final location = prefs.getString("diachiHienTai");
-  return location;
-}
-
 Widget customerAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
@@ -29,6 +23,8 @@ Widget customerAvatar(BuildContext context) {
 }
 
 Widget userInfor(BuildContext context, UserModel userModel) {
+  final controller = Get.find<CheckOutController>();
+  controller.getLocation();
   return Column(
     children: [
       Row(
@@ -52,15 +48,15 @@ Widget userInfor(BuildContext context, UserModel userModel) {
             color: Color(0xFFFF2F08),
           ),
           Expanded(
-            child: FutureBuilder(
-              future: _getLocation(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
+            child: GetX<CheckOutController>(
+              init: controller,
+              builder: (controller) {
+                if (controller.getaddress.value != null) {
                   return GestureDetector(
                     child: Text(
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      snapshot.data.toString(),
+                      '${controller.getaddress.value}',
                       style: TextStyle(
                         fontSize: 18.5,
                         fontWeight: FontWeight.bold,

@@ -26,10 +26,15 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
   List<String> recentAddresses = [];
   bool _mapsInitialized = false;
   String _mapsRenderer = "latest";
+  String? mapId = '';
   @override
   void initState() {
     super.initState();
-    initRenderer();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void initRenderer() {
@@ -58,11 +63,6 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
     setState(() {
       _mapsInitialized = true;
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Future<void> _onPressed() async {
@@ -102,27 +102,21 @@ class _PlacePickerIconButtonState extends State<PlacePickerIconButton> {
               usePlaceDetailSearch: true,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: true,
-              onMapCreated: (GoogleMapController controller) {
-                print("Map created");
+              onMapCreated: (controller) async {
+                try {
+                  await widget.mapsImplementation.init(controller.mapId);
+                } on PlatformException catch (e) {
+                  if (e.code == "rendererAlreadyInitialized") {
+                    setState(() {
+                      widget.mapsImplementation
+                          .dispose(mapId: controller.mapId);
+                    });
+                    print("Google Maps renderer already initialized");
+                  }
+                }
               },
               onPlacePicked: widget.onPlacePicked,
-              // (PickResult result) async {
-              //   setState(() {
-              //     selectedPlace = result;
 
-              //     // Thêm địa chỉ mới vào đầu danh sách recentAddresses
-              //     recentAddresses.insert(0, result.formattedAddress!);
-              //     print(result.formattedAddress!);
-              //     // Lưu danh sách địa chỉ vào Local Storage
-              //   });
-              //   await SharedPreferences.getInstance().then((prefs) async {
-              //     await prefs
-              //         .setString("diachiHienTai", result.formattedAddress!)
-              //         .then((value) {
-              //       Navigator.of(context).pop();
-              //     });
-              //   });
-              // },
               onMapTypeChanged: (MapType mapType) {
                 print("Map type changed to ${mapType.toString()}");
               },

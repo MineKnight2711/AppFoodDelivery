@@ -1,5 +1,6 @@
 class OrderModel {
   String? UserID;
+  String? DeliverID;
   String? VoucherID;
   bool? PaymentStatus;
   String? OrderStatus;
@@ -11,6 +12,7 @@ class OrderModel {
 
   OrderModel({
     this.UserID,
+    this.DeliverID,
     this.VoucherID,
     this.PaymentStatus = false,
     this.OrderStatus,
@@ -34,6 +36,7 @@ class OrderModel {
   Map<String, dynamic> toMap() {
     return {
       'UserID': UserID,
+      'DeliverID': DeliverID,
       'VoucherID': VoucherID,
       'PaymentStatus': PaymentStatus,
       'OrderStatus': OrderStatus,
