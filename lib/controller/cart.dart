@@ -243,16 +243,26 @@ void toggleChecked(CartItem item) {
 
 void checkedAll() {
   if (isChecked == true) {
+    //chọn thì foreach add to Set
     if (cartItems != null) {
-      for (var item in cartItems!) {
-        checkedItems.add(item);
+      if (checkedItems.isEmpty) {
+        //Trường hợp không có sản phẩm được chọn
+        for (var item in cartItems!) {
+          checkedItems.add(item);
+        }
+      } else {
+        //Trường hợp đã có sản phẩm được chọn
+        checkedItems.clear();
+        for (var item in cartItems!) {
+          checkedItems.add(item);
+        }
       }
     }
   } else {
+    //Bỏ chọn thì clear Set
     checkedItems.clear();
   }
   updateCartTotalStream();
-  print(checkedItems.length);
 }
 
 void clearCart(BuildContext context) async {

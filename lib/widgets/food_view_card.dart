@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 String? categoryName = "";
 int rateCount = 0;
-double tongDiem = 0.0, trungBinh = 0.0;
+double tongDiem = 0.0;
+double? trungBinh = 0.0;
 
 Widget foodViewCard(
     BuildContext context, Function()? onTap, QueryDocumentSnapshot doc) {
@@ -108,11 +109,11 @@ Widget foodViewCard(
                             tongDiem = snapshot.data!.docs
                                 .fold(0.0, (sum, doc) => sum + doc["Score"]);
                             rateCount = snapshot.data!.docs.length;
-                            if (rateCount != 0) {
+                            trungBinh = 0;
+                            if (rateCount > 0) {
                               trungBinh = double.parse(
                                   (tongDiem / rateCount).toStringAsFixed(1));
                             }
-
                             return Row(
                               children: [
                                 Icon(

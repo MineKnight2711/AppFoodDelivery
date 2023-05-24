@@ -173,7 +173,7 @@ class PaymentDialog extends StatefulWidget {
 }
 
 class _PaymentDialogState extends State<PaymentDialog> {
-  String _selectedMethod = '';
+  String _selectedMethod = 'Tiền mặt';
 
   void _handlePaymentMethod(String method) {
     setState(() {

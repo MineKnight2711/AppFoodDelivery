@@ -35,6 +35,7 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
         }
       });
     _controller.forward().whenComplete(() {
+      Get.put(HomeScreenController());
       slideupTransition(context, AppHomeScreen());
     });
   }
@@ -66,7 +67,7 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
               ScaleTransition(
                 scale: _animation,
                 child: Text(
-                  'Hello World',
+                  'AppDelivery',
                   style: TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
                     fontSize: 48.0,

@@ -23,6 +23,7 @@ class CardScreenView extends StatefulWidget {
 }
 
 class _CardScreenViewState extends State<CardScreenView> {
+  final homecontroller = Get.find<HomeScreenController>();
   @override
   void initState() {
     super.initState();
@@ -416,57 +417,68 @@ class _CardScreenViewState extends State<CardScreenView> {
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Thành tiền",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Thành tiền",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                      CartTotal(),
+                    ],
                   ),
-                  CartTotal(),
+                  SizedBox(
+                    width:
+                        ScreenRotate(context) ? 23.0 : MediaWidth(context, 2.3),
+                  ),
+                  SizedBox(
+                    width: 185.29,
+                    height: 50,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffFFB039),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(62), // <-- Radius
+                          ),
+                        ),
+                        onPressed: () {
+                          if (checkedItems.isEmpty) {
+                            CustomErrorMessage.showMessage(
+                                'Vui lòng chọn ít nhất 1 sản phẩm!');
+                            return;
+                          }
+
+                          Get.put(CheckOutController(checkedItems));
+
+                          slideupTransition(context, CheckoutScreenView());
+                        },
+                        child: Text(
+                          'Đặt mua ${checkedItems.length} ',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16, color: Colors.black),
+                        )),
+                  ),
                 ],
               ),
-              SizedBox(
-                width: ScreenRotate(context) ? 23.0 : MediaWidth(context, 2.3),
-              ),
-              SizedBox(
-                width: 185.29,
-                height: 50,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xffFFB039),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62), // <-- Radius
-                      ),
-                    ),
-                    onPressed: () {
-                      if (checkedItems.isEmpty) {
-                        CustomErrorMessage.showMessage(
-                            'Vui lòng chọn ít nhất 1 sản phẩm!');
-                        return;
-                      }
-
-                      Get.put(CheckOutController(checkedItems));
-
-                      slideupTransition(context, CheckoutScreenView());
-                    },
-                    child: Text(
-                      'Đặt mua ${checkedItems.length} ',
-                      style:
-                          GoogleFonts.roboto(fontSize: 16, color: Colors.black),
-                    )),
-              ),
-            ],
-          ),
+            ),
+            MyBottomNavigationBar(
+              onItemTapped: (index) =>
+                  homecontroller.onItemTapped(context, index),
+              selectedIndex: homecontroller.selectedindex.value,
+            ),
+          ],
         ),
       ),
     );

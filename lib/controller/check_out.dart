@@ -1,5 +1,5 @@
 import 'package:app_food_2023/model/cart_model.dart';
-import 'package:app_food_2023/model/order_model.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,13 +7,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/dishes_model.dart';
 import '../model/order_details_model.dart';
+import '../model/order_model.dart';
 import '../screens/customer/payment_method.dart';
+import '../screens/home_screen.dart';
+import '../widgets/check_out/order_sucess.dart';
 import '../widgets/message.dart';
+import '../widgets/transitions_animations.dart';
 import 'cart.dart';
 
 class CheckOutController extends GetxController {
   Rx<Set<CartItem>?> getAllCheckedItems = Rx<Set<CartItem>?>(null);
   Rx<List<DishModel>?> dishes = Rx<List<DishModel>?>(null);
+
   Rx<bool> isLoading = Rx<bool>(false);
 
   CheckOutController(Set<CartItem> getAllCheckedItems) {
@@ -22,7 +27,7 @@ class CheckOutController extends GetxController {
 
   Rx<String?> getaddress = Rx<String?>('');
   Rx<CartItem?> buycheckitem = Rx<CartItem?>(null);
-
+  Rx<int> totalQuantity = Rx<int>(0);
   Rx<double?> initialTotal = Rx<double?>(0.0);
   Rx<double?> vouchervalue = Rx<double?>(0.0);
   Rx<double?> finalTotal = Rx<double?>(0.0);
@@ -99,6 +104,10 @@ class CheckOutController extends GetxController {
         0,
         (previousValue, item) => previousValue! + item.total,
       );
+      totalQuantity.value = getAllCheckedItems.value!.fold(
+        0,
+        (previousValue, item) => previousValue + item.quantity,
+      );
       double total = initialTotal.value ?? 0.0;
       double voucher = vouchervalue.value ?? 0.0;
       finalTotal.value = total - voucher;
@@ -107,11 +116,72 @@ class CheckOutController extends GetxController {
 
   Future<void> showPaymentDialog(BuildContext context) async {
     final selectedMethod = await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => PaymentDialog(),
     );
 
     selectedPaymentMethod.value = selectedMethod;
+  }
+
+  Future<bool> checkQuantity(BuildContext context) async {
+    List<DishModel> checkDishes = [];
+    if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
+      List<String?> checkedDishIDs =
+          getAllCheckedItems.value!.map((item) => item.dishID).toList();
+      final refCarts = FirebaseFirestore.instance.collection('dishes');
+      final dishSnapshot = await refCarts
+          .where(FieldPath.documentId, whereIn: checkedDishIDs)
+          .get();
+      if (dishSnapshot.docs.isNotEmpty) {
+        for (final doc in dishSnapshot.docs) {
+          final dish = DishModel.fromSnapshot(doc);
+
+          final checkedItem = getAllCheckedItems.value!
+              .firstWhere((item) => item.dishID == doc.id);
+          if (dish.Quantity != null) {
+            if (dish.Quantity! < checkedItem.quantity) {
+              checkDishes.add(dish);
+            }
+          }
+        }
+        if (checkDishes.isNotEmpty) {
+          await showInsufficientQuantityPopup(context, checkDishes);
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  Future<void> showInsufficientQuantityPopup(
+      BuildContext context, List<DishModel>? dishes) async {
+    await showDialog(
+      context: context,
+      builder: (context) => showInsufficientQuantityWidget(
+        context,
+        dishes,
+      ),
+    );
+  }
+
+  Future<void> decreaseDishesQuantity() async {
+    if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
+      List<String?> checkedDishIDs =
+          getAllCheckedItems.value!.map((item) => item.dishID).toList();
+      final refCarts = FirebaseFirestore.instance.collection('dishes');
+      final cartSnapshot = await refCarts
+          .where(FieldPath.documentId, whereIn: checkedDishIDs)
+          .get();
+      if (cartSnapshot.docs.isNotEmpty) {
+        for (final doc in cartSnapshot.docs) {
+          final quantity = getAllCheckedItems.value!
+              .firstWhere((item) => item.dishID == doc.id)
+              .quantity;
+          doc.reference.update({'InStock': FieldValue.increment(-quantity)});
+        }
+      }
+    }
   }
 
   Future<void> deleteOrderedDishes() async {
@@ -148,7 +218,13 @@ class CheckOutController extends GetxController {
 
   Future<void> saveOrder(BuildContext context) async {
     if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
-      CustomSnackBar.showCustomSnackBar(context, "Đang thực hiện...", 3);
+      CustomSnackBar.showCustomSnackBar(context, "Đang kiểm tra...", 3);
+      bool resultQuantity = await checkQuantity(context);
+
+      if (!resultQuantity) {
+        return;
+      }
+
       final orderRef = await FirebaseFirestore.instance.collection('orders');
       OrderModel order = OrderModel();
       order.UserID = user?.uid;
@@ -164,11 +240,44 @@ class CheckOutController extends GetxController {
       order.OrderStatus = "Chưa xác nhận";
       final afterAdding = await orderRef.add(order.toMap());
 
-      await saveOrderDetails(afterAdding.id).then((value) {
-        CustomSnackBar.showCustomSnackBar(context, "Đã đặt hàng ☑", 1);
+      await saveOrderDetails(afterAdding.id).then((value) async {
+        CustomSnackBar.showCustomSnackBar(
+            context, 'Đang kiểm tra số lượng..', 1);
+        await decreaseDishesQuantity();
       }).whenComplete(() async {
         await deleteOrderedDishes();
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return OrderSuccessDialogWidget();
+          },
+        );
       });
     }
+  }
+}
+
+class OrderSuccessDialogWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        slideinTransitionNoBack(context, AppHomeScreen());
+        Get.delete<CheckOutController>();
+        Get.put(CheckOutController(checkedItems));
+        return false;
+      },
+      child: OrderSuccesDialog(
+        imagePath: 'assets/images/icon-succes-transaction.png',
+        buttonText: 'OK',
+        message: 'Đơn hàng đã được đặt thành công!',
+        onButtonPressed: () {
+          slideinTransitionNoBack(context, AppHomeScreen());
+          Get.delete<CheckOutController>();
+          Get.put(CheckOutController(checkedItems));
+        },
+      ),
+    );
   }
 }

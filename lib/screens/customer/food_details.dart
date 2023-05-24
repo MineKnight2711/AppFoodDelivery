@@ -5,6 +5,7 @@ import 'package:app_food_2023/widgets/show_rating.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +15,7 @@ import '../../model/UserModel.dart';
 import '../../model/dishes_model.dart';
 import '../../widgets/feedback_dialogs.dart';
 import '../../widgets/rating_card.dart';
+import '../home_screen.dart';
 
 // ignore: must_be_immutable
 class FoodViewDetails extends StatefulWidget {
@@ -25,6 +27,7 @@ class FoodViewDetails extends StatefulWidget {
 }
 
 class _FoodViewDetailsState extends State<FoodViewDetails> {
+  final homecontroller = Get.find<HomeScreenController>();
   User? user = FirebaseAuth.instance.currentUser;
   String? category = "";
   double? tongDiem = 0.0, trungBinh = 0.0;
@@ -357,98 +360,115 @@ class _FoodViewDetailsState extends State<FoodViewDetails> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 62,
+        height: MediaHeight(context, 6.5),
         width: 200,
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
         ),
-        child: Visibility(
-          visible: loggedInUser?.Role.toString() == 'Customer',
-          child: Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30),
-            child: Row(
-              children: [
-                Container(
-                  height: 36,
-                  width: 120,
-                  decoration: const BoxDecoration(),
-                  child: Row(
-                    children: [
-                      ClipOval(
-                        child: Material(
-                          color: Color.fromARGB(255, 11, 122, 41),
-                          // Button color
-                          child: InkWell(
-                            splashColor: Colors.white, // Splash color
-                            onTap: () {
-                              setState(() {
-                                sl -= 1;
-                              });
-                              sl = checkSl(context, sl);
-                            },
-                            child: SizedBox(
-                                width: 35,
-                                height: 35,
-                                child: Icon(color: Colors.white, Icons.remove)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 40,
-                        height: 27.51,
-                        child: Center(
-                          child: Text(
-                            "${sl}",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ),
-                      ClipOval(
-                        child: Material(
-                          color: Color.fromARGB(255, 11, 122, 41),
-                          // Button color
-                          child: InkWell(
-                            splashColor: Colors.white, // Splash color
-                            onTap: () {
-                              setState(() {
-                                sl += 1;
-                              });
-                              sl = checkSl(context, sl);
-                            },
-
-                            child: SizedBox(
-                              width: 35,
-                              height: 35,
-                              child: Icon(color: Colors.white, Icons.add),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            Visibility(
+              visible: loggedInUser?.Role.toString() == 'Customer',
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 36,
+                      width: 120,
+                      decoration: const BoxDecoration(),
+                      child: Row(
+                        children: [
+                          ClipOval(
+                            child: Material(
+                              color: Color.fromARGB(255, 11, 122, 41),
+                              // Button color
+                              child: InkWell(
+                                splashColor: Colors.white, // Splash color
+                                onTap: () {
+                                  setState(() {
+                                    sl -= 1;
+                                  });
+                                  sl = checkSl(context, sl);
+                                },
+                                child: SizedBox(
+                                    width: 35,
+                                    height: 35,
+                                    child: Icon(
+                                        color: Colors.white, Icons.remove)),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 185.29,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xffFFB039),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62), // <-- Radius
+                          SizedBox(
+                            width: 40,
+                            height: 27.51,
+                            child: Center(
+                              child: Text(
+                                "${sl}",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Color.fromARGB(255, 11, 122, 41),
+                              // Button color
+                              child: InkWell(
+                                splashColor: Colors.white, // Splash color
+                                onTap: () {
+                                  setState(() {
+                                    sl += 1;
+                                  });
+                                  sl = checkSl(context, sl);
+                                },
+
+                                child: SizedBox(
+                                  width: 35,
+                                  height: 35,
+                                  child: Icon(color: Colors.white, Icons.add),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    onPressed: () {
-                      DishModel dish = DishModel.fromSnapshot(widget.doc);
+                    const Spacer(),
+                    SizedBox(
+                      width: 185.29,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffFFB039),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(62), // <-- Radius
+                          ),
+                        ),
+                        onPressed: () {
+                          DishModel dish = DishModel.fromSnapshot(widget.doc);
 
-                      addToCart(context, dish, sl);
-                    },
-                    child: const Text("Thêm vào giỏ"),
-                  ),
+                          addToCart(context, dish, sl);
+                        },
+                        child: const Text("Thêm vào giỏ"),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+            SizedBox(
+              height: 10,
+            ),
+            MyBottomNavigationBar(
+              onItemTapped: (index) =>
+                  homecontroller.onItemTapped(context, index),
+              selectedIndex: homecontroller.selectedindex.value,
+            ),
+          ],
         ),
       ),
     );

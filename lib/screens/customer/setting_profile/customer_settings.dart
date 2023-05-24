@@ -1,7 +1,10 @@
 import 'package:app_food_2023/controller/edit_customer.dart';
 import 'package:app_food_2023/controller/user.dart';
+import 'package:app_food_2023/controller/view_my_order.dart';
 import 'package:app_food_2023/screens/customer/customer_profile.dart';
+import 'package:app_food_2023/screens/customer/order/order.dart';
 import 'package:app_food_2023/screens/customer/setting_profile/babstrap_settings_screen.dart';
+import 'package:app_food_2023/screens/home_screen.dart';
 import 'package:app_food_2023/widgets/appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +17,7 @@ import '../change_password_customer.dart';
 class CustomerSetting extends StatelessWidget {
   CustomerSetting({Key? key}) : super(key: key);
   final controller = Get.find<EditCustomerController>();
+  final homecontroller = Get.find<HomeScreenController>();
   @override
   Widget build(BuildContext context) {
     controller.fetchCurrentCustomer();
@@ -72,7 +76,10 @@ class CustomerSetting extends StatelessWidget {
                       subtitle: "Thay đổi mật khẩu người dùng",
                     ),
                     SettingsItem(
-                      onTap: () {},
+                      onTap: () {
+                        Get.put(MyOrderController());
+                        slideinTransition(context, OrdersScreen());
+                      },
                       icons: CupertinoIcons.cart,
                       iconStyle: IconStyle(),
                       title: 'Đơn hàng',
@@ -115,60 +122,6 @@ class CustomerSetting extends StatelessWidget {
                 ),
 
                 SettingsGroup(
-                  settingsGroupTitle: "Riêng tư",
-                  items: [
-                    SettingsItem(
-                      onTap: () {},
-                      icons: Icons.format_list_numbered_sharp,
-                      iconStyle: IconStyle(),
-                      title: "Chính sách bảo mật",
-                      subtitle: "Thông tin chính sách bảo mật",
-                    ),
-                    SettingsItem(
-                      onTap: () {},
-                      icons: Icons.security_outlined,
-                      iconStyle: IconStyle(
-                        backgroundColor: Color.fromARGB(255, 225, 31, 31),
-                      ),
-                      title: "Bảo vệ",
-                      subtitle: "Thông tin bảo vệ người dùng",
-                    ),
-                    SettingsItem(
-                      onTap: () {},
-                      icons: Icons.line_style_outlined,
-                      iconStyle: IconStyle(
-                        backgroundColor: Color.fromARGB(255, 87, 14, 176),
-                      ),
-                      title: "Điều khoản & điều kiện",
-                      subtitle: "Chính sách điều khoản & điều kiện",
-                    ),
-                    SettingsItem(
-                      icons: Icons.support_agent_outlined,
-                      iconStyle: IconStyle(
-                        backgroundColor: Color.fromARGB(255, 14, 176, 98),
-                      ),
-                      title: "Hỗ trợ & giải đáp",
-                      titleStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      subtitle: "Hỗ trợ & giải đáp 24/7 người dùng",
-                    ),
-                  ],
-                ),
-                SettingsGroup(
-                  items: [
-                    SettingsItem(
-                      onTap: () {},
-                      icons: Icons.info_rounded,
-                      iconStyle: IconStyle(
-                        backgroundColor: Colors.purple,
-                      ),
-                      title: 'Thông tin',
-                      subtitle: "Phiên bản hiện tại v2.5.9",
-                    ),
-                  ],
-                ),
-                SettingsGroup(
                   settingsGroupTitle: "Tài khoản",
                   items: [
                     SettingsItem(
@@ -202,6 +155,10 @@ class CustomerSetting extends StatelessWidget {
           );
         }
       }),
+      bottomNavigationBar: MyBottomNavigationBar(
+        onItemTapped: (index) => homecontroller.onItemTapped(context, index),
+        selectedIndex: homecontroller.selectedindex.value,
+      ),
     );
   }
 }
