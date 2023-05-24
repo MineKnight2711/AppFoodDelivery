@@ -1,12 +1,12 @@
-import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/controller/view_my_order.dart';
-import 'package:app_food_2023/model/order_model.dart';
+
 import 'package:app_food_2023/widgets/appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/cart.dart';
+import '../../../widgets/order_manament/customer_orderdetails.dart';
 
 class OrdersScreen extends StatelessWidget {
   // final List<Map<String, dynamic>> orders = [
@@ -77,15 +77,22 @@ class OrdersScreen extends StatelessWidget {
                   ),
                   onTap: () {
                     // Navigate to order details screen
-                    showModalBottomSheet<dynamic>(
+                    showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
                       ),
                       backgroundColor: Colors.white,
                       builder: (BuildContext context) {
-                        return OrderDetailsBottomSheet();
+                        return SingleChildScrollView(
+                            physics: NeverScrollableScrollPhysics(),
+                            child: OrderDetailsBottomSheet(
+                              doc: order,
+                            ));
                       },
                     );
                   },

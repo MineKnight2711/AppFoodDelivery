@@ -253,7 +253,9 @@ class _HomeLocationDropdownState extends State<HomeLocationDropdown> {
                   );
                 } else {
                   _loadInputValue();
-                  return LinearProgressIndicator();
+                  return Center(
+                    child: Text("Bạn chưa cập nhật địa chỉ này!"),
+                  );
                 }
               }),
         ),
