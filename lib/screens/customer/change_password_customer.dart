@@ -1,14 +1,9 @@
-import 'package:app_food_2023/appstyle/error_messages/error_style.dart';
-import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
-import 'package:app_food_2023/appstyle/succes_messages/success_style.dart';
 import 'package:app_food_2023/controller/admincontrollers/edit_customer.dart';
-import 'package:app_food_2023/controller/user.dart';
 
 import 'package:app_food_2023/widgets/appbar.dart';
 import 'package:app_food_2023/widgets/customer/image_showing.dart';
 import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';

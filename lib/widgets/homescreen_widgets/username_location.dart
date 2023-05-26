@@ -3,7 +3,6 @@ import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
 import 'package:app_food_2023/controller/admincontrollers/edit_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api/seach_place.dart';
 import '../../controller/user.dart';

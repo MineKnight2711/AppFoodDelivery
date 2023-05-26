@@ -1,7 +1,6 @@
 import 'package:app_food_2023/controller/customercontrollers/cart.dart';
 import 'package:app_food_2023/controller/delivercontrollers/list_order_controller.dart';
 import 'package:app_food_2023/controller/delivercontrollers/order_details_controller.dart';
-import 'package:app_food_2023/model/deliver_model.dart';
 import 'package:app_food_2023/widgets/deliver/delivery_order_details_list_dish.dart';
 
 import 'package:flutter/cupertino.dart';

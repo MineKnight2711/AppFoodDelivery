@@ -3,8 +3,6 @@ import 'package:app_food_2023/model/deliver_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../widgets/message.dart';
-
 class DeliveryPersonDialog extends StatefulWidget {
   final List<DeliverModel> deliveryPersons;
 
