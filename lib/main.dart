@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:app_food_2023/screens/login_register/login_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'controller/edit_employee.dart';
+import 'controller/admincontrollers/edit_employee.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

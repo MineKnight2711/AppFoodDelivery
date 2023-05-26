@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/dishes_model.dart';
-import '../model/order_details_model.dart';
-import '../model/order_model.dart';
-import '../screens/customer/payment_method.dart';
-import '../screens/home_screen.dart';
-import '../widgets/check_out/order_sucess.dart';
-import '../widgets/message.dart';
-import '../widgets/transitions_animations.dart';
+import '../../model/dishes_model.dart';
+import '../../model/order_details_model.dart';
+import '../../model/order_model.dart';
+import '../../screens/customer/payment_method.dart';
+import '../../screens/home_screen.dart';
+import '../../widgets/check_out/order_sucess.dart';
+import '../../widgets/message.dart';
+import '../../widgets/transitions_animations.dart';
 import 'cart.dart';
 
 class CheckOutController extends GetxController {
@@ -87,13 +87,26 @@ class CheckOutController extends GetxController {
       List<String?> checkedDishIDs =
           getAllCheckedItems.value!.map((item) => item.dishID).toList();
       final refDishes = FirebaseFirestore.instance.collection('dishes');
-      final dishSnapshot = await refDishes
-          .where(FieldPath.documentId, whereIn: checkedDishIDs)
-          .get();
+
+      //Chia nhỏ các id trong getAllCheckedItems ra để query dể tránh giới hạn query của Firebase
+      List<List<String?>> idChunks = [];
+      for (int i = 0; i < checkedDishIDs.length; i += 10) {
+        idChunks.add(checkedDishIDs.sublist(i,
+            i + 10 < checkedDishIDs.length ? i + 10 : checkedDishIDs.length));
+      }
+
+      List<DishModel> dishes = [];
+      for (List<String?> idChunk in idChunks) {
+        QuerySnapshot dishSnapshot =
+            await refDishes.where(FieldPath.documentId, whereIn: idChunk).get();
+        List<DishModel> chunkDishes = dishSnapshot.docs
+            .map((doc) => DishModel.fromSnapshot(doc))
+            .toList();
+        dishes.addAll(chunkDishes);
+      }
+
       await caculteFinalTotal();
-      return dishSnapshot.docs
-          .map((doc) => DishModel.fromSnapshot(doc))
-          .toList();
+      return dishes;
     }
     return Future.value(null);
   }
@@ -125,26 +138,36 @@ class CheckOutController extends GetxController {
   }
 
   Future<bool> checkQuantity(BuildContext context) async {
-    List<DishModel> checkDishes = [];
     if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
       List<String?> checkedDishIDs =
           getAllCheckedItems.value!.map((item) => item.dishID).toList();
-      final refCarts = FirebaseFirestore.instance.collection('dishes');
-      final dishSnapshot = await refCarts
-          .where(FieldPath.documentId, whereIn: checkedDishIDs)
-          .get();
-      if (dishSnapshot.docs.isNotEmpty) {
-        for (final doc in dishSnapshot.docs) {
-          final dish = DishModel.fromSnapshot(doc);
 
-          final checkedItem = getAllCheckedItems.value!
-              .firstWhere((item) => item.dishID == doc.id);
-          if (dish.Quantity != null) {
-            if (dish.Quantity! < checkedItem.quantity) {
-              checkDishes.add(dish);
+      final refDishes = FirebaseFirestore.instance.collection('dishes');
+      List<List<String?>> idChunks = [];
+      for (int i = 0; i < checkedDishIDs.length; i += 10) {
+        idChunks.add(checkedDishIDs.sublist(i,
+            i + 10 < checkedDishIDs.length ? i + 10 : checkedDishIDs.length));
+      }
+
+      List<DishModel> checkDishes = [];
+      for (final chunk in idChunks) {
+        final dishSnapshot =
+            await refDishes.where(FieldPath.documentId, whereIn: chunk).get();
+
+        if (dishSnapshot.docs.isNotEmpty) {
+          for (final doc in dishSnapshot.docs) {
+            final dish = DishModel.fromSnapshot(doc);
+
+            final checkedItem = getAllCheckedItems.value!
+                .firstWhere((item) => item.dishID == doc.id);
+            if (dish.Quantity != null) {
+              if (dish.Quantity! < checkedItem.quantity) {
+                checkDishes.add(dish);
+              }
             }
           }
         }
+
         if (checkDishes.isNotEmpty) {
           await showInsufficientQuantityPopup(context, checkDishes);
           return false;
@@ -169,16 +192,25 @@ class CheckOutController extends GetxController {
     if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
       List<String?> checkedDishIDs =
           getAllCheckedItems.value!.map((item) => item.dishID).toList();
-      final refCarts = FirebaseFirestore.instance.collection('dishes');
-      final cartSnapshot = await refCarts
-          .where(FieldPath.documentId, whereIn: checkedDishIDs)
-          .get();
-      if (cartSnapshot.docs.isNotEmpty) {
-        for (final doc in cartSnapshot.docs) {
-          final quantity = getAllCheckedItems.value!
-              .firstWhere((item) => item.dishID == doc.id)
-              .quantity;
-          doc.reference.update({'InStock': FieldValue.increment(-quantity)});
+
+      final refDishes = FirebaseFirestore.instance.collection('dishes');
+      List<List<String?>> idChunks = [];
+      for (int i = 0; i < checkedDishIDs.length; i += 10) {
+        idChunks.add(checkedDishIDs.sublist(i,
+            i + 10 < checkedDishIDs.length ? i + 10 : checkedDishIDs.length));
+      }
+
+      for (final chunk in idChunks) {
+        final cartSnapshot =
+            await refDishes.where(FieldPath.documentId, whereIn: chunk).get();
+
+        if (cartSnapshot.docs.isNotEmpty) {
+          for (final doc in cartSnapshot.docs) {
+            final quantity = getAllCheckedItems.value!
+                .firstWhere((item) => item.dishID == doc.id)
+                .quantity;
+            doc.reference.update({'InStock': FieldValue.increment(-quantity)});
+          }
         }
       }
     }
@@ -188,14 +220,27 @@ class CheckOutController extends GetxController {
     if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
       List<String?> checkedDishIDs =
           getAllCheckedItems.value!.map((item) => item.dishID).toList();
+
       final refCarts = FirebaseFirestore.instance.collection('cart');
-      final cartSnapshot = await refCarts
-          .where('DishID', whereIn: checkedDishIDs)
-          .where('UserID', isEqualTo: user?.uid)
-          .get();
-      if (cartSnapshot.docs.isNotEmpty) {
-        for (final doc in cartSnapshot.docs) {
-          await doc.reference.delete();
+
+      // Chia checkedDishIDs thành 10 mảnh để query
+      List<List<String?>> idChunks = [];
+      for (int i = 0; i < checkedDishIDs.length; i += 10) {
+        idChunks.add(checkedDishIDs.sublist(i,
+            i + 10 < checkedDishIDs.length ? i + 10 : checkedDishIDs.length));
+      }
+
+      //Query và xoá các món có trong giỏ hàng khi đã đặt hàng
+      for (final chunk in idChunks) {
+        final cartsToDelete = await refCarts
+            .where('DishID', whereIn: chunk)
+            .where('UserID', isEqualTo: user?.uid)
+            .get();
+
+        if (cartsToDelete.docs.isNotEmpty) {
+          for (final doc in cartsToDelete.docs) {
+            await doc.reference.delete();
+          }
         }
       }
     }

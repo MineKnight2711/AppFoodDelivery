@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../controller/changepassword_employee.dart';
+import '../../../controller/admincontrollers/changepassword_employee.dart';
 import '../../../widgets/employee_manament/change_password.dart';
 import '../../../widgets/transitions_animations.dart';
 

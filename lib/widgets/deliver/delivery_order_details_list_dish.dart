@@ -1,12 +1,12 @@
-import 'package:app_food_2023/controller/admincontrollers/order_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/customercontrollers/cart.dart';
+import '../../controller/delivercontrollers/order_details_controller.dart';
 import '../../model/dishes_model.dart';
 
-class OrderDetailsInfor extends StatelessWidget {
-  final controller = Get.find<OrderDetailsController>();
+class DeliveryOrderDetailsDishes extends StatelessWidget {
+  final controller = Get.find<DeliveryOrderDetailsController>();
   @override
   Widget build(BuildContext context) {
     controller.getOrderDetails();

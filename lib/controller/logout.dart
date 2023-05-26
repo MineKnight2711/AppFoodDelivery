@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/loading_screen/logout_loading.dart';
 import '../widgets/message.dart';
 import '../widgets/transitions_animations.dart';
-import 'edit_employee.dart';
+import 'admincontrollers/edit_employee.dart';
 
 Future logOut(BuildContext context) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();

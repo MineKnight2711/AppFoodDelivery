@@ -1,40 +1,14 @@
-import 'package:app_food_2023/controller/view_my_order.dart';
+import 'package:app_food_2023/controller/customercontrollers/view_my_order.dart';
 
 import 'package:app_food_2023/widgets/appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/cart.dart';
+import '../../../controller/customercontrollers/cart.dart';
 import '../../../widgets/order_manament/customer_orderdetails.dart';
 
 class OrdersScreen extends StatelessWidget {
-  // final List<Map<String, dynamic>> orders = [
-  //   {
-  //     'UserID': 'user1',
-  //     'DeliverID': 'deliver1',
-  //     'VoucherID': 'voucher1',
-  //     'PaymentStatus': true,
-  //     'OrderStatus': 'Delivered',
-  //     'OrderDate': DateTime.now(),
-  //     'Total': 99.99,
-  //     'Amount': 1,
-  //     'PaymentMethod': 'Credit Card',
-  //     'DeliveryAddress': '123 Main St, Anytown, USA',
-  //   },
-  //   {
-  //     'UserID': 'user2',
-  //     'DeliverID': 'deliver2',
-  //     'VoucherID': 'voucher2',
-  //     'PaymentStatus': false,
-  //     'OrderStatus': 'Pending',
-  //     'OrderDate': DateTime.now().subtract(Duration(days: 1)),
-  //     'Total': 49.99,
-  //     'Amount': 2,
-  //     'PaymentMethod': 'PayPal',
-  //     'DeliveryAddress': '456 Elm St, Anytown, USA',
-  //   },
-  // ];
   final ordercontroller = Get.find<MyOrderController>();
   @override
   Widget build(BuildContext context) {
@@ -52,6 +26,7 @@ class OrdersScreen extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final order = snapshot.data![index];
+                ordercontroller.loadOrderDetails(order.id);
                 return ListTile(
                   title: Row(
                     children: [
@@ -75,8 +50,9 @@ class OrdersScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     // Navigate to order details screen
+
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -88,11 +64,9 @@ class OrdersScreen extends StatelessWidget {
                       ),
                       backgroundColor: Colors.white,
                       builder: (BuildContext context) {
-                        return SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(),
-                            child: OrderDetailsBottomSheet(
-                              doc: order,
-                            ));
+                        return OrderDetailsBottomSheet(
+                          doc: order,
+                        );
                       },
                     );
                   },

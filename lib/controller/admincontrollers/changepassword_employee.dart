@@ -1,8 +1,8 @@
-import 'package:app_food_2023/controller/edit_employee.dart';
+import 'package:app_food_2023/controller/admincontrollers/edit_employee.dart';
 import 'package:app_food_2023/widgets/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../appstyle/succes_messages/success_style.dart';
+import '../../appstyle/succes_messages/success_style.dart';
 
 bool validatePass = false, validatePassConfirm = false;
 String phoneNumber = '';

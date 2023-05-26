@@ -1,11 +1,18 @@
-import 'package:app_food_2023/controller/edit_employee.dart';
+import 'package:app_food_2023/controller/admincontrollers/edit_customer.dart';
+import 'package:app_food_2023/controller/delivercontrollers/list_order_controller.dart';
 import 'package:app_food_2023/controller/logout.dart';
+import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/screens/customer/setting_profile/babstrap_settings_screen.dart';
+import 'package:app_food_2023/screens/deliver/setting_profile/change_password_deliver.dart';
+import 'package:app_food_2023/screens/deliver/setting_profile/delivery_order/on_delivery.dart';
 import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../admin/employee_manager/edit_current_employees.dart';
+import 'delivery_order/delivery_succes.dart';
+import 'delivery_order/list_order.dart';
 
 class DeliverySetting extends StatelessWidget {
   const DeliverySetting({Key? key}) : super(key: key);
@@ -79,11 +86,10 @@ class DeliverySetting extends StatelessWidget {
             // User card
             BigUserCard(
               backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-              userName:
-                  "${loggedInEmployee?.LastName} ${loggedInEmployee?.FirstName}",
-              email: "${loggedInEmployee?.Email}",
-              userProfilePic: loggedInEmployee != null
-                  ? Image.network(loggedInEmployee!.Avatar.toString()).image
+              userName: "${loggedInUser?.LastName} ${loggedInUser?.FirstName}",
+              email: "${loggedInUser?.Email}",
+              userProfilePic: loggedInUser != null
+                  ? Image.network(loggedInUser!.Avatar.toString()).image
                   : AssetImage("assets/images/profile.png"),
               cardActionWidget: SettingsItem(
                 icons: Icons.edit,
@@ -102,7 +108,11 @@ class DeliverySetting extends StatelessWidget {
             SettingsGroup(
               items: [
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    Get.put(EditCustomerController());
+                    slideinTransition(context, ChangePasswordDeliver());
+                    print('Hello World');
+                  },
                   icons: Icons.lock_person_outlined,
                   iconStyle: IconStyle(
                     backgroundColor: Color.fromARGB(255, 215, 34, 34),
@@ -111,7 +121,10 @@ class DeliverySetting extends StatelessWidget {
                   subtitle: "Thay đổi mật khẩu người dùng",
                 ),
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    Get.put(EditCustomerController());
+                    slideinTransition(context, ChangePasswordDeliver());
+                  },
                   icons: Icons.dark_mode_rounded,
                   iconStyle: IconStyle(
                     iconsColor: Colors.white,
@@ -132,14 +145,20 @@ class DeliverySetting extends StatelessWidget {
               settingsGroupTitle: "Vận Đơn",
               items: [
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    Get.put(DeliveryOrdersController());
+                    slideinTransition(context, DeliverListOrder());
+                  },
                   icons: CupertinoIcons.text_badge_checkmark,
                   iconStyle: IconStyle(),
                   title: 'Đơn hàng',
                   subtitle: "Danh sách các đơn cần vận chuyển",
                 ),
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    Get.put(DeliveryOrdersController());
+                    slideinTransition(context, OnDeliverListOrder());
+                  },
                   icons: Icons.pedal_bike_outlined,
                   iconStyle: IconStyle(
                     backgroundColor: Color.fromARGB(255, 203, 21, 176),
@@ -148,7 +167,10 @@ class DeliverySetting extends StatelessWidget {
                   subtitle: "Xem đơn hàng đang vận chuyển",
                 ),
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    Get.put(DeliveryOrdersController());
+                    slideinTransition(context, SuccessDeliverListOrder());
+                  },
                   icons: Icons.check_circle_outline_outlined,
                   iconStyle: IconStyle(
                     backgroundColor: Color.fromARGB(255, 8, 188, 152),

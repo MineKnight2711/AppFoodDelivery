@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/edit_specific_employee.dart';
+import '../../../controller/admincontrollers/edit_specific_employee.dart';
 
 class ChangeRoleEmployees extends StatelessWidget {
   final DocumentSnapshot doc;

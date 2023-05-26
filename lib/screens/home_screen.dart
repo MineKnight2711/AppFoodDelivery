@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:app_food_2023/controller/check_out.dart';
+import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
 import 'package:app_food_2023/screens/customer/cart_view.dart';
 import 'package:app_food_2023/screens/customer/food_details.dart';
+import 'package:app_food_2023/screens/customer/viewdish_by_category.dart';
 
 import 'package:app_food_2023/screens/login_register/login_screen.dart';
 
@@ -198,7 +199,7 @@ class AppHomeScreen extends StatelessWidget {
                                               horizontal: 5),
                                           child: categoryViewCard(() {
                                             slideupTransition(context,
-                                                FoodViewDetails(category));
+                                                DishByCategory(category));
                                           }, category),
 
                                           // snapshot.data!.docs
@@ -235,7 +236,6 @@ class AppHomeScreen extends StatelessWidget {
                       final Orientation orientation =
                           MediaQuery.of(context).orientation;
                       return Expanded(
-                        // height: MediaHeight(context, 2),
                         child: ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           controller: _scrollController,
@@ -245,12 +245,7 @@ class AppHomeScreen extends StatelessWidget {
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             final dish = snapshot.data!.docs[index];
-                            // final currentScrollPosition =
-                            //     _scrollController.position.pixels;
-                            // double _previousScrollPosition = 0.0;
-                            // final shouldHide =
-                            //     currentScrollPosition > _previousScrollPosition;
-                            // _previousScrollPosition = currentScrollPosition;
+
                             return Align(
                               heightFactor: 1,
                               alignment: Alignment.topCenter,

@@ -1,5 +1,5 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
-import 'package:app_food_2023/controller/check_out.dart';
+import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
 import 'package:app_food_2023/screens/customer/cart_view.dart';
 import 'package:app_food_2023/screens/customer/coupons_list.dart';
 
@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 import '../../api/seach_place.dart';
-import '../../controller/cart.dart';
+import '../../controller/customercontrollers/cart.dart';
 
 import '../../widgets/check_out/check_out_list_dish.dart';
 

@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../controller/cart.dart';
-import '../../controller/check_out.dart';
+import '../../controller/customercontrollers/cart.dart';
+import '../../controller/customercontrollers/check_out.dart';
 import '../../model/cart_model.dart';
 import '../../widgets/cart_view/cart_screen.dart';
 import '../../widgets/popups.dart';

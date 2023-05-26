@@ -6,7 +6,7 @@ import 'package:app_food_2023/widgets/select_image/image_select.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/edit_employee.dart';
+import '../../../controller/admincontrollers/edit_employee.dart';
 
 import '../../../controller/employee.dart';
 import '../../../widgets/employee_manament/datetime_picker.dart';

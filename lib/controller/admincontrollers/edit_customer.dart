@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../widgets/message.dart';
+import '../../widgets/message.dart';
 
 class EditCustomerController extends GetxController {
   Rx<UserModel?> currentCustomer = Rx<UserModel?>(null);
@@ -115,9 +115,12 @@ class EditCustomerController extends GetxController {
     if (!checkUserAuthencation()) {
       if (newpassword.value != reenterpasswrod.value) {
         return "Mật khẩu không khớp";
-      } else if (oldpassword.value == "" ||
-          newpassword.value == "" ||
-          reenterpasswrod.value == "")
+      } else if ((oldpassword.value == "" ||
+              newpassword.value == "" ||
+              reenterpasswrod.value == "") ||
+          (oldpassword.value == null ||
+              newpassword.value == null ||
+              reenterpasswrod.value == null))
         return "Vui lòng nhập đầy đủ thông tin!!";
       else {
         validatePassConfirm.value = true;

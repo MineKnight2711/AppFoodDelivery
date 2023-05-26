@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_food_2023/controller/cart.dart';
+import 'package:app_food_2023/controller/customercontrollers/cart.dart';
 import '../../controller/user.dart';
 import '../../model/UserModel.dart';
 import '../../model/dishes_model.dart';

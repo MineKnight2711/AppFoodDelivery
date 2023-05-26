@@ -29,46 +29,50 @@ class SettingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(15),
-      child: ListTile(
-        onTap: onTap,
-        leading: (iconStyle != null && iconStyle!.withBackground!)
-            ? Container(
-                decoration: BoxDecoration(
-                  color: iconStyle!.backgroundColor,
-                  borderRadius: BorderRadius.circular(iconStyle!.borderRadius!),
+    return InkWell(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: ListTile(
+          leading: (iconStyle != null && iconStyle!.withBackground!)
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: iconStyle!.backgroundColor,
+                    borderRadius:
+                        BorderRadius.circular(iconStyle!.borderRadius!),
+                  ),
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(
+                    icons,
+                    size: SettingsScreenUtils.settingsGroupIconSize,
+                    color: iconStyle!.iconsColor,
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Icon(
+                    icons,
+                    size: SettingsScreenUtils.settingsGroupIconSize,
+                  ),
                 ),
-                padding: const EdgeInsets.all(4),
-                child: Icon(
-                  icons,
-                  size: SettingsScreenUtils.settingsGroupIconSize,
-                  color: iconStyle!.iconsColor,
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(5),
-                child: Icon(
-                  icons,
-                  size: SettingsScreenUtils.settingsGroupIconSize,
-                ),
-              ),
-        title: Text(
-          title,
-          style: titleStyle ?? const TextStyle(fontWeight: FontWeight.bold),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          title: Text(
+            title,
+            style: titleStyle ?? const TextStyle(fontWeight: FontWeight.bold),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: (subtitle != null)
+              ? Text(
+                  subtitle!,
+                  style:
+                      subtitleStyle ?? Theme.of(context).textTheme.bodyMedium!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              : null,
+          trailing:
+              (trailing != null) ? trailing : const Icon(Icons.navigate_next),
         ),
-        subtitle: (subtitle != null)
-            ? Text(
-                subtitle!,
-                style: subtitleStyle ?? Theme.of(context).textTheme.bodyMedium!,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )
-            : null,
-        trailing:
-            (trailing != null) ? trailing : const Icon(Icons.navigate_next),
       ),
     );
   }

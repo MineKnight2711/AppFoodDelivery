@@ -6,12 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../appstyle/error_messages/error_style.dart';
-import '../model/cart_model.dart';
+import '../../appstyle/error_messages/error_style.dart';
+import '../../model/cart_model.dart';
 
-import '../model/dishes_model.dart';
-import '../screens/home_screen.dart';
-import '../widgets/popups.dart';
+import '../../model/dishes_model.dart';
+import '../../screens/home_screen.dart';
+import '../../widgets/popups.dart';
 
 List<CartItem>? cartItems = [];
 Timer? timer;
@@ -147,7 +147,7 @@ void increaseQuantity(String? dishID) async {
     int newQuantity = oldQuantity + 1;
     double dishPrice = total / oldQuantity;
     double newTotal = dishPrice * newQuantity;
-    if (checkedItems.isNotEmpty) {
+    if (checkedItems.where((element) => element.dishID == dishID).isNotEmpty) {
       CartItem cartItemToUpdate =
           checkedItems.firstWhere((item) => item.dishID == dishID);
       checkedItems.remove(cartItemToUpdate);
@@ -194,12 +194,17 @@ decreaseQuantity(String? dishID) async {
         "Total": newTotal,
         "Quantity": newQuantity,
       });
-      CartItem cartItemToUpdate =
-          checkedItems.firstWhere((item) => item.dishID == dishID);
-      checkedItems.remove(cartItemToUpdate);
-      cartItemToUpdate.quantity = newQuantity;
-      cartItemToUpdate.total = newTotal;
-      checkedItems.add(cartItemToUpdate);
+      if (checkedItems
+          .where((element) => element.dishID == dishID)
+          .isNotEmpty) {
+        CartItem cartItemToUpdate =
+            checkedItems.firstWhere((item) => item.dishID == dishID);
+        checkedItems.remove(cartItemToUpdate);
+        cartItemToUpdate.quantity = newQuantity;
+        cartItemToUpdate.total = newTotal;
+        checkedItems.add(cartItemToUpdate);
+      }
+
       updateCartTotalStream();
     }
   }

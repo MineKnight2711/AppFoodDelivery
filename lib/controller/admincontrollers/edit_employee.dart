@@ -7,8 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../model/UserModel.dart';
-import 'employee.dart';
+import '../../model/UserModel.dart';
+import '../employee.dart';
 
 File? current_image;
 DateTime? dateTimeEmpolyee;

@@ -68,6 +68,7 @@ dependencies:
   uuid: ^3.0.7
   image_cropper: ^3.0.3
   geocoding: ^2.1.0
+  scroll_edge_listener: ^0.1.1
 
 
 

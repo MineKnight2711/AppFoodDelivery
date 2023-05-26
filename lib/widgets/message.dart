@@ -31,7 +31,8 @@ class CustomSuccessMessage {
 
 class CustomSnackBar {
   static void showCustomSnackBar(
-      BuildContext context, String message, int duration) {
+      BuildContext context, String message, int duration,
+      {Color backgroundColor = Colors.blue}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -42,11 +43,51 @@ class CustomSnackBar {
           ),
         ),
         duration: Duration(seconds: duration),
-        backgroundColor: Colors.blue,
+        backgroundColor: backgroundColor,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
+      ),
+    );
+  }
+}
+
+class CustomAlertDialog extends StatelessWidget {
+  final String content;
+  final String? title;
+
+  const CustomAlertDialog({required this.content, this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+        dialogBackgroundColor: Colors.white,
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(
+            fontSize: 16.0,
+            color: Colors.grey[800],
+          ),
+        ),
+        buttonTheme: ButtonThemeData(
+          textTheme: ButtonTextTheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+        ),
+      ),
+      child: AlertDialog(
+        title: Text(title ?? ''),
+        content: Text(content),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
       ),
     );
   }

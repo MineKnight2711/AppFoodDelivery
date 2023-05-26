@@ -1,37 +1,37 @@
-import 'package:app_food_2023/controller/admincontrollers/order_details.dart';
-import 'package:app_food_2023/controller/admincontrollers/order.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../controller/customercontrollers/cart.dart';
-import '../../screens/admin/order_manager/deliver_select_order_details.dart';
+import '../../controller/delivercontrollers/list_order_controller.dart';
+import '../../controller/delivercontrollers/order_details_controller.dart';
 import '../../screens/admin/order_manager/order_class.dart';
 
-class AssignedToDeliver extends StatelessWidget {
-  AssignedToDeliver({super.key});
-  final _controller = Get.find<OrderController>();
+import '../../screens/deliver/setting_profile/delivery_order/on_delivery_order_details.dart';
+import '../transitions_animations.dart';
+
+class OnDeliveryOrders extends StatelessWidget {
+  OnDeliveryOrders({super.key});
+  final _controller = Get.find<DeliveryOrdersController>();
   @override
   Widget build(BuildContext context) {
-    _controller.assignedToDeliverQuery();
+    _controller.onDeliveryQuery();
     return Obx(() {
-      if (_controller.assignToDeliverOrders.value != null) {
+      if (_controller.onDeliveryOrders.value != null) {
         return Center(
           child: ListView.builder(
-            itemCount: _controller.assignToDeliverOrders.value!.length,
+            itemCount: _controller.onDeliveryOrders.value!.length,
             itemBuilder: (context, index) {
               DocumentSnapshot order =
-                  _controller.assignToDeliverOrders.value![index];
+                  _controller.onDeliveryOrders.value![index];
 
               return InkWell(
                 onTap: () async {
-                  Get.put(OrderDetailsController(order.id));
+                  Get.put(DeliveryOrderDetailsController(order.id));
                   OrderData orderData = await _controller.getOrderData(order);
                   slideinTransition(
                     context,
-                    OrderListScreen(orderData: orderData),
+                    OnDeliverOrderDetailsScreen(orderData: orderData),
                   );
                 },
                 child: Container(
@@ -71,7 +71,7 @@ class AssignedToDeliver extends StatelessWidget {
                       ),
                       SizedBox(height: 8.0),
                       FutureBuilder<String>(
-                        future: _controller.getUserName(order['UserID']),
+                        future: _controller.getCustomerName(order['UserID']),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Text(

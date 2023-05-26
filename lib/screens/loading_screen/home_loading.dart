@@ -1,5 +1,5 @@
-import 'package:app_food_2023/controller/cart.dart';
-import 'package:app_food_2023/controller/check_out.dart';
+import 'package:app_food_2023/controller/customercontrollers/cart.dart';
+import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
 import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

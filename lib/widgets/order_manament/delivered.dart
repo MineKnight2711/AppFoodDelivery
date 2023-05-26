@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/cart.dart';
-import '../../controller/order.dart';
-import '../../controller/order_details.dart';
+import '../../controller/customercontrollers/cart.dart';
+import '../../controller/admincontrollers/order.dart';
+import '../../controller/admincontrollers/order_details.dart';
 import '../../screens/admin/order_manager/order_class.dart';
-import '../../screens/admin/order_manager/select_delivery.dart';
+import '../../screens/admin/order_manager/deliver_select_order_details.dart';
 import '../transitions_animations.dart';
 
 class Delivered extends StatelessWidget {

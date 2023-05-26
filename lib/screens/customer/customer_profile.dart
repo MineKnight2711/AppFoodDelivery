@@ -1,4 +1,4 @@
-import 'package:app_food_2023/controller/edit_customer.dart';
+import 'package:app_food_2023/controller/admincontrollers/edit_customer.dart';
 import 'package:app_food_2023/widgets/appbar.dart';
 import 'package:app_food_2023/widgets/employee_manament/gender_chose.dart';
 

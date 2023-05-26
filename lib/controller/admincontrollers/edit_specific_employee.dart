@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
-import '../widgets/message.dart';
+import '../../widgets/message.dart';
 
 class EditSpecificEmployeeController extends GetxController {
   RxString docId = RxString('');

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../appstyle/screensize_aspectratio/mediaquery.dart';
-import '../../controller/cart.dart';
+import '../../controller/customercontrollers/cart.dart';
 
 class CartViewDishImage extends StatelessWidget {
   final String imageUrl;
@@ -143,13 +143,13 @@ class _CartItemQuantityState extends State<CartItemQuantity> {
                         splashColor: Colors.white,
                         onTap: () async {
                           if (widget.initialQuantity <= 1) {
-                            setState(() {
-                              checkedItems.removeWhere(
-                                  (element) => element.dishID == widget.itemId);
-                              cartItems!.removeWhere(
-                                (element) => element.dishID == widget.itemId,
-                              );
-                            });
+                            // setState(() {
+                            //   checkedItems.removeWhere(
+                            //       (element) => element.dishID == widget.itemId);
+                            //   cartItems!.removeWhere(
+                            //     (element) => element.dishID == widget.itemId,
+                            //   );
+                            // });
                           }
                           setState(() {
                             decreaseQuantity(widget.itemId);

@@ -1,14 +1,15 @@
-import 'package:app_food_2023/controller/order_details.dart';
-import 'package:app_food_2023/controller/order.dart';
+import 'package:app_food_2023/controller/admincontrollers/order_details.dart';
+import 'package:app_food_2023/controller/admincontrollers/order.dart';
+import 'package:app_food_2023/controller/delivercontrollers/list_order_controller.dart';
 import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
-import '../../controller/cart.dart';
+import '../../controller/customercontrollers/cart.dart';
 import '../../screens/admin/order_manager/order_class.dart';
-import '../../screens/admin/order_manager/select_delivery.dart';
+import '../../screens/admin/order_manager/deliver_select_order_details.dart';
 
 class OnDelivery extends StatelessWidget {
   OnDelivery({super.key});
