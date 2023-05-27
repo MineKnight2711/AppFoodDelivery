@@ -11,7 +11,7 @@ import '../../model/cart_model.dart';
 
 import '../../model/dishes_model.dart';
 import '../../screens/home_screen.dart';
-import '../../widgets/popups.dart';
+import '../../widgets/custom_widgets/popups.dart';
 
 List<CartItem>? cartItems = [];
 Timer? timer;

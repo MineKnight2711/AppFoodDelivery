@@ -1,10 +1,10 @@
-import 'package:app_food_2023/widgets/order_manament/assigned_to_deliver.dart';
-import 'package:app_food_2023/widgets/order_manament/delivered.dart';
-import 'package:app_food_2023/widgets/order_manament/on_delivery.dart';
+import 'package:app_food_2023/widgets/admin/order_manament/assigned_to_deliver.dart';
+import 'package:app_food_2023/widgets/admin/order_manament/delivered.dart';
+import 'package:app_food_2023/widgets/admin/order_manament/on_delivery.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../widgets/order_manament/unconfirm_orders.dart';
+import '../../../widgets/admin/order_manament/unconfirm_orders.dart';
 
 class ListOrderPage extends StatefulWidget {
   const ListOrderPage({Key? key}) : super(key: key);

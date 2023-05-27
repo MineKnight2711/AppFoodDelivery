@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_edge_listener/scroll_edge_listener.dart';
 
-import '../../controller/customercontrollers/cart.dart';
-import '../../controller/customercontrollers/view_my_order.dart';
+import '../../../controller/customercontrollers/cart.dart';
+import '../../../controller/customercontrollers/view_my_order.dart';
 
 class OrderDetailsBottomSheet extends StatelessWidget {
   final DocumentSnapshot doc;

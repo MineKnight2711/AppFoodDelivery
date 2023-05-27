@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/home_screen.dart';
+import '../../screens/home_screen.dart';
 
 void zoominTransition(BuildContext context, Widget widget) async {
   Navigator.pushAndRemoveUntil<dynamic>(

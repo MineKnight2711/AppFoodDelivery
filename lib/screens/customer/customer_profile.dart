@@ -1,16 +1,16 @@
 import 'package:app_food_2023/controller/admincontrollers/edit_customer.dart';
-import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/employee_manament/gender_chose.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/gender_chose.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import '../../controller/user.dart';
-import '../../widgets/employee_manament/datetime_picker.dart';
-import '../../widgets/employee_manament/employee_widgets.dart';
-import '../../widgets/message.dart';
-import '../../widgets/select_image/image_select.dart';
+import '../../widgets/admin/employee_manament/datetime_picker.dart';
+import '../../widgets/admin/employee_manament/employee_widgets.dart';
+import '../../widgets/custom_widgets/message.dart';
+import '../../widgets/select_image_constant/image_select.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);

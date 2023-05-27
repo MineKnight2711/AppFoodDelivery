@@ -1,8 +1,8 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/model/dishes_model.dart';
 import 'package:app_food_2023/screens/home_screen.dart';
-import 'package:app_food_2023/widgets/message.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../controller/customercontrollers/cart.dart';
 import '../../controller/customercontrollers/check_out.dart';
 import '../../model/cart_model.dart';
-import '../../widgets/cart_view/cart_screen.dart';
-import '../../widgets/popups.dart';
+import '../../widgets/customer/cart_view/cart_screen.dart';
+import '../../widgets/custom_widgets/popups.dart';
 import 'check_out.dart';
 
 class CardScreenView extends StatefulWidget {

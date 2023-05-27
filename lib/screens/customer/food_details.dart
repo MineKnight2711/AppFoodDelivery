@@ -1,7 +1,7 @@
 import 'package:app_food_2023/appstyle/error_messages/error_style.dart';
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 
-import 'package:app_food_2023/widgets/show_rating.dart';
+import 'package:app_food_2023/widgets/custom_widgets/show_rating.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +13,8 @@ import 'package:app_food_2023/controller/customercontrollers/cart.dart';
 import '../../controller/user.dart';
 import '../../model/UserModel.dart';
 import '../../model/dishes_model.dart';
-import '../../widgets/feedback_dialogs.dart';
-import '../../widgets/rating_card.dart';
+import '../../widgets/customer/feedback_dialogs.dart';
+import '../../widgets/list_view_cards/rating_card.dart';
 import '../home_screen.dart';
 
 // ignore: must_be_immutable

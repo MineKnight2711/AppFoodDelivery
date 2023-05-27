@@ -1,7 +1,7 @@
 import 'package:app_food_2023/model/deliver_model.dart';
 import 'package:app_food_2023/model/dishes_model.dart';
 import 'package:app_food_2023/model/order_details_model.dart';
-import 'package:app_food_2023/widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

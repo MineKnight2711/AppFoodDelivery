@@ -8,7 +8,7 @@ import '../../controller/delivercontrollers/order_details_controller.dart';
 import '../../screens/admin/order_manager/order_class.dart';
 
 import '../../screens/deliver/setting_profile/delivery_order/on_delivery_order_details.dart';
-import '../transitions_animations.dart';
+import '../custom_widgets/transitions_animations.dart';
 
 class OnDeliveryOrders extends StatelessWidget {
   OnDeliveryOrders({super.key});

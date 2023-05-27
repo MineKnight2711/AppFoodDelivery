@@ -1,7 +1,7 @@
 import 'package:app_food_2023/controller/delivercontrollers/list_order_controller.dart';
 import 'package:app_food_2023/controller/delivercontrollers/order_details_controller.dart';
 import 'package:app_food_2023/screens/deliver/setting_profile/delivery_order/delivery_order_details.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

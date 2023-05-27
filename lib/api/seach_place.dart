@@ -1,5 +1,5 @@
 import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
-import 'package:app_food_2023/widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/map/my_location_widget.dart';
 import '../widgets/map/map_widgets.dart';
-import '../widgets/message.dart';
+import '../widgets/custom_widgets/message.dart';
 
 class AddressPage extends StatefulWidget {
   AddressPage({Key? key}) : super(key: key);

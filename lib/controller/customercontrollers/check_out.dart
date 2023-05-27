@@ -10,9 +10,9 @@ import '../../model/order_details_model.dart';
 import '../../model/order_model.dart';
 import '../../screens/customer/payment_method.dart';
 import '../../screens/home_screen.dart';
-import '../../widgets/check_out/order_sucess.dart';
-import '../../widgets/message.dart';
-import '../../widgets/transitions_animations.dart';
+import '../../widgets/customer/check_out/order_sucess.dart';
+import '../../widgets/custom_widgets/message.dart';
+import '../../widgets/custom_widgets/transitions_animations.dart';
 import 'cart.dart';
 
 class CheckOutController extends GetxController {

@@ -8,7 +8,7 @@ import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platf
 import '../../api/google_map/keys.dart';
 import '../../api/google_map/src/models/pick_result.dart';
 import '../../api/google_map/src/place_picker.dart';
-import '../message.dart';
+import '../custom_widgets/message.dart';
 
 class PlacePickerIconButton extends StatefulWidget {
   final GoogleMapsFlutterPlatform mapsImplementation =

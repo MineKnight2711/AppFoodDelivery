@@ -5,13 +5,13 @@ import 'package:app_food_2023/screens/customer/customer_profile.dart';
 import 'package:app_food_2023/screens/customer/order/order.dart';
 import 'package:app_food_2023/screens/customer/setting_profile/babstrap_settings_screen.dart';
 import 'package:app_food_2023/screens/home_screen.dart';
-import 'package:app_food_2023/widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/logout.dart';
-import '../../../widgets/transitions_animations.dart';
+import '../../../widgets/custom_widgets/transitions_animations.dart';
 import '../change_password_customer.dart';
 
 class CustomerSetting extends StatelessWidget {

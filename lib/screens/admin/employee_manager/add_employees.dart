@@ -1,16 +1,16 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/controller/admincontrollers/add_employee.dart';
 
-import 'package:app_food_2023/widgets/employee_manament/datetime_picker.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/datetime_picker.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../widgets/appbar.dart';
-import '../../../widgets/employee_manament/gender_chose.dart';
-import '../../../widgets/select_image/image_select.dart';
+import '../../../widgets/custom_widgets/appbar.dart';
+import '../../../widgets/admin/employee_manament/gender_chose.dart';
+import '../../../widgets/select_image_constant/image_select.dart';
 
 class AddEmployees extends StatefulWidget {
   @override

@@ -9,7 +9,7 @@ import '../../controller/user.dart';
 import '../../model/UserModel.dart';
 
 import '../../screens/customer/setting_profile/customer_settings.dart';
-import '../transitions_animations.dart';
+import '../custom_widgets/transitions_animations.dart';
 
 Widget customerAvatar(BuildContext context) {
   return InkWell(

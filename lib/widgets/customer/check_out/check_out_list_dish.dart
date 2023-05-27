@@ -4,7 +4,7 @@ import 'package:app_food_2023/model/dishes_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/customercontrollers/check_out.dart';
+import '../../../controller/customercontrollers/check_out.dart';
 
 class CheckedItemsWidget extends StatelessWidget {
   final controller = Get.find<CheckOutController>();

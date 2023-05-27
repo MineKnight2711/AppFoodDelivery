@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../appstyle/screensize_aspectratio/mediaquery.dart';
+import '../../../appstyle/screensize_aspectratio/mediaquery.dart';
 
 class MyTitleTextFieldWidget extends StatelessWidget {
   final String title;

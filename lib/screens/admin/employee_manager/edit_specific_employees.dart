@@ -1,8 +1,8 @@
-import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/employee_manament/datetime_picker.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/message.dart';
-import 'package:app_food_2023/widgets/select_image/image_select.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/datetime_picker.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
+import 'package:app_food_2023/widgets/select_image_constant/image_select.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 

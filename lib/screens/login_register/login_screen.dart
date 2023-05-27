@@ -2,8 +2,8 @@ import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/screens/loading_screen/login_loading.dart';
 import 'package:app_food_2023/screens/login_register/register_screen.dart';
 import 'package:app_food_2023/util/upload_default_image.dart';
-import 'package:app_food_2023/widgets/message.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -51,12 +51,12 @@ class _LoginScreenState extends State<LoginScreen> {
         keyboardType: TextInputType.emailAddress,
         validator: (value) {
           if (value!.isEmpty) {
-            return ("Please Enter Your Email");
+            return ("Email trống!!");
           }
           // reg expression for email validation
           if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
               .hasMatch(value)) {
-            return ("Please Enter a valid email");
+            return ("Email không đúng (1)");
           }
           return null;
         },
@@ -81,10 +81,10 @@ class _LoginScreenState extends State<LoginScreen> {
         validator: (value) {
           RegExp regex = new RegExp(r'^.{6,}$');
           if (value!.isEmpty) {
-            return ("Password is required for login");
+            return ("Mật khẩu trống!!");
           }
           if (!regex.hasMatch(value)) {
-            return ("Enter Valid Password(Min. 6 Character)");
+            return ("Pass không đúng (1)");
           }
           return null;
         },
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Password",
+          hintText: "Mật khẩu",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),

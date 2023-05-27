@@ -7,8 +7,8 @@ import 'package:app_food_2023/screens/customer/viewdish_by_category.dart';
 
 import 'package:app_food_2023/screens/login_register/login_screen.dart';
 
-import 'package:app_food_2023/widgets/category_view_card.dart';
-import 'package:app_food_2023/widgets/food_view_card.dart';
+import 'package:app_food_2023/widgets/list_view_cards/category_view_card.dart';
+import 'package:app_food_2023/widgets/list_view_cards/food_view_card.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,8 +19,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controller/user.dart' as u;
 import 'package:rxdart/rxdart.dart' as rx;
 
-import '../widgets/popups.dart';
-import '../widgets/transitions_animations.dart';
+import '../widgets/custom_widgets/popups.dart';
+import '../widgets/custom_widgets/transitions_animations.dart';
 
 class HomeScreenController extends GetxController {
   Rx<double> topcontainer = Rx<double>(0.0);
@@ -63,6 +63,11 @@ class HomeScreenController extends GetxController {
     } else if (selectedindex.value == 0) {
       slideinTransitionNoBack(context, AppHomeScreen());
     }
+  }
+
+  Future<void> refresh() async {
+    await getCategorySnapshots();
+    await getDishesSnapshots();
   }
 }
 
@@ -154,121 +159,14 @@ class AppHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              StreamBuilder<double>(
-                stream: _scrollOffset,
-                builder: (context, snapshot) {
-                  final scrollOffset = snapshot.data ?? 0.0;
-                  final shouldCloseContainer =
-                      scrollOffset > (categoryHeight - 50);
-                  return AnimatedOpacity(
-                    duration: Duration(milliseconds: 200),
-                    opacity: shouldCloseContainer ? 0.0 : 1.0,
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      width: size.width,
-                      alignment: Alignment.topCenter,
-                      height: shouldCloseContainer ? 0 : categoryHeight,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        alignment: Alignment.topCenter,
-                        child: Column(children: [
-                          Container(
-                            width: size.width,
-                            height: categoryHeight,
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: StreamBuilder<QuerySnapshot>(
-                              stream: controller.categories.value,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                                if (snapshot.hasData) {
-                                  return ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      itemExtent: 150,
-                                      itemCount: snapshot.data!.docs.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final category =
-                                            snapshot.data!.docs[index];
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          child: categoryViewCard(() {
-                                            slideupTransition(context,
-                                                DishByCategory(category));
-                                          }, category),
-
-                                          // snapshot.data!.docs
-                                          //     .map((category) => categoryViewCard(() {
-                                          //           fadeinTransition(context,
-                                          //               DishByCategory(category));
-                                          //         }, category))
-                                          //     .toList(),
-                                        );
-                                      });
-                                }
-                                return Text("Không tìm thấy danh mục",
-                                    style: GoogleFonts.nunito(
-                                        color: Colors.white));
-                              },
-                            ),
-                          ),
-                        ]),
-                      ),
-                    ),
-                  );
-                },
-              ),
-
-              StreamBuilder<QuerySnapshot>(
+              CatorigesViewStreamBuilder(
+                  scrollOffset: _scrollOffset,
+                  categoryHeight: categoryHeight,
+                  stream: controller.categories.value),
+              DishesViewStreamBuilder(
                   stream: controller.dishes.value,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      final Orientation orientation =
-                          MediaQuery.of(context).orientation;
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          controller: _scrollController,
-                          scrollDirection: (orientation == Orientation.portrait)
-                              ? Axis.vertical
-                              : Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final dish = snapshot.data!.docs[index];
-
-                            return Align(
-                              heightFactor: 1,
-                              alignment: Alignment.topCenter,
-                              child: Padding(
-                                padding: EdgeInsets.all(
-                                    (orientation == Orientation.portrait)
-                                        ? 10
-                                        : 8),
-                                child: foodViewCard(context, () {
-                                  slideupTransition(
-                                      context, FoodViewDetails(dish));
-                                }, dish),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                    return Text("Chưa có món :((",
-                        style: GoogleFonts.nunito(color: Colors.white));
-                  }),
-
-              // SizedBox(height: 50),
+                  onRefresh: controller.refresh,
+                  scrollController: _scrollController),
             ],
           ),
           bottomNavigationBar: MyBottomNavigationBar(
@@ -277,6 +175,138 @@ class AppHomeScreen extends StatelessWidget {
           ),
         );
       }),
+    );
+  }
+}
+
+class CatorigesViewStreamBuilder extends StatelessWidget {
+  final rx.BehaviorSubject<double> scrollOffset;
+  final double categoryHeight;
+  final Stream<QuerySnapshot>? stream;
+  const CatorigesViewStreamBuilder(
+      {required this.scrollOffset,
+      required this.categoryHeight,
+      required this.stream,
+      super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return StreamBuilder<double>(
+      stream: scrollOffset,
+      builder: (context, snapshot) {
+        final scrollOffset = snapshot.data ?? 0.0;
+        final shouldCloseContainer = scrollOffset > (categoryHeight - 50);
+        return AnimatedOpacity(
+          duration: Duration(milliseconds: 200),
+          opacity: shouldCloseContainer ? 0.0 : 1.0,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            width: size.width,
+            alignment: Alignment.topCenter,
+            height: shouldCloseContainer ? 0 : categoryHeight,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              alignment: Alignment.topCenter,
+              child: Column(children: [
+                Container(
+                  width: size.width,
+                  height: categoryHeight,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: stream,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemExtent: 150,
+                            itemCount: snapshot.data!.docs.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final category = snapshot.data!.docs[index];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: categoryViewCard(() {
+                                  slideupTransition(
+                                      context, DishByCategory(category));
+                                }, category),
+                              );
+                            });
+                      }
+                      return Text("Không tìm thấy danh mục",
+                          style: GoogleFonts.nunito(color: Colors.white));
+                    },
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DishesViewStreamBuilder extends StatelessWidget {
+  final Stream<QuerySnapshot>? stream;
+  final Future<void> Function() onRefresh;
+  final ScrollController? scrollController;
+  const DishesViewStreamBuilder(
+      {required this.stream,
+      required this.onRefresh,
+      required this.scrollController,
+      super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: stream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasData) {
+          final Orientation orientation = MediaQuery.of(context).orientation;
+          return Expanded(
+            child: RefreshIndicator(
+              color: Colors.green,
+              onRefresh: onRefresh,
+              child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                controller: scrollController,
+                scrollDirection: (orientation == Orientation.portrait)
+                    ? Axis.vertical
+                    : Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final dish = snapshot.data!.docs[index];
+
+                  return Align(
+                    heightFactor: 1,
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                          (orientation == Orientation.portrait) ? 10 : 8),
+                      child: foodViewCard(context, () {
+                        slideupTransition(context, FoodViewDetails(dish));
+                      }, dish),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        }
+        return Text("Chưa có món :((",
+            style: GoogleFonts.nunito(color: Colors.white));
+      },
     );
   }
 }

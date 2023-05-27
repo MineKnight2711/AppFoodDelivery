@@ -1,12 +1,12 @@
 import 'package:app_food_2023/controller/customercontrollers/view_my_order.dart';
 
-import 'package:app_food_2023/widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/customercontrollers/cart.dart';
-import '../../../widgets/order_manament/customer_orderdetails.dart';
+import '../../../widgets/admin/order_manament/customer_orderdetails.dart';
 
 class OrdersScreen extends StatelessWidget {
   final ordercontroller = Get.find<MyOrderController>();

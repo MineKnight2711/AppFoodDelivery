@@ -1,7 +1,7 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/screens/customer/food_details.dart';
 import 'package:app_food_2023/screens/home_screen.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';

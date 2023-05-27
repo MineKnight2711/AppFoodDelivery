@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../widgets/message.dart';
+import '../../widgets/custom_widgets/message.dart';
 
 class EditCustomerController extends GetxController {
   Rx<UserModel?> currentCustomer = Rx<UserModel?>(null);
@@ -37,7 +37,7 @@ class EditCustomerController extends GetxController {
     currentCustomer.value = null;
     new_image.value = null;
     new_gender.value = null;
-    newpassword.value = oldpassword.value = reenterpasswrod.value = null;
+    newpassword.value = oldpassword.value = reenterpasswrod.value = '';
   }
 
   Future<void> fetchCurrentCustomer() async {
@@ -107,20 +107,20 @@ class EditCustomerController extends GetxController {
     return false;
   }
 
-  Rx<String?> oldpassword = Rx<String?>(null);
-  Rx<String?> newpassword = Rx<String?>(null);
-  Rx<String?> reenterpasswrod = Rx<String?>(null);
+  Rx<String> oldpassword = Rx<String>('');
+  Rx<String> newpassword = Rx<String>('');
+  Rx<String> reenterpasswrod = Rx<String>('');
   Rx<bool> validatePassConfirm = Rx<bool>(false);
+  Rx<FocusNode> oldPasswordFocus = Rx<FocusNode>(FocusNode());
+  Rx<FocusNode> newPasswordFocus = Rx<FocusNode>(FocusNode());
+  Rx<FocusNode> reenterPasswordFocus = Rx<FocusNode>(FocusNode());
   String? checkMatchPassword() {
     if (!checkUserAuthencation()) {
       if (newpassword.value != reenterpasswrod.value) {
         return "Mật khẩu không khớp";
-      } else if ((oldpassword.value == "" ||
-              newpassword.value == "" ||
-              reenterpasswrod.value == "") ||
-          (oldpassword.value == null ||
-              newpassword.value == null ||
-              reenterpasswrod.value == null))
+      } else if (oldpassword.value == "" ||
+          newpassword.value == "" ||
+          reenterpasswrod.value == "")
         return "Vui lòng nhập đầy đủ thông tin!!";
       else {
         validatePassConfirm.value = true;
@@ -130,8 +130,9 @@ class EditCustomerController extends GetxController {
     return "";
   }
 
-  Future<void> changePassword(
-      String? email, String? oldPassword, String? newPassword) async {
+  Future<void> changePassword(BuildContext context, String? email,
+      String? oldPassword, String? newPassword) async {
+    CustomSnackBar.showCustomSnackBar(context, 'Đang thực hiện...', 3);
     AuthCredential credential = EmailAuthProvider.credential(
         email: email ?? "", password: oldPassword ?? "");
 
@@ -154,6 +155,7 @@ class EditCustomerController extends GetxController {
       await user?.updatePassword(newPassword ?? "");
       CustomSuccessMessage.showMessage('Cập nhật thành công');
     } on FirebaseAuthException catch (error) {
+      print(error);
       CustomErrorMessage.showMessage("Lỗi:${codeResponses[error.code]} ");
     }
   }

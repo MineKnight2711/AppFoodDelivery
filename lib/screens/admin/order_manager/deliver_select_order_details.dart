@@ -9,7 +9,7 @@ import '../../../appstyle/screensize_aspectratio/mediaquery.dart';
 import '../../../controller/admincontrollers/order.dart';
 
 import '../../../controller/admincontrollers/order_details.dart';
-import '../../../widgets/order_manament/order_details.dart';
+import '../../../widgets/admin/order_manament/order_details.dart';
 import 'list_deliver.dart';
 
 import 'order_class.dart';

@@ -51,13 +51,19 @@ class AvatarContainer extends StatelessWidget {
 
 class PasswordTextField extends StatefulWidget {
   final TextEditingController? controller;
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
+  final Function(String)? onSubmitted;
+  final FocusNode? focusNode;
+  final FocusNode? nextfocusNode;
   final String? helperText;
   final String? hintText;
 
   PasswordTextField({
     this.controller,
-    required this.onChanged,
+    this.onChanged,
+    this.onSubmitted,
+    this.focusNode,
+    this.nextfocusNode,
     required this.helperText,
     required this.hintText,
   });
@@ -80,6 +86,13 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             child: TextField(
               controller: widget.controller,
               obscureText: !_passwordVisible,
+              focusNode: widget.focusNode,
+              onSubmitted: (value) {
+                widget.focusNode?.unfocus();
+                if (widget.nextfocusNode != null) {
+                  FocusScope.of(context).requestFocus(widget.nextfocusNode);
+                }
+              },
               onChanged: widget.onChanged,
               decoration: InputDecoration(
                 border: UnderlineInputBorder(),

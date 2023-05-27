@@ -1,28 +1,29 @@
+import 'package:app_food_2023/controller/admincontrollers/order_details.dart';
+import 'package:app_food_2023/controller/admincontrollers/order.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/customercontrollers/cart.dart';
-import '../../controller/admincontrollers/order.dart';
-import '../../controller/admincontrollers/order_details.dart';
-import '../../screens/admin/order_manager/order_class.dart';
-import '../../screens/admin/order_manager/deliver_select_order_details.dart';
-import '../transitions_animations.dart';
+import '../../../controller/customercontrollers/cart.dart';
+import '../../../screens/admin/order_manager/order_class.dart';
+import '../../../screens/admin/order_manager/deliver_select_order_details.dart';
 
-class Delivered extends StatelessWidget {
-  Delivered({super.key});
+class OnDelivery extends StatelessWidget {
+  OnDelivery({super.key});
   final _controller = Get.find<OrderController>();
   @override
   Widget build(BuildContext context) {
-    _controller.deliveredQuery();
+    _controller.onDeliveryQuery();
     return Obx(() {
-      if (_controller.deliveredOrders.value != null) {
+      if (_controller.onDeliveryOrders.value != null) {
         return Center(
           child: ListView.builder(
-            itemCount: _controller.deliveredOrders.value!.length,
+            itemCount: _controller.onDeliveryOrders.value!.length,
             itemBuilder: (context, index) {
               DocumentSnapshot order =
-                  _controller.deliveredOrders.value![index];
+                  _controller.onDeliveryOrders.value![index];
+
               return InkWell(
                 onTap: () async {
                   Get.put(OrderDetailsController(order.id));

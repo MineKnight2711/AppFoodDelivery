@@ -1,6 +1,6 @@
 import 'package:app_food_2023/screens/admin/admin_screen.dart';
 
-import 'package:app_food_2023/widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/admincontrollers/edit_specific_employee.dart';
-import '../../../widgets/transitions_animations.dart';
+import '../../../widgets/custom_widgets/transitions_animations.dart';
 import 'add_employees.dart';
 
 import 'change_role.dart';

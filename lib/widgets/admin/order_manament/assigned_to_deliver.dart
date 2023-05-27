@@ -1,28 +1,29 @@
 import 'package:app_food_2023/controller/admincontrollers/order_details.dart';
 import 'package:app_food_2023/controller/admincontrollers/order.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
-import '../../controller/customercontrollers/cart.dart';
-import '../../screens/admin/order_manager/order_class.dart';
-import '../../screens/admin/order_manager/deliver_select_order_details.dart';
+import '../../../controller/customercontrollers/cart.dart';
+import '../../../screens/admin/order_manager/deliver_select_order_details.dart';
+import '../../../screens/admin/order_manager/order_class.dart';
 
-class UnconfirmedTab extends StatelessWidget {
-  UnconfirmedTab({super.key});
+class AssignedToDeliver extends StatelessWidget {
+  AssignedToDeliver({super.key});
   final _controller = Get.find<OrderController>();
   @override
   Widget build(BuildContext context) {
-    _controller.getunconfirmedOrders();
+    _controller.assignedToDeliverQuery();
     return Obx(() {
-      if (_controller.unconfirmedOrders.value != null) {
+      if (_controller.assignToDeliverOrders.value != null) {
         return Center(
           child: ListView.builder(
-            itemCount: _controller.unconfirmedOrders.value!.length,
+            itemCount: _controller.assignToDeliverOrders.value!.length,
             itemBuilder: (context, index) {
               DocumentSnapshot order =
-                  _controller.unconfirmedOrders.value![index];
+                  _controller.assignToDeliverOrders.value![index];
 
               return InkWell(
                 onTap: () async {

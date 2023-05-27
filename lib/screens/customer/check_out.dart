@@ -3,7 +3,7 @@ import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
 import 'package:app_food_2023/screens/customer/cart_view.dart';
 import 'package:app_food_2023/screens/customer/coupons_list.dart';
 
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import '../../api/seach_place.dart';
 import '../../controller/customercontrollers/cart.dart';
 
-import '../../widgets/check_out/check_out_list_dish.dart';
+import '../../widgets/customer/check_out/check_out_list_dish.dart';
 
 class CheckoutScreenView extends StatelessWidget {
   final controller = Get.find<CheckOutController>();

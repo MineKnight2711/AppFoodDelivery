@@ -1,7 +1,7 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/model/UserModel.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/select_image/image_select.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
+import 'package:app_food_2023/widgets/select_image_constant/image_select.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 import '../../../controller/admincontrollers/edit_employee.dart';
 
 import '../../../controller/employee.dart';
-import '../../../widgets/employee_manament/datetime_picker.dart';
-import '../../../widgets/employee_manament/gender_chose.dart';
+import '../../../widgets/admin/employee_manament/datetime_picker.dart';
+import '../../../widgets/admin/employee_manament/gender_chose.dart';
 
 class EditEmployees extends StatefulWidget {
   @override

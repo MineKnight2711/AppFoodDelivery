@@ -2,7 +2,7 @@ import 'package:app_food_2023/controller/customercontrollers/cart.dart';
 import 'package:app_food_2023/controller/delivercontrollers/list_order_controller.dart';
 import 'package:app_food_2023/controller/delivercontrollers/order_details_controller.dart';
 import 'package:app_food_2023/widgets/deliver/confirm_delivery.dart';
-import 'package:app_food_2023/widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

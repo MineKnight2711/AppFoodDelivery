@@ -1,5 +1,5 @@
 import 'package:app_food_2023/controller/admincontrollers/edit_employee.dart';
-import 'package:app_food_2023/widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../appstyle/succes_messages/success_style.dart';

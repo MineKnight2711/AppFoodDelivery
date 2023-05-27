@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../appstyle/screensize_aspectratio/mediaquery.dart';
-import '../../model/dishes_model.dart';
+import '../../../appstyle/screensize_aspectratio/mediaquery.dart';
+import '../../../model/dishes_model.dart';
 
 Widget showInsufficientQuantityWidget(
     BuildContext context, List<DishModel>? dishes) {

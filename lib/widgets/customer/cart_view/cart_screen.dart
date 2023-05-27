@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../appstyle/screensize_aspectratio/mediaquery.dart';
-import '../../controller/customercontrollers/cart.dart';
+import '../../../appstyle/screensize_aspectratio/mediaquery.dart';
+import '../../../controller/customercontrollers/cart.dart';
 
 class CartViewDishImage extends StatelessWidget {
   final String imageUrl;

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
-import 'package:app_food_2023/widgets/message.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

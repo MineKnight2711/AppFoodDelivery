@@ -3,8 +3,8 @@ import 'package:app_food_2023/screens/admin/employee_manager/edit_current_employ
 import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
 import 'package:app_food_2023/screens/home_screen.dart';
 
-import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

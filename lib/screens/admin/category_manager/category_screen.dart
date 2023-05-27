@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../widgets/category_card.dart';
+import '../../../widgets/list_view_cards/category_card.dart';
 import '../admin_screen.dart';
 
 class CategoryListScreen extends StatefulWidget {

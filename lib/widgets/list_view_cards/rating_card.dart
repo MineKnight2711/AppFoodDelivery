@@ -1,5 +1,5 @@
 import 'package:app_food_2023/model/rating_user.dart';
-import 'package:app_food_2023/widgets/show_rating.dart';
+import 'package:app_food_2023/widgets/custom_widgets/show_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
