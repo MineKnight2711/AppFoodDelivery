@@ -1,3 +1,4 @@
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,63 +13,11 @@ class CouponsListCustomer extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.loadDishes();
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          title: Text(
-            "Danh Sách Voucher",
-            style: GoogleFonts.poppins(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 24.0,
-              color: Colors.black,
-            ),
-          ),
-          actions: [
-            const SizedBox(
-              width: 23.0,
-            ),
-            Stack(
-              children: const [
-                Align(
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.notifications_outlined,
-                    size: 30.0,
-                    color: Colors.black,
-                  ),
-                ),
-                Positioned(
-                  top: 8,
-                  right: 0,
-                  child: CircleAvatar(
-                    radius: 8,
-                    backgroundColor: Colors.red,
-                    child: Text(
-                      "2",
-                      style: TextStyle(fontSize: 10),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              width: 23.0,
-            ),
-            const SizedBox(
-              width: 23.0,
-            ),
-          ],
+        appBar: CustomAppBar(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          title: 'Danh sách voucher',
         ),
         body: Obx(() {
           if (controller.getAllCheckedItems.value != null) {

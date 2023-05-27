@@ -73,6 +73,7 @@ dependencies:
 
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -100,4 +101,5 @@ flutter:
   - images/userAvatar/
   - images/
   - assets/
+  - assets/gifs/
   - assets/images/

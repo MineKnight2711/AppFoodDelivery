@@ -1,6 +1,7 @@
 import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/model/dishes_model.dart';
 import 'package:app_food_2023/model/order_details_model.dart';
+import 'package:app_food_2023/model/voucher_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,14 @@ class MyOrderController extends GetxController {
         .get();
 
     return orderSnapshot.docs;
+  }
+
+  Future<Voucher> loadVoucher(String? voucherID) async {
+    final voucherSnapshot = await FirebaseFirestore.instance
+        .collection('coupons')
+        .doc(voucherID)
+        .get();
+    return Voucher.fromSnapshot(voucherSnapshot);
   }
 
   Future<List<DishModel>> loadOrderDetails(String orderID) async {

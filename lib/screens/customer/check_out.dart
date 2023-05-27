@@ -122,7 +122,7 @@ class CheckoutScreenView extends StatelessWidget {
                               Expanded(
                                 child: Obx(
                                   () => Text(
-                                    '${controller.getaddress.value}',
+                                    '${controller.getaddress.value ?? "Chọn địa chỉ giao hàng.."}',
                                     style: GoogleFonts.roboto(
                                         fontSize:
                                             MediaAspectRatio(context, 0.03)),
@@ -411,7 +411,6 @@ class CheckoutScreenView extends StatelessWidget {
                           Future.delayed(
                             const Duration(seconds: 3),
                             () async {
-                              controller.isLoading.value = false;
                               await controller.saveOrder(context);
                             },
                           );

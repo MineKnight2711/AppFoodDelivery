@@ -267,9 +267,16 @@ class CheckOutController extends GetxController {
       bool resultQuantity = await checkQuantity(context);
 
       if (!resultQuantity) {
+        isLoading.value = false;
         return;
       }
-
+      if (getaddress.value == null) {
+        isLoading.value = false;
+        CustomSnackBar.showCustomSnackBar(
+            context, "Bạn chưa chọn địa chỉ...", 2,
+            backgroundColor: Colors.red);
+        return;
+      }
       final orderRef = await FirebaseFirestore.instance.collection('orders');
       OrderModel order = OrderModel();
       order.UserID = user?.uid;
@@ -291,6 +298,7 @@ class CheckOutController extends GetxController {
         await decreaseDishesQuantity();
       }).whenComplete(() async {
         await deleteOrderedDishes();
+        isLoading.value = false;
         showDialog(
           context: context,
           barrierDismissible: false,

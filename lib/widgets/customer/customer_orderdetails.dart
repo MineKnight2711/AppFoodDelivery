@@ -1,6 +1,7 @@
 import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/model/dishes_model.dart';
 import 'package:app_food_2023/model/order_details_model.dart';
+import 'package:app_food_2023/model/voucher_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_edge_listener/scroll_edge_listener.dart';
 
-import '../../../controller/customercontrollers/cart.dart';
-import '../../../controller/customercontrollers/view_my_order.dart';
+import '../../controller/customercontrollers/cart.dart';
+import '../../controller/customercontrollers/view_my_order.dart';
 
 class OrderDetailsBottomSheet extends StatelessWidget {
   final DocumentSnapshot doc;
@@ -17,6 +18,7 @@ class OrderDetailsBottomSheet extends StatelessWidget {
   final ordercontroller = Get.find<MyOrderController>();
   @override
   Widget build(BuildContext context) {
+    double total = 0;
     final size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.91,
@@ -188,13 +190,24 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  'Mã đơn hàng: ',
+                                  'Voucher đã sử dụng: ',
                                   style: GoogleFonts.nunito(fontSize: 13),
                                 ),
                               ],
                             ),
                             SizedBox(
                               height: 3,
+                            ),
+                            Divider(
+                              thickness: 2,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Mã đơn hàng: ',
+                                  style: GoogleFonts.nunito(fontSize: 13),
+                                ),
+                              ],
                             ),
                             Row(
                               children: [
@@ -240,6 +253,7 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                                                 .listorderdetails.value
                                                 .firstWhereOrNull(
                                                     (d) => d.DishID == dish.id);
+
                                         double totalPrice = 0;
                                         if (orderdetail == null) {
                                           //Xử lý trường hợp không tìm thấy món dựa trên index của orderdetailquantity
@@ -284,6 +298,233 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                       ),
                       Divider(
                         thickness: 3,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: FutureBuilder<Voucher>(
+                          future: ordercontroller.loadVoucher(doc['VoucherID']),
+                          builder: (context, snapshot) {
+                            total = ordercontroller.listorderdetails.value.fold(
+                                0.0,
+                                (previousValue, element) =>
+                                    previousValue +
+                                    (double.parse(element.Price.toString()) *
+                                        double.parse(
+                                            element.Amount.toString())));
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Tổng cộng',
+                                        style: GoogleFonts.nunito(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Thành tiền',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
+                                      Text(
+                                        '${formatCurrency(total)}',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Voucher đã sử dụng',
+                                        style: GoogleFonts.nunito(
+                                            fontSize: 14, color: Colors.green),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '${snapshot.data!.code}',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
+                                      Text(
+                                        '-${snapshot.data!.amount}',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Số tiền thanh toán',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
+                                      Text(
+                                        '${total - snapshot.data!.amount}',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Phương thức thanh toán',
+                                        style: GoogleFonts.nunito(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      doc['PaymentMethod'] == "Tiền mặt"
+                                          ? Image.asset(
+                                              'assets/images/money.png',
+                                              scale: 2.5,
+                                            )
+                                          : Image.asset(
+                                              'assets/images/momo.png',
+                                              scale: 2.5,
+                                            ),
+                                      SizedBox(
+                                        width: 25,
+                                      ),
+                                      Text(
+                                        '${doc['PaymentMethod']}',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            }
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Tổng cộng',
+                                      style: GoogleFonts.nunito(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 7,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Thành tiền',
+                                      style: GoogleFonts.nunito(fontSize: 13),
+                                    ),
+                                    Text(
+                                      '${formatCurrency(total)}',
+                                      style: GoogleFonts.nunito(fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Voucher đã sử dụng',
+                                      style: GoogleFonts.nunito(
+                                          fontSize: 14, color: Colors.green),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Không có',
+                                      style: GoogleFonts.nunito(fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  height: 20,
+                                  thickness: 2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Số tiền thanh toán',
+                                      style: GoogleFonts.nunito(fontSize: 13),
+                                    ),
+                                    Text(
+                                      '${formatCurrency(total)}',
+                                      style: GoogleFonts.nunito(fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                SizedBox(
+                                  height: 7,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Phương thức thanh toán',
+                                      style: GoogleFonts.nunito(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    doc['PaymentMethod'] == "Tiền mặt"
+                                        ? Image.asset(
+                                            'assets/images/money.png',
+                                            scale: 2.5,
+                                          )
+                                        : Image.asset(
+                                            'assets/images/momo.png',
+                                            scale: 5,
+                                          ),
+                                    SizedBox(
+                                      width: 25,
+                                    ),
+                                    Text(
+                                      '${doc['PaymentMethod']}',
+                                      style: GoogleFonts.nunito(fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
                       ),
                     ],
                   ),

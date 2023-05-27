@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/customercontrollers/cart.dart';
-import '../../../widgets/admin/order_manament/customer_orderdetails.dart';
+import '../../../widgets/customer/customer_orderdetails.dart';
 
 class OrdersScreen extends StatelessWidget {
   final ordercontroller = Get.find<MyOrderController>();
