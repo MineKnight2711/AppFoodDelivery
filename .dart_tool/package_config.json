@@ -14,6 +14,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "archive",
+      "rootUri": "file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.3.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "args",
       "rootUri": "file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.4.1",
       "packageUri": "lib/",
@@ -620,8 +626,20 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "logger",
+      "rootUri": "file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/logger-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "logging",
       "rootUri": "file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "lottie",
+      "rootUri": "file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/lottie-2.3.2",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -992,7 +1010,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-05-27T16:17:53.086870Z",
+  "generated": "2023-05-29T13:21:54.478724Z",
   "generator": "pub",
   "generatorVersion": "2.19.6"
 }

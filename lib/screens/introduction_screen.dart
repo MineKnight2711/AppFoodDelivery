@@ -4,7 +4,6 @@ import 'package:app_food_2023/screens/loading_screen/home_loading.dart';
 import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
