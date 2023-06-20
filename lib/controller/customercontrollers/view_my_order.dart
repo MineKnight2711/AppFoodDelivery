@@ -5,14 +5,56 @@ import 'package:app_food_2023/model/voucher_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
+import '../../model/cart_model.dart';
+
+class DataConverter {
+  static OrderDetailsModel convertCartItemToOrderDetailsModel(
+      CartItem cartItem) {
+    return OrderDetailsModel(
+      DishID: cartItem.dishID,
+      Price: cartItem.total,
+      Amount: cartItem.quantity,
+    );
+  }
+
+  static CartItem convertOrderDetailsModelToCartItem(
+      OrderDetailsModel orderDetailsModel) {
+    return CartItem(
+      dishID: orderDetailsModel.DishID,
+      quantity: orderDetailsModel.Amount ?? 1,
+      total: orderDetailsModel.Price ?? 0.0,
+    );
+  }
+
+  static Set<CartItem> convertOrderDetailsListToCartItemSet(
+      List<OrderDetailsModel> orderDetailsList) {
+    return orderDetailsList
+        .map((orderDetails) => CartItem(
+              dishID: orderDetails.DishID,
+              quantity: orderDetails.Amount ?? 1,
+              total: orderDetails.Price ?? 0.0,
+            ))
+        .toSet();
+  }
+}
+
 class MyOrderController extends GetxController {
   Rx<List<OrderDetailsModel>> listorderdetails =
       Rx<List<OrderDetailsModel>>([]);
-
+  RxDouble total = 0.0.obs;
   @override
   void onInit() {
     super.onInit();
     loadOrders();
+  }
+
+  void caculateTotal() {
+    total.value = listorderdetails.value.fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue +
+            (double.parse(element.Price.toString()) *
+                double.parse(element.Amount.toString())));
   }
 
   Future<List<QueryDocumentSnapshot>> loadOrders() async {
@@ -61,7 +103,11 @@ class MyOrderController extends GetxController {
       dishList.addAll(
           dishRef.docs.map((doc) => DishModel.fromSnapshot(doc)).toList());
     }
-
+    caculateTotal();
     return dishList;
+  }
+
+  Set<CartItem> reOrder(List<OrderDetailsModel> listOfOrderItems) {
+    return DataConverter.convertOrderDetailsListToCartItemSet(listOfOrderItems);
   }
 }

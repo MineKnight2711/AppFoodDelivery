@@ -10,16 +10,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_edge_listener/scroll_edge_listener.dart';
 
 import '../../controller/customercontrollers/cart.dart';
+import '../../controller/customercontrollers/check_out.dart';
 import '../../controller/customercontrollers/view_my_order.dart';
+import '../../screens/customer/check_out.dart';
+import '../custom_widgets/transitions_animations.dart';
 
 class OrderDetailsBottomSheet extends StatelessWidget {
   final DocumentSnapshot doc;
   OrderDetailsBottomSheet({required this.doc, Key? key}) : super(key: key);
   final ordercontroller = Get.find<MyOrderController>();
+  final checkoutController = Get.find<CheckOutController>();
   @override
   Widget build(BuildContext context) {
-    double total = 0;
     final size = MediaQuery.of(context).size;
+    ordercontroller.caculateTotal();
     return Container(
       height: size.height * 0.91,
       child: Column(
@@ -57,6 +61,7 @@ class OrderDetailsBottomSheet extends StatelessWidget {
               continuous: false,
               dispatch: true,
               listener: () {
+                ordercontroller.total.value = 0;
                 Navigator.pop(context);
               },
               child: GlowingOverscrollIndicator(
@@ -77,7 +82,18 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                         height: size.height / 18,
                         width: size.width,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            checkoutController.getAllCheckedItems.value =
+                                checkedItems = ordercontroller.reOrder(
+                                    ordercontroller.listorderdetails.value);
+
+                            print(checkoutController
+                                .getAllCheckedItems.value?.length);
+                            await checkoutController
+                                .getAllDishInfo()
+                                .whenComplete(() => slideupTransition(
+                                    context, CheckoutScreenView()));
+                          },
                           child: Text("Đặt lại"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
@@ -304,13 +320,6 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                         child: FutureBuilder<Voucher>(
                           future: ordercontroller.loadVoucher(doc['VoucherID']),
                           builder: (context, snapshot) {
-                            total = ordercontroller.listorderdetails.value.fold(
-                                0.0,
-                                (previousValue, element) =>
-                                    previousValue +
-                                    (double.parse(element.Price.toString()) *
-                                        double.parse(
-                                            element.Amount.toString())));
                             if (snapshot.hasData) {
                               return Column(
                                 children: [
@@ -333,10 +342,11 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                                         'Thành tiền',
                                         style: GoogleFonts.nunito(fontSize: 13),
                                       ),
-                                      Text(
-                                        '${formatCurrency(total)}',
-                                        style: GoogleFonts.nunito(fontSize: 13),
-                                      ),
+                                      Obx(() => Text(
+                                            '${formatCurrency(ordercontroller.total.value)}',
+                                            style: GoogleFonts.nunito(
+                                                fontSize: 13),
+                                          )),
                                     ],
                                   ),
                                   Divider(
@@ -376,10 +386,11 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                                         'Số tiền thanh toán',
                                         style: GoogleFonts.nunito(fontSize: 13),
                                       ),
-                                      Text(
-                                        '${total - snapshot.data!.amount}',
-                                        style: GoogleFonts.nunito(fontSize: 13),
-                                      ),
+                                      Obx(() => Text(
+                                            '${ordercontroller.total.value - snapshot.data!.amount}',
+                                            style: GoogleFonts.nunito(
+                                                fontSize: 13),
+                                          )),
                                     ],
                                   ),
                                   Divider(
@@ -440,10 +451,11 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                                       'Thành tiền',
                                       style: GoogleFonts.nunito(fontSize: 13),
                                     ),
-                                    Text(
-                                      '${formatCurrency(total)}',
-                                      style: GoogleFonts.nunito(fontSize: 13),
-                                    ),
+                                    Obx(() => Text(
+                                          '${formatCurrency(ordercontroller.total.value)}',
+                                          style:
+                                              GoogleFonts.nunito(fontSize: 13),
+                                        )),
                                   ],
                                 ),
                                 Divider(
@@ -478,9 +490,11 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                                       'Số tiền thanh toán',
                                       style: GoogleFonts.nunito(fontSize: 13),
                                     ),
-                                    Text(
-                                      '${formatCurrency(total)}',
-                                      style: GoogleFonts.nunito(fontSize: 13),
+                                    Obx(
+                                      () => Text(
+                                        '${formatCurrency(ordercontroller.total.value)}',
+                                        style: GoogleFonts.nunito(fontSize: 13),
+                                      ),
                                     ),
                                   ],
                                 ),

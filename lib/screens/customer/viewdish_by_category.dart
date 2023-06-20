@@ -209,6 +209,7 @@ class DishBycategoryGrid extends StatelessWidget {
         slideupTransition(context, FoodViewDetails(item));
       },
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         shadowColor: const Color.fromARGB(66, 52, 50, 50).withOpacity(1),
         elevation: 5,
         child: Column(

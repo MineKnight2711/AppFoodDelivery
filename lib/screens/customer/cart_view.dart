@@ -26,6 +26,7 @@ class CardScreenView extends StatefulWidget {
 
 class _CardScreenViewState extends State<CardScreenView> {
   final homecontroller = Get.find<HomeScreenController>();
+  final checkoutController = Get.find<CheckOutController>();
   @override
   void initState() {
     super.initState();
@@ -451,6 +452,9 @@ class _CardScreenViewState extends State<CardScreenView> {
                             );
                             return;
                           }
+                          checkoutController.getAllCheckedItems.value =
+                              checkedItems;
+                          checkoutController.getAllDishInfo();
                           Get.put(CheckOutController(checkedItems));
 
                           slideupTransition(context, CheckoutScreenView());

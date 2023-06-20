@@ -38,7 +38,7 @@ class CheckoutScreenView extends StatelessWidget {
           ),
           leading: IconButton(
             onPressed: () {
-              slideinTransitionNoBack(context, CardScreenView());
+              Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back,

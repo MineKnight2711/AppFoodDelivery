@@ -85,39 +85,6 @@ class CustomerSetting extends StatelessWidget {
                       title: 'Đơn hàng',
                       subtitle: "Xem chi tiết danh sách các đơn hàng",
                     ),
-                    SettingsItem(
-                      onTap: () {},
-                      icons: CupertinoIcons.ticket_fill,
-                      iconStyle: IconStyle(
-                        backgroundColor: Color.fromARGB(255, 76, 176, 39),
-                      ),
-                      title: 'Voucher',
-                      subtitle: "Danh sách mã giảm giá",
-                    ),
-                    SettingsItem(
-                      onTap: () {},
-                      icons: CupertinoIcons.heart_circle_fill,
-                      iconStyle: IconStyle(
-                        backgroundColor: Color.fromARGB(255, 190, 35, 229),
-                      ),
-                      title: 'Món yêu thích',
-                      subtitle: "Danh sách món ăn yêu thích",
-                    ),
-                    SettingsItem(
-                      onTap: () {},
-                      icons: Icons.dark_mode_rounded,
-                      iconStyle: IconStyle(
-                        iconsColor: Colors.white,
-                        withBackground: true,
-                        backgroundColor: Color.fromARGB(255, 48, 48, 48),
-                      ),
-                      title: 'Dark mode',
-                      subtitle: "Automatic",
-                      trailing: Switch.adaptive(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
-                    ),
                   ],
                 ),
 
