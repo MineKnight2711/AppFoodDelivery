@@ -4,7 +4,6 @@ import 'package:app_food_2023/controller/logout.dart';
 import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/screens/customer/change_password_customer.dart';
 import 'package:app_food_2023/screens/customer/setting_profile/babstrap_settings_screen.dart';
-import 'package:app_food_2023/screens/deliver/setting_profile/change_password_deliver.dart';
 import 'package:app_food_2023/screens/deliver/setting_profile/delivery_order/on_delivery.dart';
 import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:flutter/cupertino.dart';
