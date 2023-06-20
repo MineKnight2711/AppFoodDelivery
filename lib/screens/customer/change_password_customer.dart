@@ -1,16 +1,11 @@
 import 'package:app_food_2023/controller/admincontrollers/edit_customer.dart';
-
 import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 import 'package:app_food_2023/widgets/customer/image_showing.dart';
 import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/custom_widgets/message.dart';
-
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../widgets/admin/employee_manament/change_password.dart';
 
 class ChangePasswordCustomer extends StatelessWidget {
