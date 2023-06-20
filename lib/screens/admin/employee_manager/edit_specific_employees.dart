@@ -1,16 +1,15 @@
-import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/employee_manament/datetime_picker.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/select_image/image_select.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/datetime_picker.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
+import 'package:app_food_2023/widgets/select_image_constant/image_select.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/edit_specific_employee.dart';
-import 'managent_screen.dart';
+import '../../../controller/admincontrollers/edit_specific_employee.dart';
 
 class EditSpecificEmployees extends StatelessWidget {
   final DocumentSnapshot doc;
@@ -25,7 +24,7 @@ class EditSpecificEmployees extends StatelessWidget {
       appBar: CustomAppBar(
         onPressed: () {
           controller.specificEmployee.value = null;
-          slideinTransition(context, ManagementEmployees(), true);
+          Navigator.of(context).pop();
         },
         title: 'Thông tin nhân viên',
       ),
@@ -130,8 +129,9 @@ class EditSpecificEmployees extends StatelessWidget {
                           ),
                           SaveCancelButtonsWidget(
                             onSavePressed: () {
-                              // Call the updateEmployee method
-                              controller.updateEmployee();
+                              CustomSnackBar.showCustomSnackBar(
+                                  context, 'Đang cập nhật...', 4);
+                              controller.updateEmployee(doc.id);
                             },
                             onCancelPressed: () {},
                           ),

@@ -1,6 +1,6 @@
 import 'package:app_food_2023/screens/admin/food_manager/add_food.dart';
 import 'package:app_food_2023/screens/admin/food_manager/food_details.dart';
-import 'package:app_food_2023/widgets/food_card.dart';
+import 'package:app_food_2023/widgets/list_view_cards/food_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';

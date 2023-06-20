@@ -1,6 +1,9 @@
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/controller/customercontrollers/cart.dart';
+import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import '../home_screen.dart';
 
 class LoadingHomeScreen extends StatefulWidget {
@@ -16,7 +19,7 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
   @override
   void initState() {
     super.initState();
-
+    Get.put(CheckOutController(checkedItems));
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -32,6 +35,7 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
         }
       });
     _controller.forward().whenComplete(() {
+      Get.put(HomeScreenController());
       slideupTransition(context, AppHomeScreen());
     });
   }
@@ -63,7 +67,7 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
               ScaleTransition(
                 scale: _animation,
                 child: Text(
-                  'Hello World',
+                  'AppDelivery',
                   style: TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
                     fontSize: 48.0,

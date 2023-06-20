@@ -1,16 +1,16 @@
 import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/screens/admin/admin_screen.dart';
-import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
 
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../controller/changepassword_employee.dart';
-import '../../../widgets/employee_manament/change_password.dart';
-import '../../../widgets/transitions_animations.dart';
+import '../../../controller/admincontrollers/changepassword_employee.dart';
+import '../../../widgets/admin/employee_manament/change_password.dart';
+import '../../../widgets/custom_widgets/transitions_animations.dart';
 
 class ChangePasswordEmployeesScreen extends StatefulWidget {
   @override
@@ -49,7 +49,7 @@ class ChangePasswordEmployeesScreenState
         appBar: CustomAppBar(
           showLeading: true,
           onPressed: () {
-            slideinTransition(context, AdminScreen(), true);
+            slideinTransition(context, AdminScreen());
           },
           title: 'Đổi mật khẩu',
         ),

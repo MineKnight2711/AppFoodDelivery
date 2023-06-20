@@ -1,25 +1,25 @@
 class UserRatingModel {
-  String? firstName;
-  String? secondName;
-  String? Images;
+  String? FirstName;
+  String? LastName;
+  String? Avatar;
 
-  UserRatingModel({this.firstName, this.secondName, this.Images});
+  UserRatingModel({this.FirstName, this.LastName, this.Avatar});
 
   // receiving data from server
   factory UserRatingModel.fromMap(map) {
     return UserRatingModel(
-      firstName: map?['firstName'],
-      secondName: map?['secondName'],
-      Images: map?['Images'],
+      FirstName: map?['FirstName'],
+      LastName: map?['LastName'],
+      Avatar: map?['Avatar'],
     );
   }
 
   // sending data to our server
   Map<String, dynamic> toMap() {
     return {
-      'firstName': firstName,
-      'secondName': secondName,
-      'Images': Images,
+      'FirstName': FirstName,
+      'LastName': LastName,
+      'Avatar': Avatar,
     };
   }
 }

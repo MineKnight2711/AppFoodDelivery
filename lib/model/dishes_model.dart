@@ -5,12 +5,14 @@ class DishModel {
   String? Name;
   String? Image;
   double? Price;
+  int? Quantity;
 
   DishModel({
     required this.id,
     required this.Name,
     required this.Image,
     required this.Price,
+    required this.Quantity,
   });
 
   factory DishModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -20,6 +22,7 @@ class DishModel {
       Name: data['Name'],
       Image: data['Image'],
       Price: data['Price'],
+      Quantity: data['InStock'],
     );
   }
 

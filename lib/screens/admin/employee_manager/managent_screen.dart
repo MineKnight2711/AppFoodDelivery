@@ -1,14 +1,14 @@
 import 'package:app_food_2023/screens/admin/admin_screen.dart';
 
-import 'package:app_food_2023/widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/edit_specific_employee.dart';
-import '../../../widgets/transitions_animations.dart';
+import '../../../controller/admincontrollers/edit_specific_employee.dart';
+import '../../../widgets/custom_widgets/transitions_animations.dart';
 import 'add_employees.dart';
 
 import 'change_role.dart';
@@ -25,7 +25,7 @@ class _ManagementEmployeesState extends State<ManagementEmployees> {
     return Scaffold(
       appBar: CustomAppBar(
         onPressed: () {
-          slideinTransition(context, AdminScreen(), true);
+          slideinTransition(context, AdminScreen());
         },
         title: 'Danh sách nhân viên',
       ),
@@ -77,10 +77,10 @@ class _ManagementEmployeesState extends State<ManagementEmployees> {
                       onPressed: () {
                         Get.put(EditSpecificEmployeeController(doc.id));
 
-                        Navigator.push(
+                        slideinTransition(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => ChangeRoleEmployees(doc: doc),
+                          ChangeRoleEmployees(
+                            doc: doc,
                           ),
                         );
                       },
@@ -95,7 +95,7 @@ class _ManagementEmployeesState extends State<ManagementEmployees> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          slideinTransition(context, AddEmployees(), true);
+          slideinTransition(context, AddEmployees());
         },
       ),
     );

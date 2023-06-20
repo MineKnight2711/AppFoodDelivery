@@ -1,12 +1,11 @@
-import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
-import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/edit_specific_employee.dart';
+import '../../../controller/admincontrollers/edit_specific_employee.dart';
 
 class ChangeRoleEmployees extends StatelessWidget {
   final DocumentSnapshot doc;
@@ -21,7 +20,7 @@ class ChangeRoleEmployees extends StatelessWidget {
       appBar: CustomAppBar(
           onPressed: () {
             controller.specificEmployee.value = null;
-            slideinTransition(context, ManagementEmployees(), true);
+            Navigator.of(context).pop();
           },
           showLeading: true,
           title: 'Sửa chức vụ'),

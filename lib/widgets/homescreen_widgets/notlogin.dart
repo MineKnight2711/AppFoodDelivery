@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../screens/login_register/login_screen.dart';
-import '../transitions_animations.dart';
+import '../custom_widgets/transitions_animations.dart';
 
 Widget notLogin(BuildContext context) {
   return Column(

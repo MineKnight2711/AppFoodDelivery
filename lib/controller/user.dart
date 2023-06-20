@@ -45,7 +45,6 @@ Widget showUserInfor(BuildContext context) {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserModel userSnapShot = snapshot.data!;
-
           if (userSnapShot.Role == "Customer") {
             return userInfor(context, userSnapShot);
           } else if (userSnapShot.Role == "Delivery") {
@@ -109,6 +108,8 @@ Widget userAvatar(BuildContext context) {
             return customerAvatar(context);
           } else if (userSnapShot.Role == "Admin") {
             return adminAvatar(context);
+          } else if (userSnapShot.Role == "Delivery") {
+            return deliveryAvatar(context);
           }
         }
         return notLoginAvatar(context);
