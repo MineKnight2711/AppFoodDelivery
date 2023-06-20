@@ -1,4 +1,4 @@
-import 'package:app_food_2023/widgets/popups.dart';
+import 'package:app_food_2023/widgets/custom_widgets/popups.dart';
 
 import '../../model/UserModel.dart';
 import '../../util/upload_default_image.dart';

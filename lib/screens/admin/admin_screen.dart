@@ -1,11 +1,10 @@
-import 'package:app_food_2023/controller/edit_employee.dart';
 import 'package:app_food_2023/screens/admin/category_manager/category_screen.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/edit_current_employees.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
 import 'package:app_food_2023/screens/home_screen.dart';
 
-import 'package:app_food_2023/widgets/appbar.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,9 +12,10 @@ import 'package:get/get.dart';
 import '../../controller/employee.dart';
 import '../../controller/logout.dart';
 
-import '../../model/UserModel.dart';
+import '../../controller/admincontrollers/order.dart';
 import 'employee_manager/change_password_employees.dart';
 import 'food_manager/food_list.dart';
+import 'order_manager/list_orders.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
@@ -35,7 +35,7 @@ class _AdminScreenState extends State<AdminScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         onPressed: () {
-          slideinTransition(context, AppHomeScreen(), true);
+          slideinTransition(context, AppHomeScreen());
         },
         showLeading: true,
         title: "Quản lý",
@@ -176,7 +176,8 @@ class _AdminScreenState extends State<AdminScreen> {
                     leading: Icon(Icons.receipt_long),
                     title: Text('Quản lý đơn hàng'),
                     onTap: () {
-                      // Xử lý đi đạt
+                      Get.put(OrderController());
+                      slideinTransition(context, ListOrderPage());
                     },
                   ),
                   ListTile(

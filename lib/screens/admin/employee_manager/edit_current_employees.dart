@@ -1,17 +1,16 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/model/UserModel.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/select_image/image_select.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
+import 'package:app_food_2023/widgets/select_image_constant/image_select.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/edit_employee.dart';
+import '../../../controller/admincontrollers/edit_employee.dart';
 
 import '../../../controller/employee.dart';
-import '../../../widgets/employee_manament/datetime_picker.dart';
-import '../../../widgets/employee_manament/gender_chose.dart';
-import '../admin_screen.dart';
+import '../../../widgets/admin/employee_manament/datetime_picker.dart';
+import '../../../widgets/admin/employee_manament/gender_chose.dart';
 
 class EditEmployees extends StatefulWidget {
   @override
@@ -60,12 +59,7 @@ class EditEmployeesScreenState extends State<EditEmployees> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AdminScreen(),
-              ),
-            );
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -82,17 +76,22 @@ class EditEmployeesScreenState extends State<EditEmployees> {
                       GetX<EmployeeController>(
                           init: EmployeeController(),
                           builder: (controller) {
-                            return Container(
-                              height: ScreenRotate(context)
-                                  ? MediaHeight(context, 4)
-                                  : MediaHeight(context, 2.7),
-                              child: ImagePickerWidget(
-                                onImageSelected: (image) {
-                                  current_image = image;
-                                },
-                                currentImageUrl:
-                                    controller.currentEmployee.value!.Avatar,
-                              ),
+                            if (controller.currentEmployee.value != null) {
+                              return Container(
+                                height: ScreenRotate(context)
+                                    ? MediaHeight(context, 4)
+                                    : MediaHeight(context, 2.7),
+                                child: ImagePickerWidget(
+                                  onImageSelected: (image) {
+                                    current_image = image;
+                                  },
+                                  currentImageUrl:
+                                      controller.currentEmployee.value!.Avatar,
+                                ),
+                              );
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(),
                             );
                           }),
                       Container(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../widgets/select_image/re_usable_select_photo_button.dart';
+import '../../widgets/select_image_constant/re_usable_select_photo_button.dart';
 
 class SelectPhotoOptionsScreen extends StatelessWidget {
   final Function(ImageSource source) onTap;

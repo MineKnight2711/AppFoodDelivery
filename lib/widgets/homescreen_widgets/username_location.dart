@@ -1,28 +1,29 @@
+import 'package:app_food_2023/controller/customercontrollers/cart.dart';
+import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
+import 'package:app_food_2023/controller/admincontrollers/edit_customer.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 import '../../api/seach_place.dart';
 import '../../controller/user.dart';
 import '../../model/UserModel.dart';
-import '../../screens/customer/setting_profile.dart';
-import '../transitions_animations.dart';
 
-Future<String?> _getLocation() async {
-  final prefs = await SharedPreferences.getInstance();
-  final location = prefs.getString("diachiHienTai");
-  return location;
-}
+import '../../screens/customer/setting_profile/customer_settings.dart';
+import '../custom_widgets/transitions_animations.dart';
 
 Widget customerAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
-      slideinTransition(context, SettingProfileScreen(), true);
+      Get.put(EditCustomerController());
+      slideinTransition(context, CustomerSetting());
     },
     child: userImage(),
   );
 }
 
 Widget userInfor(BuildContext context, UserModel userModel) {
+  final controller = Get.find<CheckOutController>();
+  controller.getLocation();
   return Column(
     children: [
       Row(
@@ -46,22 +47,23 @@ Widget userInfor(BuildContext context, UserModel userModel) {
             color: Color(0xFFFF2F08),
           ),
           Expanded(
-            child: FutureBuilder(
-              future: _getLocation(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
+            child: GetX<CheckOutController>(
+              init: controller,
+              builder: (controller) {
+                if (controller.getaddress.value != null) {
                   return GestureDetector(
                     child: Text(
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      snapshot.data.toString(),
+                      '${controller.getaddress.value}',
                       style: TextStyle(
                         fontSize: 18.5,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     onTap: () {
-                      slideinTransition(context, AddressPage(), true);
+                      Get.put(CheckOutController(checkedItems));
+                      slideinTransition(context, AddressPage());
                     },
                   );
                 }
@@ -76,7 +78,7 @@ Widget userInfor(BuildContext context, UserModel userModel) {
                     ),
                   ),
                   onTap: () {
-                    slideinTransition(context, AddressPage(), true);
+                    slideinTransition(context, AddressPage());
                   },
                 );
               },

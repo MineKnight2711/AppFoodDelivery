@@ -1,18 +1,16 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
-import 'package:app_food_2023/controller/add_employee.dart';
-import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
+import 'package:app_food_2023/controller/admincontrollers/add_employee.dart';
 
-import 'package:app_food_2023/widgets/employee_manament/datetime_picker.dart';
-import 'package:app_food_2023/widgets/employee_manament/employee_widgets.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/datetime_picker.dart';
+import 'package:app_food_2023/widgets/admin/employee_manament/employee_widgets.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../widgets/appbar.dart';
-import '../../../widgets/employee_manament/gender_chose.dart';
-import '../../../widgets/select_image/image_select.dart';
+import '../../../widgets/custom_widgets/appbar.dart';
+import '../../../widgets/admin/employee_manament/gender_chose.dart';
+import '../../../widgets/select_image_constant/image_select.dart';
 
 class AddEmployees extends StatefulWidget {
   @override
@@ -204,9 +202,7 @@ class AddEmployeesScreenState extends State<AddEmployees>
                             onSavePressed: () async {
                               await addNewEmployee(context);
                             },
-                            onCancelPressed: () {
-                              // Handle cancel button press
-                            },
+                            onCancelPressed: () {},
                           ),
                         ],
                       ),
@@ -218,63 +214,6 @@ class AddEmployeesScreenState extends State<AddEmployees>
           ),
         ));
   }
-
-  // if (_imageFile == null) {
-  //   return;
-  // }
-  // if (dateTimeEmpolyee == null) {
-  //   nullBirthDay();
-  //   return;
-  // }
-  // FirebaseApp secondaryApp =
-  //     await Firebase.initializeApp(
-  //   name: 'SecondaryApp',
-  //   options: Firebase.app().options,
-  // );
-  // // setState(() {
-  // //   FocusScope.of(context)
-  // //       .requestFocus(new FocusNode());
-  // // });
-  // setState(() {
-  //   _uploading = true;
-  // });
-  // UserCredential userCredential =
-  //     await FirebaseAuth.instanceFor(
-  //             app: secondaryApp)
-  //         .createUserWithEmailAndPassword(
-  //             email:
-  //                 _emailController.text,
-  //             password:
-  //                 _passwordController
-  //                     .text);
-
-  // setState(() {
-  //   employee = userCredential.user;
-  // });
-  // FirebaseFirestore firebaseFirestore =
-  //     FirebaseFirestore.instance;
-  // UserModel userModel = UserModel();
-
-  // userModel.Email = employee?.email;
-  // userModel.LastName =
-  //     _lastNameController.text;
-  // userModel.FirstName =
-  //     _firstNameController.text;
-  // userModel.Avatar = "";
-  // userModel.Gender = selectedGender;
-  // userModel.Address =
-  //     _addressController.text;
-  // userModel.Role = _selectedRole;
-  // userModel.BirthDay = dateTimeEmpolyee;
-  // userModel.PhoneNumber =
-  //     _phonenumberController.text;
-
-  // firebaseFirestore
-  //     .collection("users")
-  //     .doc(employee?.uid)
-  //     .set(userModel.toMap());
-  // _postEmployee(employee!.uid);
-  // await secondaryApp.delete();
 
   bool isValidPhoneNumber(String phoneNumber) {
     final RegExp regex = RegExp(r'^\+?[0-9]{10,}$');

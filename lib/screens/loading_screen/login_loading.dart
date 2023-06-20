@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_food_2023/screens/home_screen.dart';
-import 'package:app_food_2023/widgets/transitions_animations.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
 
 class LoginLoadingScreen extends StatefulWidget {

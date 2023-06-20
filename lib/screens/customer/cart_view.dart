@@ -1,13 +1,21 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
+import 'package:app_food_2023/controller/user.dart' as u;
 import 'package:app_food_2023/model/dishes_model.dart';
+import 'package:app_food_2023/screens/home_screen.dart';
+import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
+import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../controller/cart.dart';
+import '../../controller/customercontrollers/cart.dart';
+import '../../controller/customercontrollers/check_out.dart';
 import '../../model/cart_model.dart';
-import '../../widgets/cart_view/cart_screen.dart';
-import '../../widgets/popups.dart';
+import '../../widgets/customer/cart_view/cart_screen.dart';
+import '../../widgets/custom_widgets/popups.dart';
+import 'check_out.dart';
 
 class CardScreenView extends StatefulWidget {
   const CardScreenView({Key? key}) : super(key: key);
@@ -17,6 +25,7 @@ class CardScreenView extends StatefulWidget {
 }
 
 class _CardScreenViewState extends State<CardScreenView> {
+  final homecontroller = Get.find<HomeScreenController>();
   @override
   void initState() {
     super.initState();
@@ -26,30 +35,13 @@ class _CardScreenViewState extends State<CardScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text(
-          "Giỏ hàng của tôi",
-          style: GoogleFonts.poppins(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            resetCartTotalStream();
+      appBar: CustomAppBar(
+        onPressed: () {
+          resetCartTotalStream();
 
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            size: 24.0,
-            color: Colors.black,
-          ),
-        ),
+          slideinTransitionNoBack(context, AppHomeScreen());
+        },
+        title: 'Giỏ hàng của tôi',
       ),
       body: ListView(
         children: [
@@ -242,22 +234,6 @@ class _CardScreenViewState extends State<CardScreenView> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: cartListStream(),
                   builder: (context, snapshot) {
-                    if (user == null) {
-                      return Center(
-                        child: Text(
-                          "Giỏ hàng trống không :((",
-                          style: GoogleFonts.roboto(fontSize: 20),
-                        ),
-                      );
-                    }
-                    if (snapshot.data?.docs.length == 0) {
-                      return Center(
-                        child: Text(
-                          "Giỏ hàng trống không :((",
-                          style: GoogleFonts.roboto(fontSize: 20),
-                        ),
-                      );
-                    }
                     if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                       cartItems = snapshot.data!.docs
                           .map((doc) => CartItem.fromSnapshotCart(doc))
@@ -392,9 +368,17 @@ class _CardScreenViewState extends State<CardScreenView> {
                       );
                     }
                     return Center(
-                      child: Text(
-                        "Giỏ hàng trống không :((",
-                        style: GoogleFonts.roboto(fontSize: 20),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 100,
+                          ),
+                          Image.asset('assets/gifs/emptycart.gif'),
+                          Text(
+                            "Giỏ hàng trống không :((",
+                            style: GoogleFonts.roboto(fontSize: 20),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -410,49 +394,82 @@ class _CardScreenViewState extends State<CardScreenView> {
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Thành tiền",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Thành tiền",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                      CartTotal(),
+                    ],
                   ),
-                  CartTotal(),
+                  SizedBox(
+                    width:
+                        ScreenRotate(context) ? 23.0 : MediaWidth(context, 2.3),
+                  ),
+                  SizedBox(
+                    width: 185.29,
+                    height: 50,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffFFB039),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(62), // <-- Radius
+                          ),
+                        ),
+                        onPressed: () {
+                          if (checkedItems.isEmpty) {
+                            CustomErrorMessage.showMessage(
+                                'Chọn ít nhất 1 sản phẩm để đặt hàng!');
+                            return;
+                          }
+                          if (u.loggedInUser?.PhoneNumber == null) {
+                            Future.delayed(Duration(seconds: 3), () {
+                              CustomSnackBar.showCustomSnackBar(
+                                context,
+                                'Vui lòng kiểm tra số điện thoại hoặc địa chỉ để chúng tôi có thể giao hàng đến bạn!',
+                                2,
+                                backgroundColor: Colors.red,
+                              );
+                            });
+
+                            CustomErrorMessage.showMessage(
+                              'Bạn chưa cập nhật thông tin nên không thể đặt hàng!',
+                            );
+                            return;
+                          }
+                          Get.put(CheckOutController(checkedItems));
+
+                          slideupTransition(context, CheckoutScreenView());
+                        },
+                        child: Text(
+                          'Đặt mua ${checkedItems.length} ',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16, color: Colors.black),
+                        )),
+                  ),
                 ],
               ),
-              SizedBox(
-                width: ScreenRotate(context) ? 23.0 : MediaWidth(context, 2.3),
-              ),
-              SizedBox(
-                width: 185.29,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffFFB039),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(62), // <-- Radius
-                    ),
-                  ),
-                  onPressed: () {
-                    // Navigator.push(
-                    // context,
-                    // MaterialPageRoute(builder: (context) => const CheckoutScreenView()),
-                    // );
-                  },
-                  child: const Text("Save"),
-                ),
-              ),
-            ],
-          ),
+            ),
+            MyBottomNavigationBar(
+              onItemTapped: (index) =>
+                  homecontroller.onItemTapped(context, index),
+              selectedIndex: homecontroller.selectedindex.value,
+            ),
+          ],
         ),
       ),
     );
