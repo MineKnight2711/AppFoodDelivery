@@ -2,6 +2,7 @@ import 'package:app_food_2023/controller/user.dart';
 import 'package:app_food_2023/model/dishes_model.dart';
 import 'package:app_food_2023/model/order_details_model.dart';
 import 'package:app_food_2023/model/voucher_model.dart';
+import 'package:app_food_2023/widgets/custom_widgets/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,12 +58,11 @@ class OrderDetailsBottomSheet extends StatelessWidget {
           Expanded(
             child: ScrollEdgeListener(
               edge: ScrollEdge.start,
-              edgeOffset: 0,
               continuous: false,
               dispatch: true,
               listener: () {
-                ordercontroller.total.value = 0;
-                Navigator.pop(context);
+                // ordercontroller.total.value = 0;
+                // Navigator.pop(context);
               },
               child: GlowingOverscrollIndicator(
                 axisDirection: AxisDirection.down,
@@ -81,28 +81,96 @@ class OrderDetailsBottomSheet extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         height: size.height / 18,
                         width: size.width,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            checkoutController.getAllCheckedItems.value =
-                                checkedItems = ordercontroller.reOrder(
-                                    ordercontroller.listorderdetails.value);
+                        child: (doc["OrderStatus"] == 'Đã giao' ||
+                                doc["OrderStatus"] == 'Đã huỷ')
+                            ? ElevatedButton(
+                                onPressed: () async {
+                                  checkoutController.getAllCheckedItems.value =
+                                      checkedItems = ordercontroller.reOrder(
+                                          ordercontroller
+                                              .listorderdetails.value);
 
-                            print(checkoutController
-                                .getAllCheckedItems.value?.length);
-                            await checkoutController
-                                .getAllDishInfo()
-                                .whenComplete(() => slideupTransition(
-                                    context, CheckoutScreenView()));
-                          },
-                          child: Text("Đặt lại"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              // changed from CircleBorder
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                        ),
+                                  await checkoutController
+                                      .getAllDishInfo()
+                                      .whenComplete(() => slideupTransition(
+                                          context, CheckoutScreenView()));
+                                },
+                                child: Text(
+                                  "Đặt lại",
+                                  style: GoogleFonts.nunito(fontSize: 16),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                              )
+                            : (doc["OrderStatus"] == 'Chưa xác nhận'
+                                ? ElevatedButton(
+                                    onPressed: () async {
+                                      return await showDialog(
+                                        context: context,
+                                        builder: (context1) {
+                                          return AlertDialog(
+                                            title: Text('Xác nhận'),
+                                            content: Text(
+                                                'Bạn có chắc muốn huỷ đơn này?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context1)
+                                                      .pop(false);
+                                                },
+                                                child: Text(
+                                                  'Thôi',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () async {
+                                                  await ordercontroller
+                                                      .cancelOrder(doc.id);
+                                                  Navigator.of(context1)
+                                                      .pop(true);
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          seconds: 2), () {
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  });
+                                                  CustomSuccessMessage
+                                                      .showMessage(
+                                                          'Đã huỷ thành công');
+                                                },
+                                                child: Text(
+                                                  'Huỷ',
+                                                  style: TextStyle(
+                                                      color: Colors.red),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      "Huỷ đơn",
+                                      style: GoogleFonts.nunito(fontSize: 16),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                  )
+                                : Center(
+                                    child: Text(
+                                    'Đơn hàng đang được thực hiện...',
+                                    style: GoogleFonts.nunito(fontSize: 16),
+                                  ))),
                       ),
                       Divider(
                         thickness: 3,

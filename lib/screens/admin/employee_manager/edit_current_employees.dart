@@ -85,8 +85,7 @@ class EditEmployeesScreenState extends State<EditEmployees> {
                                   onImageSelected: (image) {
                                     current_image = image;
                                   },
-                                  currentImageUrl:
-                                      controller.currentEmployee.value!.Avatar,
+                                  currentImageUrl: snapshot.data?.Avatar,
                                 ),
                               );
                             }

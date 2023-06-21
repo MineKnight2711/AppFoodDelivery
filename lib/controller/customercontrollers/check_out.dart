@@ -114,11 +114,7 @@ class CheckOutController extends GetxController {
   Future<void> caculteFinalTotal() async {
     if (getAllCheckedItems.value != null && checkedItems.isNotEmpty) {
       initialTotal.value = getAllCheckedItems.value!.fold(
-        0.0,
-        (previousValue, item) => previousValue != null
-            ? previousValue + (item.total * item.quantity).toDouble()
-            : (item.total * item.quantity).toDouble(),
-      );
+          0.0, (previousValue, item) => previousValue! + item.total.toDouble());
       totalQuantity.value = getAllCheckedItems.value!.fold(
         0,
         (previousValue, item) => previousValue + item.quantity,

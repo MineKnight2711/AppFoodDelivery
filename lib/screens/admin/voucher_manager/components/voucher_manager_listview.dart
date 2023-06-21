@@ -20,7 +20,7 @@ class VoucherListView extends StatelessWidget {
             key: ValueKey(voucher.id),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
-              controller.removeVoucher(voucher.id ?? '');
+              controller.removeVoucher(voucher.id.toString());
             },
             confirmDismiss: (DismissDirection direction) async {
               if (direction == DismissDirection.endToStart) {

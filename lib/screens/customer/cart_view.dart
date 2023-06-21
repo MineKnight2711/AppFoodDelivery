@@ -452,10 +452,10 @@ class _CardScreenViewState extends State<CardScreenView> {
                             );
                             return;
                           }
-                          checkoutController.getAllCheckedItems.value =
-                              checkedItems;
-                          checkoutController.getAllDishInfo();
-                          Get.put(CheckOutController(checkedItems));
+                          // checkoutController.getAllCheckedItems.value =
+                          //     checkedItems;
+                          // checkoutController.getAllDishInfo();
+                          // Get.put(CheckOutController(checkedItems));
 
                           slideupTransition(context, CheckoutScreenView());
                         },

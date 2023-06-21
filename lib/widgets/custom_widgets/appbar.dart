@@ -5,11 +5,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showLeading;
   final VoidCallback onPressed;
   final PreferredSizeWidget? bottom;
+  final List<Widget>? actions;
   CustomAppBar(
       {this.title,
       this.showLeading = true,
       required this.onPressed,
-      this.bottom});
+      this.bottom,
+      this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: onPressed,
             )
           : null,
+      actions: actions,
       title: Text(
         title ?? "",
         style: TextStyle(
