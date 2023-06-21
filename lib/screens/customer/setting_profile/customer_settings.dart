@@ -99,17 +99,6 @@ class CustomerSetting extends StatelessWidget {
                       iconStyle: IconStyle(),
                       title: "Đăng xuất",
                     ),
-                    SettingsItem(
-                      icons: Icons.cancel_outlined,
-                      iconStyle: IconStyle(
-                        backgroundColor: Color.fromARGB(255, 211, 39, 39),
-                      ),
-                      title: "Xoá tài khoản",
-                      titleStyle: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                   ],
                 ),
               ],

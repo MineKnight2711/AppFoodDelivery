@@ -73,9 +73,7 @@ class HomeScreenController extends GetxController {
 
 class AppHomeScreen extends StatelessWidget {
   final controller = Get.find<HomeScreenController>();
-  // final scrollController = Rx<ScrollController>(ScrollController());
   final checkoutcontroller = Get.find<CheckOutController>();
-  // final closeTopContainer =
 
   @override
   Widget build(BuildContext context) {
@@ -143,17 +141,6 @@ class AppHomeScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Xem tất cả",
-                        style: TextStyle(
-                          color: Color(0xFFFF2F08),
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
                       ),
                     ),
                   ],

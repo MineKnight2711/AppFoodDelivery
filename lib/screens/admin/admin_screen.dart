@@ -1,10 +1,13 @@
+import 'package:app_food_2023/controller/admincontrollers/voucher_controller.dart';
 import 'package:app_food_2023/screens/admin/category_manager/category_screen.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/edit_current_employees.dart';
 import 'package:app_food_2023/screens/admin/employee_manager/managent_screen.dart';
+import 'package:app_food_2023/screens/admin/voucher_manager/list_voucher.dart';
 import 'package:app_food_2023/screens/home_screen.dart';
 
 import 'package:app_food_2023/widgets/custom_widgets/appbar.dart';
 import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -166,10 +169,11 @@ class _AdminScreenState extends State<AdminScreen> {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.delivery_dining),
-                    title: Text('Delivery'),
+                    leading: Icon(Icons.discount),
+                    title: Text('Quản lý vouchers / coupons'),
                     onTap: () {
-                      // Xử lý đi đạt
+                      Get.put(VoucherController());
+                      slideinTransition(context, VoucherListScreen());
                     },
                   ),
                   ListTile(
