@@ -400,6 +400,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                     final collection =
                         FirebaseFirestore.instance.collection("dishes");
                     collection.doc(widget.doc.id).update({
+                      "DishName": _nameController.text,
                       "Name": _nameController.text,
                       "Price": double.parse(_priceController.text),
                       "InStock": sl,
