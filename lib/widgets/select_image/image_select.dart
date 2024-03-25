@@ -23,7 +23,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget>
     with SingleTickerProviderStateMixin {
   File? image;
   late AnimationController _animationController;
-  late Animation<double> _inanimation, _outanimation;
+  late Animation<double> _inanimation;
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -97,12 +97,12 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget>
         curve: Curves.easeInOut,
       ),
     );
-    _outanimation = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    // _outanimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+    //   CurvedAnimation(
+    //     parent: _animationController,
+    //     curve: Curves.easeInOut,
+    //   ),
+    // );
   }
 
   @override

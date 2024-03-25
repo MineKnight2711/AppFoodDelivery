@@ -130,15 +130,16 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                             ),
                           ),
                           TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Xem tất cả",
-                                style: TextStyle(
-                                  color: Color(0xFFFF2F08),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ))
+                            onPressed: () {},
+                            child: Text(
+                              "Xem tất cả",
+                              style: TextStyle(
+                                color: Color(0xFFFF2F08),
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -253,10 +254,10 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
     });
     if (_selectedIndex == 1) {
       if (u.user == null) {
-        slideinTransition(context, LoginScreen(), true);
+        slideinTransition(context, LoginScreen());
         pleaseLoginPopup(context);
       } else {
-        slideinTransition(context, CardScreenView(), true);
+        slideinTransition(context, CardScreenView());
       }
     }
   }

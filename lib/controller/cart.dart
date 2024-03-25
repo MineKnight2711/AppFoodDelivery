@@ -17,7 +17,9 @@ List<CartItem>? cartItems = [];
 Timer? timer;
 int totalQuantity = 0;
 bool? isChecked = false, showRemoveAll = false;
+
 double totalCart = 0.0;
+
 User? user;
 _getCurrentUser() async {
   await FirebaseAuth.instance.authStateChanges().listen((User? currentUser) {
@@ -154,7 +156,6 @@ void increaseQuantity(String? dishID) async {
     final cartItemSnapshot = querySnapshot.docs.first;
     int oldQuantity = cartItemSnapshot.get('Quantity');
     double total = cartItemSnapshot.get('Total');
-
     int newQuantity = oldQuantity + 1;
     double dishPrice = total / oldQuantity;
     double newTotal = dishPrice * newQuantity;
@@ -162,10 +163,10 @@ void increaseQuantity(String? dishID) async {
       CartItem cartItemToUpdate =
           checkedItems.firstWhere((item) => item.dishID == dishID);
       checkedItems.remove(cartItemToUpdate);
-      print('Before change ${checkedItems.length}');
       cartItemToUpdate.quantity = newQuantity;
       cartItemToUpdate.total = newTotal;
       checkedItems.add(cartItemToUpdate);
+      updateCartTotalStream();
     }
 
     await cartItemSnapshot.reference.update({
@@ -215,76 +216,6 @@ void decreaseQuantity(String? dishID) async {
     await getCurrentCheckedItems();
   }
 }
-// void showDeleteCart(){
-//   if()
-// }
-// void increaseQuantity(String? dishID) async {
-//   final refCart = await FirebaseFirestore.instance
-//       .collection('cart')
-//       .where('UserID', isEqualTo: user?.uid)
-//       .where('DishID', isEqualTo: dishID);
-//   final querySnapshot = await refCart.get();
-//   if (querySnapshot.docs.isNotEmpty) {
-//     final cartItemSnapshot = querySnapshot.docs.first;
-//     int oldQuantity = cartItemSnapshot.get('Quantity');
-//     double total = cartItemSnapshot.get('Total');
-
-//     int newQuantity = oldQuantity + 1;
-//     double dishPrice = total / oldQuantity;
-//     double newTotal = dishPrice * newQuantity;
-//     CartItem cartItemToUpdate =
-//         checkedItems.firstWhere((item) => item.dishID == dishID);
-//     checkedItems.remove(cartItemToUpdate);
-//     print('Before change ${checkedItems.length}');
-//     cartItemToUpdate.quantity = newQuantity;
-//     cartItemToUpdate.total = newTotal;
-//     checkedItems.add(cartItemToUpdate);
-//     await cartItemSnapshot.reference.update({
-//       "Total": newTotal,
-//       "Quantity": newQuantity,
-//     });
-//   }
-// }
-
-// void decreaseQuantity(String? dishID) async {
-//   print(cartItems!.length);
-//   final refCart = await FirebaseFirestore.instance
-//       .collection('cart')
-//       .where('UserID', isEqualTo: user?.uid)
-//       .where('DishID', isEqualTo: dishID);
-//   final querySnapshot = await refCart.get();
-//   if (querySnapshot.docs.isNotEmpty) {
-//     final cartItemSnapshot = querySnapshot.docs.first;
-//     int oldQuantity = cartItemSnapshot.get('Quantity');
-//     double total = cartItemSnapshot.get('Total');
-
-//     int newQuantity = oldQuantity - 1;
-//     double dishPrice = total / oldQuantity;
-//     double newTotal = dishPrice * newQuantity;
-
-//     if (oldQuantity <= 1) {
-//       await cartItemSnapshot.reference.delete();
-//       checkedItems.removeWhere((element) => element.dishID == dishID);
-//       cartItems!.removeWhere((element) => element.dishID == dishID);
-//       removeFromCartSucceed();
-//     } else {
-//       await cartItemSnapshot.reference.update({
-//         "Total": newTotal,
-//         "Quantity": newQuantity,
-//       });
-//       CartItem cartItemToUpdate =
-//           checkedItems.firstWhere((item) => item.dishID == dishID);
-//       checkedItems.remove(cartItemToUpdate);
-//       cartItemToUpdate.quantity = newQuantity;
-//       cartItemToUpdate.total = newTotal;
-//       checkedItems.add(cartItemToUpdate);
-//       // totalCart = checkedItems.fold(
-//       //     0, (previousValue, item) => previousValue + item.total);
-//     }
-//     await compareCart();
-//     await getCurrentCheckedItems();
-//   }
-// }
 
 bool checkQuantity(bool check) {
   if (check == true)

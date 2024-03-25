@@ -50,8 +50,7 @@ void rotateTransition(BuildContext context, Widget widget) async {
   });
 }
 
-void slideinTransition(
-    BuildContext context, Widget widget, bool allowBack) async {
+void slideinTransition(BuildContext context, Widget widget) async {
   Navigator.pushAndRemoveUntil<dynamic>(
     context,
     PageRouteBuilder(
@@ -70,7 +69,7 @@ void slideinTransition(
         );
       },
     ),
-    (route) => allowBack,
+    (route) => true,
   );
 }
 
@@ -122,7 +121,7 @@ void refreshTransition(BuildContext context, Widget widget) async {
 }
 
 void fadeinTransition(BuildContext context, Widget widget) async {
-  Navigator.pushAndRemoveUntil<dynamic>(
+  Navigator.pushReplacement(
     context,
     PageRouteBuilder(
       transitionDuration: const Duration(milliseconds: 500),
@@ -133,13 +132,6 @@ void fadeinTransition(BuildContext context, Widget widget) async {
           child: child,
         );
       },
-    ),
-    (route) => true,
-  );
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text("Đang tải..."),
-      duration: Duration(seconds: 2),
     ),
   );
 }

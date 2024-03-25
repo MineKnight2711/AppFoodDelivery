@@ -1,13 +1,18 @@
 import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
 import 'package:app_food_2023/model/dishes_model.dart';
+import 'package:app_food_2023/widgets/message.dart';
+import 'package:app_food_2023/widgets/transitions_animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/cart.dart';
+import '../../controller/check_out.dart';
 import '../../model/cart_model.dart';
 import '../../widgets/cart_view/cart_screen.dart';
 import '../../widgets/popups.dart';
+import 'check_out.dart';
 
 class CardScreenView extends StatefulWidget {
   const CardScreenView({Key? key}) : super(key: key);
@@ -42,7 +47,7 @@ class _CardScreenViewState extends State<CardScreenView> {
           onPressed: () {
             resetCartTotalStream();
 
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -436,20 +441,22 @@ class _CardScreenViewState extends State<CardScreenView> {
                 width: 185.29,
                 height: 50,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffFFB039),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(62), // <-- Radius
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffFFB039),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(62), // <-- Radius
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    // Navigator.push(
-                    // context,
-                    // MaterialPageRoute(builder: (context) => const CheckoutScreenView()),
-                    // );
-                  },
-                  child: const Text("Save"),
-                ),
+                    onPressed: () {
+                      if (checkedItems.isEmpty) {
+                        CustomErrorMessage.showMessage(
+                            'Vui lòng chọn ít nhất 1 sản phẩm!');
+                        return;
+                      }
+                      Get.put(CheckOutController(checkedItems));
+                      slideupTransition(context, CheckoutScreenView());
+                    },
+                    child: Text('Thanh toán ${checkedItems.length} ')),
               ),
             ],
           ),

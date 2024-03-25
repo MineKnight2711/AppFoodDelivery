@@ -59,7 +59,7 @@ class _SettingProfileScreenState extends State<SettingProfileScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            slideinTransition(context, AppHomeScreen(), true);
+            slideinTransition(context, AppHomeScreen());
           },
         ),
       ),

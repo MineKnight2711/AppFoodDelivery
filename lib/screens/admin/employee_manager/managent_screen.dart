@@ -25,7 +25,7 @@ class _ManagementEmployeesState extends State<ManagementEmployees> {
     return Scaffold(
       appBar: CustomAppBar(
         onPressed: () {
-          slideinTransition(context, AdminScreen(), true);
+          slideinTransition(context, AdminScreen());
         },
         title: 'Danh sách nhân viên',
       ),
@@ -77,10 +77,10 @@ class _ManagementEmployeesState extends State<ManagementEmployees> {
                       onPressed: () {
                         Get.put(EditSpecificEmployeeController(doc.id));
 
-                        Navigator.push(
+                        slideinTransition(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => ChangeRoleEmployees(doc: doc),
+                          ChangeRoleEmployees(
+                            doc: doc,
                           ),
                         );
                       },
@@ -95,7 +95,7 @@ class _ManagementEmployeesState extends State<ManagementEmployees> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          slideinTransition(context, AddEmployees(), true);
+          slideinTransition(context, AddEmployees());
         },
       ),
     );

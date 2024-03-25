@@ -60,12 +60,7 @@ class EditEmployeesScreenState extends State<EditEmployees> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AdminScreen(),
-              ),
-            );
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -82,17 +77,22 @@ class EditEmployeesScreenState extends State<EditEmployees> {
                       GetX<EmployeeController>(
                           init: EmployeeController(),
                           builder: (controller) {
-                            return Container(
-                              height: ScreenRotate(context)
-                                  ? MediaHeight(context, 4)
-                                  : MediaHeight(context, 2.7),
-                              child: ImagePickerWidget(
-                                onImageSelected: (image) {
-                                  current_image = image;
-                                },
-                                currentImageUrl:
-                                    controller.currentEmployee.value!.Avatar,
-                              ),
+                            if (controller.currentEmployee.value != null) {
+                              return Container(
+                                height: ScreenRotate(context)
+                                    ? MediaHeight(context, 4)
+                                    : MediaHeight(context, 2.7),
+                                child: ImagePickerWidget(
+                                  onImageSelected: (image) {
+                                    current_image = image;
+                                  },
+                                  currentImageUrl:
+                                      controller.currentEmployee.value!.Avatar,
+                                ),
+                              );
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(),
                             );
                           }),
                       Container(

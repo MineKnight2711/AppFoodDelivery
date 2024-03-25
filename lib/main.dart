@@ -1,19 +1,11 @@
 import 'package:app_food_2023/controller/user.dart';
-import 'package:app_food_2023/screens/cart_test.dart';
-import 'package:app_food_2023/widgets/show_rating.dart';
-import 'package:app_food_2023/screens/admin/admin_screen.dart';
-import 'package:app_food_2023/screens/home_screen.dart';
 import 'package:app_food_2023/screens/loading_screen/home_loading.dart';
-import 'package:app_food_2023/screens/phone_screen.dart';
 
-import 'package:app_food_2023/screens/verify_phone.dart';
-import 'package:app_food_2023/widgets/rating_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'package:app_food_2023/screens/login_register/login_screen.dart';
 import 'package:flutter/services.dart';
 
 import 'controller/edit_employee.dart';
@@ -39,14 +31,14 @@ void main() async {
     initialRoute: 'welcome',
     debugShowCheckedModeBanner: false,
     routes: {
-      'cart_test': (context) => CartTest(),
-      'admin': (context) => AdminScreen(),
-      'login': (context) => LoginScreen(),
-      'home': (context) => AppHomeScreen(),
-      'phone': (context) => MyPhone(),
-      'verify': (context) => MyVerify(),
-      'ratingTest': (context) => RatingTest(),
-      'ratingBar': (context) => RatingBarScreen(),
+      // 'cart_test': (context) => CartTest(),
+      // 'admin': (context) => AdminScreen(),
+      // 'login': (context) => LoginScreen(),
+      // 'home': (context) => AppHomeScreen(),
+      // 'phone': (context) => MyPhone(),
+      // 'verify': (context) => MyVerify(),
+      // 'ratingTest': (context) => RatingTest(),
+      // 'ratingBar': (context) => RatingBarScreen(),
       'welcome': (context) => LoadingHomeScreen(),
     },
   ));
