@@ -54,8 +54,8 @@ android {
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         multiDexEnabled true
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "AppFood_v0.0.1"
     }
 
     buildTypes {

@@ -1,0 +1,55 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Deploy project to firebase_app_distribution"
+  lane :bump_version_name do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: "1:650562453326:android:6aed887d3bf585e226e81f"
+    )
+    puts "latest_release: #{latest_release}"
+    version_name=android_get_version_name()
+    puts "version_name: #{version_name}"
+    version_components_name = latest_release[:displayVersion].split("_")
+    version_components = version_components_name[1].split(".")
+    version_components[2] = version_components[2].to_i + 1
+    new_version = version_components.join(".")
+    puts "new_version: #{new_version}"
+    android_set_version_name(version_name: "'AppFood_v#{new_version}'")
+  end
+  lane :bump_version_code do
+    current_version_code = android_get_version_code()
+    new_version_code = current_version_code.to_i + 1
+    puts "current_version_code: #{current_version_code}"
+    android_set_version_code(version_code: "#{new_version_code}")
+  end
+  lane :deploy do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release',
+      flags: "--warning-mode none -x lint",
+    )
+    firebase_app_distribution(
+      app: "1:389613032858:android:dc43b249188ee2a7ba1623",
+      groups: "DatTinhNhat",
+      release_notes: "AppRelease",
+      # release_notes_file: "release_notes.txt",
+      android_artifact_type: "APK",
+      apk_path: "../build/app/outputs/apk/release/AppFoodDelivery-release.apk",
+    )
+  end
+end

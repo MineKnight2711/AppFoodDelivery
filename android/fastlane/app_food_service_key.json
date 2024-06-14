@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "fir-v1-3a26a",
+  "private_key_id": "d6d7f0046f753866c4f872dcaa63167b093f91eb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCUYsIL6Fw28Z4i\nrvuHrG5e3JrVifKAFEzd25LIZnkAeIx8nhiP1KeQc5CU3BOPu+fCmEcXveN85uhq\nuLhyLIWlvDtPQNBCqRQJoFaNRIdKDfPape5inkA4pXjSutzS59+5hDSDqtOPmyz7\n2hVDMa4wK8o9MEVwRjWY1xz3o5oxwguYGBTHG5GU4ZfWLVRipCQLL2bnGIxN7YN4\nTCgZ19kBG8LDyDh8q47NUrt/g+/tXyQqIt+V5UGQVFMO357uWKPGn4tSFraUTp4v\nhopgPnMxwWPcseIgclbufANe0093+dduCh9BVcLOmCftY+YO51rpK+FgdceAKkeg\nYg9WD9l7AgMBAAECggEAAMiQ/sPajpZvEtmpja/ct6RRCX2gkD3VZpY/P6JLVvEu\nUdAm5VZqRr57fbLSCMecGxqiJXYAttIGoCBaIrK9xWKKB14F+oy0TubZL4ht2VYw\n07X19zcaKrf3Q8DvqiAxujV+k5MpwwfTS+BuFtxUWWCWrqDHUI7g5JTxqOCL2rcL\n43TydMLpIAvp+eKRZ+1o2YovZL3Km6BbFkSBNu5IcOYEPVWXMo9e9Ee3KAooKWWn\n4Ph582Bv2DBhOFHT10ljg01R+BRplobagqiE7r3aCg9dnky3REmwy0TzwSYRMop2\nT0fqtHNwmwgn2YYSMW9Hs+Nd6X3ibRFtuVabshARYQKBgQDKT7Uv7JZosmXlp/T9\nZ00deuk2RCN+Rr6NIKMD0vja5JHgyk980nDO4/OMnAgJKNJxZ/CNxRQbKc/xcFDj\nJ4YN19iEz1Tb/fFtZX+RYua1e1qw4RsdtV/Xwv7pkwQ0nIYlQt4/0BXGfpItzRb+\nPrr9GYiwIteqlNr/FMtiN2NNJQKBgQC7w4sqht0Dszk5Ue3wQzJAxKslCToSVxQ1\nVZqZhaUsF8Lapih7TpBvaUMqRCtATim2OC098D8BZYlM5szCgC0yLaK+wJk/pRdU\njfjzXEvMRicImXL/YEkFr7U8DbXH2PV9acVQ6POBlPtlbxSWmvljfLyUcwkNI6TL\nqpDDyHjaHwKBgQCQvTvsoH/vQYrDJkmRLeGu8Kt+pnsaMbTMNQhLiRl/ST3QrAz4\nSXppmg45j7v0CZ+dgPZKBzBeSqi5nFhSW4l9x+nhApA8n86lLJN6yV4zgqAcocAL\nniKGs7w6EXNVzJHwgImO7+lUTGN6nxsPJIQU5bq0AQl4wex3yEHF78h8fQKBgBt9\nXpOkWRlglQEyYI6rl+DpqlDqz+i9fQTt+ot9iJgzBmEysHyVHQpis+WtQ1PP3cWC\n5gTKdr8CmZ57sADN+U/+ZHRfCFDMH+VOP+OJYMOQhch5ht+ivi4p8nPPYgzXU+G/\nqZbV9EjFgiTwpWgDWn3ZVla5nNqinE8BMt6nLCJrAoGBAKokgpSfilEwUQaq15VQ\n260dVrg/v7G/ofDS3QD8SaIKIGDpLx/u5ENXyRQ7Bdk8Cq1eCjTTL/oMBdfJyuu6\ncrOQp/Qz1kf8UTfzLeFRZNJKtLgF98HwX7s3+i+UobC+w21+oWBP8SEVPNA+Zcg9\nzgtyQNNObLcRunRtOmwyKB52\n-----END PRIVATE KEY-----\n",
+  "client_email": "fir-v1-3a26a@appspot.gserviceaccount.com",
+  "client_id": "116293567819786774245",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fir-v1-3a26a%40appspot.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
