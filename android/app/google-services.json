@@ -23,7 +23,15 @@
           }
         },
         {
-          "client_id": "389613032858-162s00vb8nkadeqve3aj6j3q7sbenslo.apps.googleusercontent.com",
+          "client_id": "389613032858-sgqruo4a2s2g0sjgm07lqlq8f28q7v03.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_food_2023",
+            "certificate_hash": "d51796c0df1cc0e3c33ba62b3233dd7d8509df36"
+          }
+        },
+        {
+          "client_id": "389613032858-39in4o6nvmgvrcupmi4sdr3ft0ocotjp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -38,6 +46,13 @@
             {
               "client_id": "389613032858-162s00vb8nkadeqve3aj6j3q7sbenslo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "389613032858-6s02v797uj4u68739573gnnstlc8paij.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appFoodDelivery"
+              }
             }
           ]
         }

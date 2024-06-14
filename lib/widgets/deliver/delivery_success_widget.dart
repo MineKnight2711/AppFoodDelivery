@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../controller/customercontrollers/cart.dart';
 
 import '../../screens/admin/order_manager/order_class.dart';
-import '../../screens/deliver/setting_profile/delivery_order/success_delivery_order_details.dart';
+import '../../screens/deliver/delivery_order/success_delivery_order_details.dart';
 
 class SuccessDelivery extends StatelessWidget {
   SuccessDelivery({super.key});

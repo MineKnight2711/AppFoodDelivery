@@ -2,7 +2,6 @@ import 'package:app_food_2023/controller/customercontrollers/cart.dart';
 import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
 import 'package:app_food_2023/widgets/custom_widgets/transitions_animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import '../home_screen.dart';
 
@@ -76,10 +75,6 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
                 ),
               ),
               SizedBox(height: 32.0),
-              SpinKitFadingCube(
-                color: Color.fromARGB(255, 252, 61, 211),
-                size: 48.0,
-              ),
             ],
           ),
         ),

@@ -6,7 +6,8 @@ import 'package:app_food_2023/api/google_map/providers/place_provider.dart';
 import 'package:app_food_2023/api/google_map/providers/search_provider.dart';
 import 'package:app_food_2023/api/google_map/src/components/prediction_tile.dart';
 import 'package:app_food_2023/api/google_map/src/controllers/autocomplete_search_controller.dart';
-import 'package:google_maps_webservice/places.dart';
+import 'package:flutter_google_maps_webservices/places.dart';
+
 import 'package:provider/provider.dart';
 
 class AutoCompleteSearch extends StatefulWidget {
