@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_google_maps_webservices/geocoding.dart';
+import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app_food_2023/api/google_map/src/models/pick_result.dart';
 import 'package:app_food_2023/api/google_map/src/place_picker.dart';
-import 'package:google_maps_webservice/geocoding.dart';
-import 'package:google_maps_webservice/places.dart';
+
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 

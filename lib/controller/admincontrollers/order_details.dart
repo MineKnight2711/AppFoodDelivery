@@ -5,7 +5,6 @@ import 'package:app_food_2023/widgets/custom_widgets/message.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 class OrderDetailsController extends GetxController {
@@ -55,10 +54,6 @@ class OrderDetailsController extends GetxController {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SpinKitFadingCircle(
-                  color: Colors.blue,
-                  size: 50.0,
-                ),
                 SizedBox(height: 20),
                 Text('Loading...', style: TextStyle(fontSize: 18)),
               ],

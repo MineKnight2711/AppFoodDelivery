@@ -5,7 +5,7 @@ import '../../controller/employee.dart';
 import '../../controller/user.dart';
 import '../../model/UserModel.dart';
 import '../../screens/admin/admin_screen.dart';
-import '../../screens/deliver/setting_profile/delivery_settings.dart';
+import '../../screens/deliver/delivery_settings.dart';
 import '../custom_widgets/transitions_animations.dart';
 
 Widget adminInfor(BuildContext context, UserModel userModel) {

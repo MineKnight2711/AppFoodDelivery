@@ -14,13 +14,21 @@ import 'package:flutter/material.dart';
 
 import 'package:app_food_2023/screens/login_register/login_screen.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'controller/admincontrollers/edit_employee.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('vi_VN', null);
-  await Firebase.initializeApp();
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: "AIzaSyCsEV-_L3qKEhBYnMnqz7LQUKDQpE5_qhI",
+        appId: "1:389613032858:android:dc43b249188ee2a7ba1623",
+        messagingSenderId: "389613032858",
+        projectId: "fir-v1-3a26a",
+        storageBucket: "fir-v1-3a26a.appspot.com",
+      ),
+    );
+  }
   await FirebaseAuth.instance.userChanges();
   await FirebaseAuth.instance.authStateChanges();
   await getCurrentUser();

@@ -82,7 +82,7 @@ class VoucherController extends GetxController {
       return "Không tìm thấy!";
     }
     filteredVoucherList.value = filteredVouchers;
-    return "Đã tìm thấy ${filteredVoucherList.value.length}!";
+    return "Đã tìm thấy ${filteredVoucherList.length}!";
   }
 
   void resetInputAdd() {

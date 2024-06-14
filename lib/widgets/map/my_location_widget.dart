@@ -162,8 +162,10 @@ class _HomeLocationDropdownState extends State<HomeLocationDropdown> {
           .get();
 
       _inputValue = prefs.data()?["Address"];
-
-      return prefs.data()?["Address"];
+      if (_inputValue != null) {
+        return _inputValue!;
+      }
+      return "Không có địa chỉ";
     }
     return '';
   }
