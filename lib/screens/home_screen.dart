@@ -1,264 +1,300 @@
 import 'dart:async';
 
-import 'package:app_food_2023/appstyle/screensize_aspectratio/mediaquery.dart';
+import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
 import 'package:app_food_2023/screens/customer/cart_view.dart';
 import 'package:app_food_2023/screens/customer/food_details.dart';
 import 'package:app_food_2023/screens/customer/viewdish_by_category.dart';
+
 import 'package:app_food_2023/screens/login_register/login_screen.dart';
 
-import 'package:app_food_2023/widgets/category_view_card.dart';
-import 'package:app_food_2023/widgets/food_view_card.dart';
+import 'package:app_food_2023/widgets/list_view_cards/category_view_card.dart';
+import 'package:app_food_2023/widgets/list_view_cards/food_view_card.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../controller/cart.dart';
 import '../controller/user.dart' as u;
+import 'package:rxdart/rxdart.dart' as rx;
 
-import '../widgets/popups.dart';
-import '../widgets/transitions_animations.dart';
+import '../widgets/custom_widgets/popups.dart';
+import '../widgets/custom_widgets/transitions_animations.dart';
 
-class AppHomeScreen extends StatefulWidget {
-  const AppHomeScreen({super.key});
-
+class HomeScreenController extends GetxController {
+  Rx<double> topcontainer = Rx<double>(0.0);
+  Rx<int> selectedindex = Rx<int>(0);
+  Rx<Stream<QuerySnapshot>?> categories = Rx<Stream<QuerySnapshot>?>(null);
+  Rx<Stream<QuerySnapshot>?> dishes = Rx<Stream<QuerySnapshot>?>(null);
   @override
-  State<AppHomeScreen> createState() => _AppHomeScreenState();
-}
-
-class _AppHomeScreenState extends State<AppHomeScreen> {
-  String? name;
-  final ScrollController _scrollController = ScrollController();
-  List<String> recentAddresses = [];
-  Stream<QuerySnapshot> getCategorySnapshots() async* {
-    yield* FirebaseFirestore.instance.collection('categories').snapshots();
+  void onInit() {
+    super.onInit();
+    getCategorySnapshots();
+    getDishesSnapshots();
   }
 
-  Stream<QuerySnapshot> getDishesSnapshots() async* {
-    yield* FirebaseFirestore.instance
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  Future<void> getCategorySnapshots() async {
+    categories.value =
+        await FirebaseFirestore.instance.collection('categories').snapshots();
+  }
+
+  Future<void> getDishesSnapshots() async {
+    dishes.value = await FirebaseFirestore.instance
         .collection("dishes")
         .limit(10)
         .snapshots();
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    resetCartTotalStream();
+  void onItemTapped(BuildContext context, int index) {
+    selectedindex.value = index;
+    if (selectedindex.value == 1) {
+      if (u.user == null) {
+        slideinTransition(context, LoginScreen());
+        pleaseLoginPopup(context);
+      } else {
+        slideinTransition(context, CardScreenView());
+      }
+    } else if (selectedindex.value == 0) {
+      slideinTransitionNoBack(context, AppHomeScreen());
+    }
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  Future<void> refresh() async {
+    await getCategorySnapshots();
+    await getDishesSnapshots();
   }
+}
 
-  Future<void> _refresh() async {
-    fadeinTransition(context, AppHomeScreen());
-  }
+class AppHomeScreen extends StatelessWidget {
+  final controller = Get.find<HomeScreenController>();
+  final checkoutcontroller = Get.find<CheckOutController>();
 
   @override
   Widget build(BuildContext context) {
+    final _scrollController = ScrollController();
+    final _scrollOffset = rx.BehaviorSubject<double>.seeded(0.0);
+
+    _scrollController.addListener(() {
+      _scrollOffset.add(_scrollController.offset);
+    });
+
+    final Size size = MediaQuery.of(context).size;
+    final double categoryHeight = size.height / 7;
+    controller.onInit();
+    checkoutcontroller.getLocation();
     return WillPopScope(
       onWillPop: () => onBackPressed(context),
-      child: Scaffold(
-          body: RefreshIndicator(
-            onRefresh: _refresh,
-            child: Material(
-              color: Colors.white,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
+      child: Obx(() {
+        return Scaffold(
+          body: Column(
+            children: [
+              SizedBox(
+                height: size.height / 24,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(height: 50),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 5),
-                                u.showUserInfor(context),
-                              ],
-                            ),
-                          ),
-                          Stack(
-                            children: [
-                              u.userAvatar(context),
-                              Positioned(
-                                child: Container(
-                                  margin: EdgeInsets.all(5),
-                                  padding: EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.white, width: 3),
-                                    color: Color(0xFFFF2F08),
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          SizedBox(height: 5),
+                          u.showUserInfor(context),
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset("images/banner.jpg"),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Hôm nay ăn gì ?",
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
+                    Stack(
+                      children: [
+                        u.userAvatar(context),
+                        Positioned(
+                          child: Container(
+                            margin: EdgeInsets.all(5),
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 3),
+                              color: Color(0xFFFF2F08),
+                              shape: BoxShape.circle,
                             ),
                           ),
-                          TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Xem tất cả",
-                                style: TextStyle(
-                                  color: Color(0xFFFF2F08),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ))
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      height: 120,
-                      decoration:
-                          BoxDecoration(color: Color.fromARGB(255, 48, 71, 71)),
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: getCategorySnapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (snapshot.hasData) {
-                            return ListView(
-                              itemExtent: 130,
-                              scrollDirection: Axis.horizontal,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              children: snapshot.data!.docs
-                                  .map((category) => categoryViewCard(() {
-                                        fadeinTransition(
-                                            context, DishByCategory(category));
-                                      }, category))
-                                  .toList(),
-                            );
-                          }
-                          return Text("Không tìm thấy danh mục",
-                              style: GoogleFonts.nunito(color: Colors.white));
-                        },
-                      ),
-                    ),
-                    StreamBuilder<QuerySnapshot>(
-                        stream: getDishesSnapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (snapshot.hasData) {
-                            final Orientation orientation =
-                                MediaQuery.of(context).orientation;
-                            return SizedBox(
-                              height: MediaHeight(context, 2),
-                              child:
-                                  NotificationListener<ScrollEndNotification>(
-                                onNotification: (notification) {
-                                  if (notification.metrics.pixels ==
-                                      notification.metrics.maxScrollExtent) {
-                                    _scrollController.animateTo(0,
-                                        duration: Duration(milliseconds: 500),
-                                        curve: Curves.easeInOut);
-                                  }
-                                  return true;
-                                },
-                                child: GridView.count(
-                                  scrollDirection:
-                                      (orientation == Orientation.portrait)
-                                          ? Axis.vertical
-                                          : Axis.horizontal,
-                                  physics: ClampingScrollPhysics(),
-                                  crossAxisCount: 1,
-                                  crossAxisSpacing: 1,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio:
-                                      (orientation == Orientation.portrait)
-                                          ? MediaAspectRatio(context, 0.321)
-                                          : MediaAspectRatio(context, 3.5),
-                                  children: snapshot.data!.docs
-                                      .map((dish) => Padding(
-                                            padding: EdgeInsets.all(
-                                                (orientation ==
-                                                        Orientation.portrait)
-                                                    ? 0
-                                                    : 8),
-                                            child: foodViewCard(context, () {
-                                              slideupTransition(context,
-                                                  FoodViewDetails(dish));
-                                            }, dish),
-                                          ))
-                                      .toList(),
-                                ),
-                              ),
-                            );
-                          }
-                          return Text("Lỗi",
-                              style: GoogleFonts.nunito(color: Colors.white));
-                        }),
-
-                    // SizedBox(height: 50),
                   ],
                 ),
               ),
-            ),
+              Container(
+                width: size.width,
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Hôm nay ăn gì ?",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              CatorigesViewStreamBuilder(
+                  scrollOffset: _scrollOffset,
+                  categoryHeight: categoryHeight,
+                  stream: controller.categories.value),
+              DishesViewStreamBuilder(
+                  stream: controller.dishes.value,
+                  onRefresh: controller.refresh,
+                  scrollController: _scrollController),
+            ],
           ),
           bottomNavigationBar: MyBottomNavigationBar(
-            onItemTapped: _onItemTapped,
-            selectedIndex: _selectedIndex,
-          )),
+            onItemTapped: (index) => controller.onItemTapped(context, index),
+            selectedIndex: controller.selectedindex.value,
+          ),
+        );
+      }),
     );
   }
+}
 
-  int _selectedIndex = 0;
+class CatorigesViewStreamBuilder extends StatelessWidget {
+  final rx.BehaviorSubject<double> scrollOffset;
+  final double categoryHeight;
+  final Stream<QuerySnapshot>? stream;
+  const CatorigesViewStreamBuilder(
+      {required this.scrollOffset,
+      required this.categoryHeight,
+      required this.stream,
+      super.key});
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 1) {
-      if (u.user == null) {
-        slideinTransition(context, LoginScreen(), true);
-        pleaseLoginPopup(context);
-      } else {
-        slideinTransition(context, CardScreenView(), true);
-      }
-    }
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return StreamBuilder<double>(
+      stream: scrollOffset,
+      builder: (context, snapshot) {
+        final scrollOffset = snapshot.data ?? 0.0;
+        final shouldCloseContainer = scrollOffset > (categoryHeight - 50);
+        return AnimatedOpacity(
+          duration: Duration(milliseconds: 200),
+          opacity: shouldCloseContainer ? 0.0 : 1.0,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            width: size.width,
+            alignment: Alignment.topCenter,
+            height: shouldCloseContainer ? 0 : categoryHeight,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              alignment: Alignment.topCenter,
+              child: Column(children: [
+                Container(
+                  width: size.width,
+                  height: categoryHeight,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: stream,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemExtent: 150,
+                            itemCount: snapshot.data!.docs.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final category = snapshot.data!.docs[index];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: categoryViewCard(() {
+                                  slideupTransition(
+                                      context, DishByCategory(category));
+                                }, category),
+                              );
+                            });
+                      }
+                      return Text("Không tìm thấy danh mục",
+                          style: GoogleFonts.nunito(color: Colors.white));
+                    },
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DishesViewStreamBuilder extends StatelessWidget {
+  final Stream<QuerySnapshot>? stream;
+  final Future<void> Function() onRefresh;
+  final ScrollController? scrollController;
+  const DishesViewStreamBuilder(
+      {required this.stream,
+      required this.onRefresh,
+      required this.scrollController,
+      super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: stream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasData) {
+          final Orientation orientation = MediaQuery.of(context).orientation;
+          return Expanded(
+            child: RefreshIndicator(
+              color: Colors.green,
+              onRefresh: onRefresh,
+              child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                controller: scrollController,
+                scrollDirection: (orientation == Orientation.portrait)
+                    ? Axis.vertical
+                    : Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final dish = snapshot.data!.docs[index];
+
+                  return Align(
+                    heightFactor: 1,
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                          (orientation == Orientation.portrait) ? 10 : 8),
+                      child: foodViewCard(context, () {
+                        slideupTransition(context, FoodViewDetails(dish));
+                      }, dish),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        }
+        return Text("Chưa có món :((",
+            style: GoogleFonts.nunito(color: Colors.white));
+      },
+    );
   }
 }
 
@@ -283,14 +319,6 @@ class MyBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart),
           label: 'Giỏ hàng',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.discount_rounded),
-          label: 'Voucher của tôi',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Cài đặt',
         ),
       ],
       currentIndex: selectedIndex,

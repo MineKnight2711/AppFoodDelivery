@@ -5,7 +5,8 @@ import '../../controller/employee.dart';
 import '../../controller/user.dart';
 import '../../model/UserModel.dart';
 import '../../screens/admin/admin_screen.dart';
-import '../transitions_animations.dart';
+import '../../screens/deliver/setting_profile/delivery_settings.dart';
+import '../custom_widgets/transitions_animations.dart';
 
 Widget adminInfor(BuildContext context, UserModel userModel) {
   return Column(
@@ -27,7 +28,16 @@ Widget adminAvatar(BuildContext context) {
   return InkWell(
     onTap: () {
       Get.put(EmployeeController());
-      slideinTransition(context, AdminScreen(), true);
+      slideinTransition(context, AdminScreen());
+    },
+    child: userImage(),
+  );
+}
+
+Widget deliveryAvatar(BuildContext context) {
+  return InkWell(
+    onTap: () {
+      slideinTransition(context, DeliverySetting());
     },
     child: userImage(),
   );

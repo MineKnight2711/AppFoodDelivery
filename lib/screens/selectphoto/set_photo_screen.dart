@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../widgets/select_image/common_buttons.dart';
-import '../../widgets/select_image/constants.dart';
+import '../../widgets/select_image_constant/common_buttons.dart';
+import '../../widgets/select_image_constant/constants.dart';
 import 'select_photo_options_screen.dart';
 
 // ignore: must_be_immutable

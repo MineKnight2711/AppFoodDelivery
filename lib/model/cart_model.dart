@@ -24,6 +24,7 @@ class CartItem {
       isChecked: false,
     );
   }
+
   factory CartItem.fromMap(Map<String, dynamic> map) {
     return CartItem(
       dishID: map['dish'] ?? '',
@@ -33,6 +34,7 @@ class CartItem {
       total: map['total'] ?? 0.0,
     );
   }
+
   Map<String, dynamic> toMap() {
     return {
       'dish': dishID,
