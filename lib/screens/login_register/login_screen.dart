@@ -14,7 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../model/UserModel.dart';
+import '../../model/user_model.dart';
 import '../home_screen.dart';
 
 class LoginScreen extends StatefulWidget {

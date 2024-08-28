@@ -1,5 +1,5 @@
-import 'package:app_food_2023/controller/customercontrollers/check_out.dart';
-import 'package:app_food_2023/widgets/custom_widgets/message.dart';
+import '../../../controller/customercontrollers/check_out.dart';
+import '../../../widgets/custom_widgets/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../controller/user.dart';
+import '../../../controller/user.dart';
 
 class LocationDropdown extends StatefulWidget {
   const LocationDropdown({Key? key}) : super(key: key);

@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../model/UserModel.dart';
+import '../../model/user_model.dart';
 
 File? image;
 DateTime? birthDay;

@@ -1,4 +1,4 @@
-import 'package:app_food_2023/model/UserModel.dart';
+import 'package:app_food_2023/model/user_model.dart' as userModel;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +9,10 @@ import '../widgets/homescreen_widgets/notlogin.dart';
 import '../widgets/homescreen_widgets/username_location.dart';
 
 User? user;
-UserModel? loggedInUser;
+userModel.UserModel? loggedInUser;
 DateTime? dateTime, currentBirthDay;
 
-Future<UserModel> getCurrentUser() async {
+Future<userModel.UserModel> getCurrentUser() async {
   await FirebaseAuth.instance.authStateChanges().listen((User? currentUser) {
     user = currentUser;
   });
@@ -21,14 +21,14 @@ Future<UserModel> getCurrentUser() async {
       await FirebaseFirestore.instance.collection("users").doc(user?.uid).get();
 
   if (userSnapshot.exists) {
-    return UserModel.fromMap(userSnapshot.data());
+    return userModel.UserModel.fromMap(userSnapshot.data());
   } else {
-    return UserModel();
+    return userModel.UserModel();
   }
 }
 
 convertToUserModel() async {
-  UserModel user = await getCurrentUser();
+  userModel.UserModel user = await getCurrentUser();
 
   loggedInUser = user;
 }
@@ -40,11 +40,11 @@ getUserBirthDay() async {
 
 Widget showUserInfor(BuildContext context) {
   if (user != null) {
-    return FutureBuilder<UserModel>(
+    return FutureBuilder<userModel.UserModel>(
       future: getCurrentUser(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          UserModel userSnapShot = snapshot.data!;
+          userModel.UserModel userSnapShot = snapshot.data!;
           if (userSnapShot.Role == "Customer") {
             return userInfor(context, userSnapShot);
           } else if (userSnapShot.Role == "Delivery") {
@@ -62,11 +62,11 @@ Widget showUserInfor(BuildContext context) {
 
 Widget userImage() {
   if (user != null) {
-    return FutureBuilder<UserModel>(
+    return FutureBuilder<userModel.UserModel>(
       future: getCurrentUser(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          UserModel userSnapShot = snapshot.data!;
+          userModel.UserModel userSnapShot = snapshot.data!;
           bool isValidUrl(String url) {
             Uri uri = Uri.parse(url);
             return uri.isAbsolute &&
@@ -99,11 +99,11 @@ Widget userImage() {
 
 Widget userAvatar(BuildContext context) {
   if (user != null) {
-    return FutureBuilder<UserModel>(
+    return FutureBuilder<userModel.UserModel>(
       future: getCurrentUser(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          UserModel userSnapShot = snapshot.data!;
+          userModel.UserModel userSnapShot = snapshot.data!;
           if (userSnapShot.Role == "Customer") {
             return customerAvatar(context);
           } else if (userSnapShot.Role == "Admin") {
