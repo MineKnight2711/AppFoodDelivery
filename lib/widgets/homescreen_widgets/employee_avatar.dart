@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controller/employee.dart';
 import '../../controller/user.dart';
-import '../../model/UserModel.dart';
+import '../../model/user_model.dart';
 import '../../screens/admin/admin_screen.dart';
 import '../../screens/deliver/delivery_settings.dart';
 import '../custom_widgets/transitions_animations.dart';

@@ -146,8 +146,8 @@ class DeliverOrderDetailsScreen extends StatelessWidget {
               },
               child: Text('Nhận đơn hàng'),
               style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all<Size>(Size(400, 50)),
-                textStyle: MaterialStateProperty.all<TextStyle>(
+                minimumSize: WidgetStateProperty.all<Size>(Size(400, 50)),
+                textStyle: WidgetStateProperty.all<TextStyle>(
                   TextStyle(
                     fontSize: 14,
                     fontFamily: 'Poppins',

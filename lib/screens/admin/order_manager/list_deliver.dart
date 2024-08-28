@@ -73,8 +73,8 @@ class _DeliveryPersonDialogState extends State<DeliveryPersonDialog> {
             },
             child: Text('Chọn '),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-              textStyle: MaterialStateProperty.all<TextStyle>(
+              backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
+              textStyle: WidgetStateProperty.all<TextStyle>(
                 TextStyle(
                   fontSize: 14,
                   fontFamily: 'Poppins',
@@ -90,9 +90,9 @@ class _DeliveryPersonDialogState extends State<DeliveryPersonDialog> {
             },
             child: Text('Đóng'),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
+              backgroundColor: WidgetStateProperty.all<Color>(
                   Color.fromARGB(255, 255, 46, 46)),
-              textStyle: MaterialStateProperty.all<TextStyle>(
+              textStyle: WidgetStateProperty.all<TextStyle>(
                 TextStyle(
                   fontSize: 14,
                   fontFamily: 'Poppins',

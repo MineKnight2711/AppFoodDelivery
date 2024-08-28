@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app_food_2023/controller/customercontrollers/cart.dart';
 import '../../controller/user.dart';
-import '../../model/UserModel.dart';
+import '../../model/user_model.dart';
 import '../../model/dishes_model.dart';
 import '../../widgets/customer/feedback_dialogs.dart';
 import '../../widgets/list_view_cards/rating_card.dart';

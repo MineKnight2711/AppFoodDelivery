@@ -165,8 +165,8 @@ class OrderListScreen extends StatelessWidget {
               },
               child: Text('Chọn nhân viên giao hàng'),
               style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all<Size>(Size(400, 50)),
-                textStyle: MaterialStateProperty.all<TextStyle>(
+                minimumSize: WidgetStateProperty.all<Size>(Size(400, 50)),
+                textStyle: WidgetStateProperty.all<TextStyle>(
                   TextStyle(
                     fontSize: 14,
                     fontFamily: 'Poppins',

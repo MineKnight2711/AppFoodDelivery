@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../model/UserModel.dart';
+import '../model/user_model.dart';
 
 class EmployeeController extends GetxController {
   Rx<UserModel?> currentEmployee = Rx<UserModel?>(null);

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../api/seach_place.dart';
 import '../../controller/user.dart';
-import '../../model/UserModel.dart';
+import '../../model/user_model.dart';
 
 import '../../screens/customer/setting_profile/customer_settings.dart';
 import '../custom_widgets/transitions_animations.dart';

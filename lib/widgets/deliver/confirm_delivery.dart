@@ -19,7 +19,7 @@ class ConfirmDeliveryDialog extends StatelessWidget {
           width: double.infinity,
           child: TextButton(
             style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   side: BorderSide(color: Colors.green),
@@ -35,7 +35,7 @@ class ConfirmDeliveryDialog extends StatelessWidget {
           width: 100,
           child: TextButton(
             style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   side: BorderSide(color: Colors.red),
