@@ -146,8 +146,8 @@ class SuccessDeliverOrderDetailsScreen extends StatelessWidget {
             //   },
             //   child: Text('Xác nhận giao thành công'),
             //   style: ButtonStyle(
-            //     minimumSize: MaterialStateProperty.all<Size>(Size(400, 50)),
-            //     textStyle: MaterialStateProperty.all<TextStyle>(
+            //     minimumSize: WidgetStateProperty.all<Size>(Size(400, 50)),
+            //     textStyle: WidgetStateProperty.all<TextStyle>(
             //       TextStyle(
             //         fontSize: 14,
             //         fontFamily: 'Poppins',

@@ -101,10 +101,10 @@ class _DeliverySelectionDialogState extends State<DeliverySelectionDialog> {
           },
           child: Text('Chọn nhân viên'),
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
+            backgroundColor: WidgetStateProperty.all<Color>(
               Colors.green,
             ),
-            textStyle: MaterialStateProperty.all<TextStyle>(
+            textStyle: WidgetStateProperty.all<TextStyle>(
               TextStyle(
                 fontSize: 14,
                 fontFamily: 'Poppins',
@@ -120,10 +120,10 @@ class _DeliverySelectionDialogState extends State<DeliverySelectionDialog> {
           },
           child: Text('Đóng'),
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
+            backgroundColor: WidgetStateProperty.all<Color>(
               Color.fromARGB(255, 255, 46, 46),
             ),
-            textStyle: MaterialStateProperty.all<TextStyle>(
+            textStyle: WidgetStateProperty.all<TextStyle>(
               TextStyle(
                 fontSize: 14,
                 fontFamily: 'Poppins',
