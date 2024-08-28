@@ -495,19 +495,19 @@
     },
     {
       "name": "image_cropper",
-      "rootUri": "file:///C:/Users/miste/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper-7.1.0",
+      "rootUri": "file:///C:/Users/miste/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper-8.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "image_cropper_for_web",
-      "rootUri": "file:///C:/Users/miste/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper_for_web-5.1.0",
+      "rootUri": "file:///C:/Users/miste/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper_for_web-6.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "image_cropper_platform_interface",
-      "rootUri": "file:///C:/Users/miste/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper_platform_interface-6.1.0",
+      "rootUri": "file:///C:/Users/miste/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper_platform_interface-7.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -962,7 +962,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-08-28T07:09:49.443613Z",
+  "generated": "2024-08-28T07:26:33.620217Z",
   "generator": "pub",
   "generatorVersion": "3.5.1",
   "flutterRoot": "file:///C:/flutter",
